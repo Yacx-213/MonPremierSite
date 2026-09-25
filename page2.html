@@ -47,18 +47,16 @@
             font: inherit;
         }
 
-        button {
-            cursor: pointer;
-        }
-
-        /* ==================================================
+        /* =========================================
            NAVIGATION
-        ================================================== */
+        ========================================= */
 
         nav {
             position: sticky;
             top: 0;
-            z-index: 50;
+            z-index: 100;
+
+            width: 100%;
 
             display: flex;
             align-items: center;
@@ -67,7 +65,7 @@
             padding: 18px 6%;
 
             background:
-                rgba(7, 7, 11, 0.80);
+                rgba(7, 7, 11, 0.82);
 
             border-bottom:
                 1px solid
@@ -95,13 +93,11 @@
         }
 
         .nav-links a:hover {
-            color: white;
+            color: #ffffff;
         }
 
         .nav-staff {
-            padding:
-                9px
-                13px;
+            padding: 9px 13px;
 
             border:
                 1px solid
@@ -112,12 +108,12 @@
             background:
                 rgba(155,108,255,0.08);
 
-            color: #c4b2ff !important;
+            color: #c5b2ff !important;
         }
 
-        /* ==================================================
+        /* =========================================
            HERO
-        ================================================== */
+        ========================================= */
 
         .hero {
             position: relative;
@@ -128,7 +124,8 @@
             align-items: center;
             justify-content: center;
 
-            padding: 90px 6%;
+            padding:
+                90px 6%;
 
             text-align: center;
 
@@ -141,8 +138,8 @@
 
             position: absolute;
 
-            width: 350px;
-            height: 350px;
+            width: 360px;
+            height: 360px;
 
             border-radius: 50%;
 
@@ -152,15 +149,17 @@
         }
 
         .hero::before {
-            top: 0;
-            left: 5%;
+            top: -80px;
+            left: 0;
+
             background:
                 rgba(119, 74, 255, 0.16);
         }
 
         .hero::after {
-            right: 5%;
-            bottom: 0;
+            right: -50px;
+            bottom: -70px;
+
             background:
                 rgba(183, 102, 255, 0.08);
         }
@@ -176,25 +175,26 @@
             display: inline-block;
 
             padding:
-                7px
-                11px;
+                7px 11px;
+
+            border-radius: 999px;
 
             border:
                 1px solid
                 rgba(155,108,255,0.18);
 
-            border-radius: 999px;
-
             background:
                 rgba(155,108,255,0.08);
 
-            color: #bea8ff;
+            color: #bea7ff;
 
             font-size: 9px;
 
-            letter-spacing: 0.14em;
+            letter-spacing:
+                0.14em;
 
-            text-transform: uppercase;
+            text-transform:
+                uppercase;
         }
 
         .hero h1 {
@@ -229,12 +229,10 @@
         }
 
         .hero p {
-            max-width: 670px;
+            max-width: 680px;
 
             margin:
-                24px
-                auto
-                0;
+                24px auto 0;
 
             color: #9c98aa;
 
@@ -246,6 +244,7 @@
         .hero-actions {
             display: flex;
             justify-content: center;
+            align-items: center;
 
             gap: 10px;
 
@@ -259,9 +258,10 @@
             align-items: center;
             justify-content: center;
 
+            min-height: 44px;
+
             padding:
-                13px
-                18px;
+                0 17px;
 
             border-radius: 12px;
 
@@ -269,7 +269,9 @@
             font-weight: 700;
 
             transition:
-                0.2s ease;
+                transform 0.2s ease,
+                filter 0.2s ease,
+                background 0.2s ease;
         }
 
         .hero-btn-primary {
@@ -309,36 +311,40 @@
                 rgba(255,255,255,0.07);
         }
 
-        /* ==================================================
+        /* =========================================
            SECTIONS
-        ================================================== */
+        ========================================= */
 
         .section {
             width: min(1120px, 88%);
 
             margin:
-                0
-                auto;
+                0 auto;
 
             padding:
-                95px
-                0;
+                95px 0;
         }
 
         .section-head {
-            margin-bottom: 30px;
+            margin-bottom:
+                30px;
         }
 
         .section-label {
-            margin-bottom: 9px;
+            margin-bottom:
+                9px;
 
-            color: #a27dff;
+            color:
+                #a27dff;
 
-            font-size: 10px;
+            font-size:
+                10px;
 
-            text-transform: uppercase;
+            text-transform:
+                uppercase;
 
-            letter-spacing: 0.16em;
+            letter-spacing:
+                0.16em;
         }
 
         .section-title {
@@ -354,57 +360,72 @@
         }
 
         .section-text {
-            max-width: 680px;
+            max-width:
+                680px;
 
-            margin-top: 9px;
+            margin-top:
+                10px;
 
-            color: #9692a2;
+            color:
+                #9692a2;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            line-height: 1.7;
+            line-height:
+                1.7;
         }
 
-        /* ==================================================
-           CARDS
-        ================================================== */
+        /* =========================================
+           CARTES
+        ========================================= */
 
         .cards {
-            display: grid;
+            display:
+                grid;
 
             grid-template-columns:
-                repeat(3, 1fr);
+                repeat(3, minmax(0, 1fr));
 
-            gap: 14px;
+            gap:
+                14px;
+
+            align-items:
+                stretch;
         }
 
         .card {
-            display: block;
+            width: 100%;
+            min-width: 0;
+            min-height: 220px;
 
-            min-height: 205px;
+            display: flex;
+            flex-direction: column;
 
-            padding: 22px;
+            padding:
+                22px;
 
             border:
                 1px solid
                 rgba(255,255,255,0.07);
 
-            border-radius: 18px;
+            border-radius:
+                18px;
 
             background:
                 rgba(255,255,255,0.025);
 
-            color: inherit;
+            color:
+                #f7f4ff;
+
+            overflow:
+                hidden;
 
             transition:
                 transform 0.22s ease,
                 border-color 0.22s ease,
                 background 0.22s ease,
                 box-shadow 0.22s ease;
-        }
-
-        a.card {
-            cursor: pointer;
         }
 
         .card:hover {
@@ -430,9 +451,13 @@
             align-items: center;
             justify-content: center;
 
-            margin-bottom: 16px;
+            flex-shrink: 0;
 
-            border-radius: 13px;
+            margin-bottom:
+                16px;
+
+            border-radius:
+                13px;
 
             background:
                 rgba(155,108,255,0.10);
@@ -441,53 +466,124 @@
                 1px solid
                 rgba(155,108,255,0.15);
 
-            font-size: 19px;
+            font-size:
+                19px;
         }
 
         .card h3 {
-            font-size: 15px;
+            font-size:
+                16px;
         }
 
         .card p {
-            margin-top: 9px;
+            margin-top:
+                9px;
 
-            color: #8f8b9b;
+            color:
+                #8f8b9b;
 
-            font-size: 12px;
+            font-size:
+                12px;
 
-            line-height: 1.7;
+            line-height:
+                1.7;
         }
 
         .card-link {
-            display: inline-block;
+            margin-top:
+                auto;
 
-            margin-top: 17px;
+            padding-top:
+                18px;
 
-            color: #bda7ff;
+            color:
+                #bda7ff;
 
-            font-size: 10px;
+            font-size:
+                10px;
 
-            font-weight: 700;
+            font-weight:
+                700;
         }
 
-        /* ==================================================
+        .card-button {
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            align-self:
+                flex-start;
+
+            margin-top:
+                auto;
+
+            padding:
+                9px 12px;
+
+            border-radius:
+                10px;
+
+            border:
+                1px solid
+                rgba(155,108,255,0.20);
+
+            background:
+                rgba(155,108,255,0.08);
+
+            color:
+                #c7b4ff;
+
+            font-size:
+                10px;
+
+            font-weight:
+                700;
+
+            transition:
+                0.2s ease;
+        }
+
+        .card-button:hover {
+            background:
+                rgba(155,108,255,0.16);
+
+            border-color:
+                rgba(155,108,255,0.35);
+
+            color:
+                #ffffff;
+
+            transform:
+                translateY(-1px);
+        }
+
+        /* =========================================
            ANNONCES
-        ================================================== */
+        ========================================= */
 
         .annonces-list {
-            display: grid;
+            display:
+                grid;
 
-            gap: 12px;
+            gap:
+                12px;
         }
 
         .announcement {
-            padding: 20px;
+            padding:
+                20px;
 
             border:
                 1px solid
                 rgba(255,255,255,0.07);
 
-            border-radius: 17px;
+            border-radius:
+                17px;
 
             background:
                 rgba(255,255,255,0.025);
@@ -513,57 +609,79 @@
         }
 
         .announcement-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display:
+                flex;
 
-            gap: 15px;
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
         }
 
         .announcement-title {
-            font-size: 16px;
-            font-weight: 800;
+            font-size:
+                16px;
+
+            font-weight:
+                800;
         }
 
         .important-badge {
-            flex-shrink: 0;
+            flex-shrink:
+                0;
 
             padding:
-                6px
-                9px;
+                6px 9px;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
             background:
                 rgba(255,187,88,0.12);
 
-            color: #ffcb86;
+            color:
+                #ffcb86;
 
-            font-size: 9px;
+            font-size:
+                9px;
 
-            font-weight: 800;
+            font-weight:
+                800;
 
-            text-transform: uppercase;
+            text-transform:
+                uppercase;
 
-            letter-spacing: 0.08em;
+            letter-spacing:
+                0.08em;
         }
 
         .announcement-date {
-            margin-top: 6px;
+            margin-top:
+                6px;
 
-            color: #716d7a;
+            color:
+                #716d7a;
 
-            font-size: 9px;
+            font-size:
+                9px;
         }
 
         .announcement-content {
-            margin-top: 13px;
+            margin-top:
+                13px;
 
-            color: #aaa6b5;
+            color:
+                #aaa6b5;
 
-            font-size: 12px;
+            font-size:
+                12px;
 
-            line-height: 1.75;
+            line-height:
+                1.75;
 
             white-space:
                 pre-wrap;
@@ -573,14 +691,14 @@
         .announcement-empty,
         .announcement-error {
             padding:
-                40px
-                20px;
+                40px 20px;
 
             border:
                 1px solid
                 rgba(255,255,255,0.06);
 
-            border-radius: 16px;
+            border-radius:
+                16px;
 
             background:
                 rgba(255,255,255,0.02);
@@ -595,9 +713,9 @@
                 11px;
         }
 
-        /* ==================================================
-           TICKET BOX
-        ================================================== */
+        /* =========================================
+           TICKETS
+        ========================================= */
 
         .ticket-box {
             padding:
@@ -635,9 +753,7 @@
                 580px;
 
             margin:
-                11px
-                auto
-                21px;
+                11px auto 21px;
 
             color:
                 #9692a2;
@@ -649,15 +765,13 @@
                 1.7;
         }
 
-        /* ==================================================
+        /* =========================================
            FOOTER
-        ================================================== */
+        ========================================= */
 
         footer {
             padding:
-                35px
-                6%
-                45px;
+                35px 6% 45px;
 
             border-top:
                 1px solid
@@ -673,21 +787,11 @@
                 10px;
         }
 
-        /* ==================================================
+        /* =========================================
            RESPONSIVE
-        ================================================== */
+        ========================================= */
 
-        @media (max-width: 850px) {
-
-            .nav-links {
-                gap:
-                    10px;
-            }
-
-            .nav-links a {
-                font-size:
-                    10px;
-            }
+        @media (max-width: 900px) {
 
             .cards {
                 grid-template-columns:
@@ -695,7 +799,7 @@
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
 
             nav {
                 padding:
@@ -712,6 +816,11 @@
                     8px;
             }
 
+            .nav-links a {
+                font-size:
+                    10px;
+            }
+
             .nav-links a:nth-child(2),
             .nav-links a:nth-child(4),
             .nav-links a:nth-child(5) {
@@ -724,8 +833,7 @@
                     70vh;
 
                 padding:
-                    65px
-                    5%;
+                    65px 5%;
             }
 
             .hero h1 {
@@ -738,8 +846,7 @@
                     90%;
 
                 padding:
-                    70px
-                    0;
+                    70px 0;
             }
 
             .announcement-top {
@@ -757,8 +864,7 @@
 
             .ticket-box {
                 padding:
-                    27px
-                    18px;
+                    27px 18px;
             }
 
             .ticket-box h2 {
@@ -771,604 +877,608 @@
 
 <body>
 
-<!-- ==================================================
-     NAVIGATION
-================================================== -->
+    <!-- =========================================
+         NAV
+    ========================================== -->
 
-<nav>
-
-    <a
-        href="#accueil"
-        class="logo"
-    >
-        BUSINESS.
-    </a>
-
-    <div class="nav-links">
-
-        <a href="#accueil">
-            Accueil
-        </a>
-
-        <a href="#apropos">
-            À propos
-        </a>
-
-        <a href="#services">
-            Services
-        </a>
-
-        <a href="#annonces">
-            Annonces
-        </a>
-
-        <a href="#tickets">
-            Tickets
-        </a>
+    <nav>
 
         <a
-            href="/staff.html"
-            class="nav-staff"
+            href="#accueil"
+            class="logo"
         >
-            Staff
+            BUSINESS.
         </a>
 
-    </div>
+        <div class="nav-links">
 
-</nav>
+            <a href="#accueil">
+                Accueil
+            </a>
 
-<!-- ==================================================
-     HERO
-================================================== -->
+            <a href="#apropos">
+                À propos
+            </a>
 
-<section
-    class="hero"
-    id="accueil"
->
+            <a href="#services">
+                Services
+            </a>
 
-    <div class="hero-content">
+            <a href="#annonces">
+                Annonces
+            </a>
 
-        <span class="eyebrow">
-            BUSINESS. — espace officiel
-        </span>
-
-        <h1>
-            Construisons
-            <span class="gradient-text">
-                quelque chose de grand.
-            </span>
-        </h1>
-
-        <p>
-            Bienvenue sur BUSINESS.
-            Découvre les annonces, participe à la vie
-            de la communauté et utilise nos différents
-            espaces pour partager tes idées et tes créations.
-        </p>
-
-        <div class="hero-actions">
+            <a href="#tickets">
+                Tickets
+            </a>
 
             <a
-                href="#annonces"
+                href="/staff.html"
+                class="nav-staff"
+            >
+                Staff
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- =========================================
+         HERO
+    ========================================== -->
+
+    <section
+        class="hero"
+        id="accueil"
+    >
+
+        <div class="hero-content">
+
+            <span class="eyebrow">
+                BUSINESS. — espace officiel
+            </span>
+
+            <h1>
+                Construisons
+                <span class="gradient-text">
+                    quelque chose de grand.
+                </span>
+            </h1>
+
+            <p>
+                Bienvenue sur BUSINESS.
+                Découvre les annonces, participe à la vie
+                de la communauté et profite de nos différents
+                espaces.
+            </p>
+
+            <div class="hero-actions">
+
+                <a
+                    href="#annonces"
+                    class="hero-btn hero-btn-primary"
+                >
+                    📢 Voir les annonces
+                </a>
+
+                <a
+                    href="#services"
+                    class="hero-btn hero-btn-secondary"
+                >
+                    Découvrir les services
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         À PROPOS
+    ========================================== -->
+
+    <section
+        class="section"
+        id="apropos"
+    >
+
+        <div class="section-head">
+
+            <div class="section-label">
+                À propos
+            </div>
+
+            <h2 class="section-title">
+                Une communauté qui avance ensemble.
+            </h2>
+
+            <p class="section-text">
+                BUSINESS. rassemble plusieurs espaces
+                permettant aux membres de participer,
+                proposer, créer et échanger.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <!-- INNOVATION -->
+
+            <div class="card">
+
+                <div class="card-icon">
+                    💡
+                </div>
+
+                <h3>
+                    Innovation
+                </h3>
+
+                <p>
+                    Propose tes idées, découvre celles des
+                    autres membres et participe à l'évolution
+                    de la communauté.
+                </p>
+
+                <a
+                    href="/innovation.html"
+                    class="card-button"
+                >
+                    Ouvrir l'espace Innovation →
+                </a>
+
+            </div>
+
+            <!-- CRÉATIVITÉ -->
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🎨
+                </div>
+
+                <h3>
+                    Créativité
+                </h3>
+
+                <p>
+                    Partage tes créations, présente ton travail
+                    et discute avec les autres membres.
+                </p>
+
+                <a
+                    href="/creativite.html"
+                    class="card-button"
+                >
+                    Ouvrir l'espace Créativité →
+                </a>
+
+            </div>
+
+            <!-- AMBITION -->
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🚀
+                </div>
+
+                <h3>
+                    Ambition
+                </h3>
+
+                <p>
+                    Fais évoluer tes projets et participe
+                    aux futurs objectifs de la communauté.
+                </p>
+
+                <span class="card-link">
+                    Bientôt disponible →
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         SERVICES
+    ========================================== -->
+
+    <section
+        class="section"
+        id="services"
+    >
+
+        <div class="section-head">
+
+            <div class="section-label">
+                Services
+            </div>
+
+            <h2 class="section-title">
+                Les outils de la communauté.
+            </h2>
+
+            <p class="section-text">
+                Retrouve ici les différents systèmes
+                disponibles sur BUSINESS.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <!-- SYSTÈME DE VIE -->
+
+            <a
+                href="/vie.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    👤
+                </div>
+
+                <h3>
+                    Système de vie
+                </h3>
+
+                <p>
+                    Crée ta présentation et partage
+                    ton personnage avec la communauté.
+                </p>
+
+                <span class="card-link">
+                    Ouvrir →
+                </span>
+
+            </a>
+
+            <!-- TICKETS -->
+
+            <a
+                href="/ticket.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    🎫
+                </div>
+
+                <h3>
+                    Formulaire de demande
+                </h3>
+
+                <p>
+                    Envoie une demande au Staff
+                    directement depuis le site.
+                </p>
+
+                <span class="card-link">
+                    Ouvrir →
+                </span>
+
+            </a>
+
+            <!-- CRÉATIVITÉ -->
+
+            <a
+                href="/creativite.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    🎨
+                </div>
+
+                <h3>
+                    Créativité
+                </h3>
+
+                <p>
+                    Découvre les créations des membres
+                    et participe à la discussion.
+                </p>
+
+                <span class="card-link">
+                    Accéder →
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         ANNONCES
+    ========================================== -->
+
+    <section
+        class="section"
+        id="annonces"
+    >
+
+        <div class="section-head">
+
+            <div class="section-label">
+                Actualités
+            </div>
+
+            <h2 class="section-title">
+                Les dernières annonces.
+            </h2>
+
+            <p class="section-text">
+                Les annonces publiées par le Staff
+                apparaissent automatiquement ici.
+            </p>
+
+        </div>
+
+        <div
+            id="annoncesContainer"
+            class="annonces-list"
+        >
+
+            <div class="announcement-loading">
+                Chargement des annonces...
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =========================================
+         TICKETS
+    ========================================== -->
+
+    <section
+        class="section"
+        id="tickets"
+    >
+
+        <div class="ticket-box">
+
+            <h2>
+                Besoin d'aide ?
+            </h2>
+
+            <p>
+                Une question, un problème ou une demande ?
+                Utilise le formulaire pour contacter le Staff.
+            </p>
+
+            <a
+                href="/ticket.html"
                 class="hero-btn hero-btn-primary"
             >
-                📢 Voir les annonces
-            </a>
-
-            <a
-                href="#services"
-                class="hero-btn hero-btn-secondary"
-            >
-                Découvrir les services
+                🎫 Ouvrir le formulaire
             </a>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
 
-<!-- ==================================================
-     À PROPOS
-================================================== -->
+    <footer>
 
-<section
-    class="section"
-    id="apropos"
->
+        © 2026 BUSINESS. — Tous droits réservés.
 
-    <div class="section-head">
+    </footer>
 
-        <div class="section-label">
-            À propos
-        </div>
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
 
-        <h2 class="section-title">
-            Une communauté qui avance ensemble.
-        </h2>
+    <script>
 
-        <p class="section-text">
-            BUSINESS. rassemble plusieurs espaces
-            permettant aux membres de participer,
-            proposer, créer et échanger.
-        </p>
+        function escapeHTML(value) {
 
-    </div>
-
-    <div class="cards">
-
-        <!-- INNOVATION -->
-
-        <a
-            href="/innovation.html"
-            class="card"
-        >
-
-            <div class="card-icon">
-                💡
-            </div>
-
-            <h3>
-                Innovation
-            </h3>
-
-            <p>
-                Propose tes idées, découvre celles des
-                autres membres et participe à l'évolution
-                de la communauté.
-            </p>
-
-            <span class="card-link">
-                Ouvrir l'espace Innovation →
-            </span>
-
-        </a>
-
-        <!-- CREATIVITE -->
-
-        <a
-            href="/creativite.html"
-            class="card"
-        >
-
-            <div class="card-icon">
-                🎨
-            </div>
-
-            <h3>
-                Créativité
-            </h3>
-
-            <p>
-                Partage tes créations, présente ton travail
-                et discute avec les autres membres.
-            </p>
-
-            <span class="card-link">
-                Ouvrir l'espace Créativité →
-            </span>
-
-        </a>
-
-        <!-- AMBITION -->
-
-        <div class="card">
-
-            <div class="card-icon">
-                🚀
-            </div>
-
-            <h3>
-                Ambition
-            </h3>
-
-            <p>
-                Fais évoluer tes projets et participe
-                aux futurs objectifs de la communauté.
-            </p>
-
-            <span class="card-link">
-                Bientôt disponible →
-            </span>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ==================================================
-     SERVICES
-================================================== -->
-
-<section
-    class="section"
-    id="services"
->
-
-    <div class="section-head">
-
-        <div class="section-label">
-            Services
-        </div>
-
-        <h2 class="section-title">
-            Les outils de la communauté.
-        </h2>
-
-        <p class="section-text">
-            Retrouve ici les différents systèmes
-            disponibles sur BUSINESS.
-        </p>
-
-    </div>
-
-    <div class="cards">
-
-        <!-- VIE -->
-
-        <a
-            href="/vie.html"
-            class="card"
-        >
-
-            <div class="card-icon">
-                👤
-            </div>
-
-            <h3>
-                Système de vie
-            </h3>
-
-            <p>
-                Crée ta présentation et partage
-                ton personnage avec la communauté.
-            </p>
-
-            <span class="card-link">
-                Ouvrir →
-            </span>
-
-        </a>
-
-        <!-- TICKET -->
-
-        <a
-            href="/ticket.html"
-            class="card"
-        >
-
-            <div class="card-icon">
-                🎫
-            </div>
-
-            <h3>
-                Formulaire de demande
-            </h3>
-
-            <p>
-                Envoie une demande au Staff
-                directement depuis le site.
-            </p>
-
-            <span class="card-link">
-                Ouvrir →
-            </span>
-
-        </a>
-
-        <!-- CREATIVITE -->
-
-        <a
-            href="/creativite.html"
-            class="card"
-        >
-
-            <div class="card-icon">
-                🎨
-            </div>
-
-            <h3>
-                Créativité
-            </h3>
-
-            <p>
-                Découvre les créations des membres
-                et participe à la discussion.
-            </p>
-
-            <span class="card-link">
-                Accéder →
-            </span>
-
-        </a>
-
-    </div>
-
-</section>
-
-<!-- ==================================================
-     ANNONCES
-================================================== -->
-
-<section
-    class="section"
-    id="annonces"
->
-
-    <div class="section-head">
-
-        <div class="section-label">
-            Actualités
-        </div>
-
-        <h2 class="section-title">
-            Les dernières annonces.
-        </h2>
-
-        <p class="section-text">
-            Les annonces publiées par le Staff
-            apparaissent automatiquement ici.
-        </p>
-
-    </div>
-
-    <div
-        id="annoncesContainer"
-        class="annonces-list"
-    >
-
-        <div class="announcement-loading">
-            Chargement des annonces...
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ==================================================
-     TICKETS
-================================================== -->
-
-<section
-    class="section"
-    id="tickets"
->
-
-    <div class="ticket-box">
-
-        <h2>
-            Besoin d'aide ?
-        </h2>
-
-        <p>
-            Une question, un problème ou une demande ?
-            Utilise le formulaire pour contacter le Staff.
-        </p>
-
-        <a
-            href="/ticket.html"
-            class="hero-btn hero-btn-primary"
-        >
-            🎫 Ouvrir le formulaire
-        </a>
-
-    </div>
-
-</section>
-
-<!-- ==================================================
-     FOOTER
-================================================== -->
-
-<footer>
-
-    © 2026 BUSINESS. — Tous droits réservés.
-
-</footer>
-
-<script>
-
-    /* ==================================================
-       SÉCURITÉ HTML
-    ================================================== */
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    /* ==================================================
-       DATE
-    ================================================== */
-
-    function formatDate(value) {
-
-        if (!value) {
-            return "";
-        }
-
-        const date =
-            new Date(value);
-
-        if (
-            Number.isNaN(
-                date.getTime()
+            return String(
+                value ?? ""
             )
-        ) {
-            return "";
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
         }
 
-        return date.toLocaleString(
-            "fr-FR",
-            {
-                dateStyle:
-                    "medium",
+        function formatDate(value) {
 
-                timeStyle:
-                    "short"
+            if (!value) {
+                return "";
             }
-        );
-    }
 
-    /* ==================================================
-       ANNONCES
-    ================================================== */
-
-    async function loadAnnonces() {
-
-        const container =
-            document.getElementById(
-                "annoncesContainer"
-            );
-
-        try {
-
-            const response =
-                await fetch(
-                    "/api/annonces"
-                );
-
-            const data =
-                await response.json();
+            const date =
+                new Date(value);
 
             if (
-                !response.ok ||
-                !data.success
-            ) {
-
-                throw new Error(
-                    data.message ||
-                    "Impossible de charger les annonces."
-                );
-            }
-
-            const annonces =
-                Array.isArray(
-                    data.annonces
+                Number.isNaN(
+                    date.getTime()
                 )
-                    ? data.annonces
-                    : [];
-
-            if (
-                annonces.length === 0
             ) {
-
-                container.innerHTML = `
-                    <div class="announcement-empty">
-
-                        📢
-
-                        <br><br>
-
-                        Aucune annonce pour le moment.
-
-                    </div>
-                `;
-
-                return;
+                return "";
             }
 
-            container.innerHTML =
-                annonces
-                    .map(
-                        annonce => {
+            return date.toLocaleString(
+                "fr-FR",
+                {
+                    dateStyle:
+                        "medium",
+                    timeStyle:
+                        "short"
+                }
+            );
+        }
 
-                            const important =
-                                annonce.important === true;
+        async function loadAnnonces() {
 
-                            return `
-                                <article
-                                    class="
-                                        announcement
-                                        ${
-                                            important
-                                                ? "important"
-                                                : ""
-                                        }
-                                    "
-                                >
+            const container =
+                document.getElementById(
+                    "annoncesContainer"
+                );
 
-                                    <div
-                                        class="announcement-top"
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/annonces"
+                    );
+
+                const data =
+                    await response.json();
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Impossible de charger les annonces."
+                    );
+                }
+
+                const annonces =
+                    Array.isArray(
+                        data.annonces
+                    )
+                        ? data.annonces
+                        : [];
+
+                if (
+                    annonces.length === 0
+                ) {
+
+                    container.innerHTML = `
+                        <div class="announcement-empty">
+
+                            📢
+
+                            <br><br>
+
+                            Aucune annonce pour le moment.
+
+                        </div>
+                    `;
+
+                    return;
+                }
+
+                container.innerHTML =
+                    annonces
+                        .map(
+                            annonce => {
+
+                                const important =
+                                    annonce.important === true;
+
+                                return `
+                                    <article
+                                        class="
+                                            announcement
+                                            ${
+                                                important
+                                                    ? "important"
+                                                    : ""
+                                            }
+                                        "
                                     >
 
                                         <div
-                                            class="announcement-title"
+                                            class="announcement-top"
                                         >
-                                            ${escapeHTML(
-                                                annonce.titre
+
+                                            <div
+                                                class="announcement-title"
+                                            >
+                                                ${escapeHTML(
+                                                    annonce.titre
+                                                )}
+                                            </div>
+
+                                            ${
+                                                important
+                                                    ? `
+                                                        <span
+                                                            class="important-badge"
+                                                        >
+                                                            ⭐ Important
+                                                        </span>
+                                                    `
+                                                    : ""
+                                            }
+
+                                        </div>
+
+                                        <div
+                                            class="announcement-date"
+                                        >
+                                            ${formatDate(
+                                                annonce.date
                                             )}
                                         </div>
 
-                                        ${
-                                            important
-                                                ? `
-                                                    <span
-                                                        class="important-badge"
-                                                    >
-                                                        ⭐ Important
-                                                    </span>
-                                                `
-                                                : ""
-                                        }
+                                        <div
+                                            class="announcement-content"
+                                        >
+                                            ${escapeHTML(
+                                                annonce.contenu
+                                            )}
+                                        </div>
 
-                                    </div>
+                                    </article>
+                                `;
+                            }
+                        )
+                        .join("");
 
-                                    <div
-                                        class="announcement-date"
-                                    >
-                                        ${formatDate(
-                                            annonce.date
-                                        )}
-                                    </div>
+            } catch (error) {
 
-                                    <div
-                                        class="announcement-content"
-                                    >
-                                        ${escapeHTML(
-                                            annonce.contenu
-                                        )}
-                                    </div>
+                console.error(
+                    error
+                );
 
-                                </article>
-                            `;
-                        }
-                    )
-                    .join("");
+                container.innerHTML = `
+                    <div class="announcement-error">
 
-        } catch (error) {
+                        ⚠️
 
-            console.error(
-                error
-            );
+                        <br><br>
 
-            container.innerHTML = `
-                <div class="announcement-error">
+                        Impossible de charger les annonces.
 
-                    ⚠️
-
-                    <br><br>
-
-                    Impossible de charger les annonces.
-
-                </div>
-            `;
+                    </div>
+                `;
+            }
         }
-    }
 
-    /* ==================================================
-       DÉMARRAGE
-    ================================================== */
+        loadAnnonces();
 
-    loadAnnonces();
-
-</script>
+    </script>
 
 </body>
 </html>
