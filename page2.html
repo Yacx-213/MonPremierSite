@@ -1,1484 +1,864 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>BUSINESS.</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(
-                    circle at 15% 10%,
-                    rgba(123, 76, 255, 0.18),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 85% 20%,
-                    rgba(176, 96, 255, 0.10),
-                    transparent 28%
-                ),
-                #07070b;
-            color: #f7f4ff;
-            min-height: 100vh;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button,
-        input,
-        textarea,
-        select {
-            font: inherit;
-        }
-
-        /* =========================================
-           NAVIGATION
-        ========================================= */
-
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-
-            width: 100%;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Mon Premier Site</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #f5f2ff;
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.16), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 30%),
+        #08070d;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 32px;
+
+      background: rgba(8, 7, 13, 0.86);
+      backdrop-filter: blur(16px);
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    .logo span {
+      color: #8b5cf6;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: #bdb7ca;
+      font-size: 14px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 20px;
+
+      background:
+        radial-gradient(circle at center, rgba(139, 92, 246, 0.16), transparent 40%);
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+    .hero-tag {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 8px 14px;
 
-            padding: 18px 6%;
-
-            background:
-                rgba(7, 7, 11, 0.82);
-
-            border-bottom:
-                1px solid
-                rgba(255, 255, 255, 0.07);
-
-            backdrop-filter: blur(20px);
-        }
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 999px;
 
-        .logo {
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-        }
+      color: #cbb8ff;
+      background: rgba(139, 92, 246, 0.09);
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-        }
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
-        .nav-links a {
-            color: #aaa6b6;
-            font-size: 12px;
-            transition: 0.2s ease;
-        }
+    .hero h1 {
+      margin-bottom: 20px;
 
-        .nav-links a:hover {
-            color: #ffffff;
-        }
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: 1;
+      font-weight: 900;
+    }
 
-        .nav-staff {
-            padding: 9px 13px;
+    .hero h1 span {
+      color: #8b5cf6;
+    }
 
-            border:
-                1px solid
-                rgba(155,108,255,0.20);
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 30px;
 
-            border-radius: 10px;
+      color: #aaa4b8;
+      font-size: 18px;
+    }
 
-            background:
-                rgba(155,108,255,0.08);
+    .hero-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
 
-            color: #c5b2ff !important;
-        }
+      padding: 14px 22px;
 
-        /* =========================================
-           HERO
-        ========================================= */
+      border-radius: 14px;
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
 
-        .hero {
-            position: relative;
+      color: white;
+      font-weight: 700;
 
-            min-height: 76vh;
+      box-shadow: 0 15px 40px rgba(109, 40, 217, 0.22);
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+      transition: 0.2s ease;
+    }
 
-            padding:
-                90px 6%;
+    .hero-button:hover {
+      transform: translateY(-2px);
+    }
 
-            text-align: center;
+    /* =========================
+       SECTIONS
+    ========================= */
 
-            overflow: hidden;
-        }
+    .section {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 90px 24px;
+    }
 
-        .hero::before,
-        .hero::after {
-            content: "";
+    .section-title {
+      margin-bottom: 12px;
+      text-align: center;
 
-            position: absolute;
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 900;
+    }
 
-            width: 360px;
-            height: 360px;
+    .section-subtitle {
+      max-width: 720px;
+      margin: 0 auto 50px;
 
-            border-radius: 50%;
+      text-align: center;
+      color: #9f99aa;
+    }
 
-            filter: blur(110px);
+    /* =========================
+       CARDS
+    ========================= */
 
-            pointer-events: none;
-        }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
 
-        .hero::before {
-            top: -80px;
-            left: 0;
+    .card {
+      position: relative;
 
-            background:
-                rgba(119, 74, 255, 0.16);
-        }
+      display: flex;
+      flex-direction: column;
+      min-height: 270px;
 
-        .hero::after {
-            right: -50px;
-            bottom: -70px;
+      padding: 28px;
 
-            background:
-                rgba(183, 102, 255, 0.08);
-        }
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
 
-        .hero-content {
-            position: relative;
-            z-index: 1;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.035),
+          rgba(255, 255, 255, 0.015)
+        );
 
-            max-width: 900px;
-        }
+      transition: 0.25s ease;
+    }
 
-        .eyebrow {
-            display: inline-block;
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(139, 92, 246, 0.32);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    }
 
-            padding:
-                7px 11px;
+    .card-icon {
+      width: 52px;
+      height: 52px;
 
-            border-radius: 999px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-            border:
-                1px solid
-                rgba(155,108,255,0.18);
+      margin-bottom: 20px;
 
-            background:
-                rgba(155,108,255,0.08);
+      border-radius: 15px;
 
-            color: #bea7ff;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.2);
 
-            font-size: 9px;
+      font-size: 24px;
+    }
 
-            letter-spacing:
-                0.14em;
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
 
-            text-transform:
-                uppercase;
-        }
+    .card p {
+      color: #aaa5b5;
+      margin-bottom: 25px;
+    }
 
-        .hero h1 {
-            margin-top: 18px;
+    .card-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-            font-size:
-                clamp(
-                    48px,
-                    8vw,
-                    92px
-                );
+      width: fit-content;
+      margin-top: auto;
 
-            line-height: 0.95;
+      padding: 11px 15px;
 
-            letter-spacing:
-                -0.06em;
-        }
+      border-radius: 11px;
 
-        .gradient-text {
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff,
-                    #bca1ff,
-                    #8058ff
-                );
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.2);
 
-            -webkit-background-clip: text;
-            background-clip: text;
+      color: #d7c8ff;
+      font-size: 13px;
+      font-weight: 700;
 
-            color: transparent;
-        }
+      transition: 0.2s ease;
+    }
 
-        .hero p {
-            max-width: 680px;
+    .card-button:hover {
+      background: rgba(139, 92, 246, 0.22);
+      border-color: rgba(139, 92, 246, 0.4);
+    }
 
-            margin:
-                24px auto 0;
+    /* =========================
+       SERVICES
+    ========================= */
 
-            color: #9c98aa;
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
 
-            font-size: 14px;
+    .service {
+      padding: 26px;
 
-            line-height: 1.75;
-        }
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
 
-        .hero-actions {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+      background: #100f17;
 
-            gap: 10px;
+      transition: 0.2s ease;
+    }
 
-            margin-top: 30px;
+    .service:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
 
-            flex-wrap: wrap;
-        }
+    .service h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
 
-        .hero-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+    .service p {
+      margin-bottom: 18px;
+      color: #a7a1b2;
+      font-size: 14px;
+    }
 
-            min-height: 44px;
+    .service a {
+      display: inline-block;
 
-            padding:
-                0 17px;
+      padding: 9px 13px;
 
-            border-radius: 12px;
+      border-radius: 10px;
 
-            font-size: 11px;
-            font-weight: 700;
+      background: rgba(139, 92, 246, 0.10);
+      color: #cbb8ff;
 
-            transition:
-                transform 0.2s ease,
-                filter 0.2s ease,
-                background 0.2s ease;
-        }
+      font-size: 13px;
+      font-weight: 700;
+    }
 
-        .hero-btn-primary {
-            background:
-                linear-gradient(
-                    135deg,
-                    #9a6cff,
-                    #7045ff
-                );
+    /* =========================
+       ANNONCES
+    ========================= */
 
-            box-shadow:
-                0 12px 35px
-                rgba(112,69,255,0.22);
-        }
+    .annonces-container {
+      max-width: 850px;
+      margin: 0 auto;
+    }
 
-        .hero-btn-primary:hover {
-            transform:
-                translateY(-2px);
+    .annonce {
+      margin-bottom: 14px;
+      padding: 20px;
 
-            filter:
-                brightness(1.08);
-        }
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
 
-        .hero-btn-secondary {
-            border:
-                1px solid
-                rgba(255,255,255,0.10);
+      background: #100f17;
+    }
 
-            background:
-                rgba(255,255,255,0.04);
+    .annonce h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
 
-            color: #ded9e9;
-        }
+    .annonce p {
+      color: #aaa5b5;
+      white-space: pre-wrap;
+    }
 
-        .hero-btn-secondary:hover {
-            background:
-                rgba(255,255,255,0.07);
-        }
+    .annonce-meta {
+      margin-top: 10px;
+      color: #797384;
+      font-size: 12px;
+    }
 
-        /* =========================================
-           SECTIONS
-        ========================================= */
+    .empty {
+      padding: 30px;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      text-align: center;
+      color: #777181;
+    }
 
-        .section {
-            width: min(1120px, 88%);
+    /* =========================
+       TICKET CTA
+    ========================= */
 
-            margin:
-                0 auto;
+    .cta {
+      max-width: 850px;
+      margin: 0 auto;
 
-            padding:
-                95px 0;
-        }
+      padding: 40px;
 
-        .section-head {
-            margin-bottom:
-                30px;
-        }
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 24px;
 
-        .section-label {
-            margin-bottom:
-                9px;
+      background:
+        radial-gradient(circle at top right, rgba(139, 92, 246, 0.13), transparent 40%),
+        #100e17;
 
-            color:
-                #a27dff;
+      text-align: center;
+    }
 
-            font-size:
-                10px;
+    .cta h2 {
+      margin-bottom: 12px;
+      font-size: 32px;
+    }
 
-            text-transform:
-                uppercase;
+    .cta p {
+      margin-bottom: 25px;
+      color: #a8a2b3;
+    }
 
-            letter-spacing:
-                0.16em;
-        }
+    /* =========================
+       FOOTER
+    ========================= */
 
-        .section-title {
-            font-size:
-                clamp(
-                    28px,
-                    4vw,
-                    43px
-                );
+    footer {
+      padding: 35px 20px;
 
-            letter-spacing:
-                -0.04em;
-        }
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
 
-        .section-text {
-            max-width:
-                680px;
+      text-align: center;
+      color: #6f6a78;
 
-            margin-top:
-                10px;
+      font-size: 13px;
+    }
 
-            color:
-                #9692a2;
+    /* =========================
+       RESPONSIVE
+    ========================= */
 
-            font-size:
-                13px;
+    @media (max-width: 850px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-            line-height:
-                1.7;
-        }
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
 
-        /* =========================================
-           CARTES
-        ========================================= */
+      .cards,
+      .services {
+        grid-template-columns: 1fr;
+      }
 
-        .cards {
-            display:
-                grid;
+      .hero {
+        min-height: 65vh;
+      }
+    }
 
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
+    @media (max-width: 500px) {
+      .navbar {
+        padding: 15px 18px;
+      }
 
-            gap:
-                14px;
+      .nav-links {
+        gap: 13px;
+      }
 
-            align-items:
-                stretch;
-        }
+      .nav-links a {
+        font-size: 12px;
+      }
 
-        .card {
-            width: 100%;
-            min-width: 0;
-            min-height: 220px;
+      .section {
+        padding: 65px 18px;
+      }
 
-            display: flex;
-            flex-direction: column;
+      .card,
+      .service {
+        padding: 22px;
+      }
 
-            padding:
-                22px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius:
-                18px;
-
-            background:
-                rgba(255,255,255,0.025);
-
-            color:
-                #f7f4ff;
-
-            overflow:
-                hidden;
-
-            transition:
-                transform 0.22s ease,
-                border-color 0.22s ease,
-                background 0.22s ease,
-                box-shadow 0.22s ease;
-        }
-
-        .card:hover {
-            transform:
-                translateY(-5px);
-
-            border-color:
-                rgba(155,108,255,0.28);
-
-            background:
-                rgba(155,108,255,0.045);
-
-            box-shadow:
-                0 20px 55px
-                rgba(0,0,0,0.20);
-        }
-
-        .card-icon {
-            width: 44px;
-            height: 44px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            flex-shrink: 0;
-
-            margin-bottom:
-                16px;
-
-            border-radius:
-                13px;
-
-            background:
-                rgba(155,108,255,0.10);
-
-            border:
-                1px solid
-                rgba(155,108,255,0.15);
-
-            font-size:
-                19px;
-        }
-
-        .card h3 {
-            font-size:
-                16px;
-        }
-
-        .card p {
-            margin-top:
-                9px;
-
-            color:
-                #8f8b9b;
-
-            font-size:
-                12px;
-
-            line-height:
-                1.7;
-        }
-
-        .card-link {
-            margin-top:
-                auto;
-
-            padding-top:
-                18px;
-
-            color:
-                #bda7ff;
-
-            font-size:
-                10px;
-
-            font-weight:
-                700;
-        }
-
-        .card-button {
-            display:
-                inline-flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            align-self:
-                flex-start;
-
-            margin-top:
-                auto;
-
-            padding:
-                9px 12px;
-
-            border-radius:
-                10px;
-
-            border:
-                1px solid
-                rgba(155,108,255,0.20);
-
-            background:
-                rgba(155,108,255,0.08);
-
-            color:
-                #c7b4ff;
-
-            font-size:
-                10px;
-
-            font-weight:
-                700;
-
-            transition:
-                0.2s ease;
-        }
-
-        .card-button:hover {
-            background:
-                rgba(155,108,255,0.16);
-
-            border-color:
-                rgba(155,108,255,0.35);
-
-            color:
-                #ffffff;
-
-            transform:
-                translateY(-1px);
-        }
-
-        /* =========================================
-           ANNONCES
-        ========================================= */
-
-        .annonces-list {
-            display:
-                grid;
-
-            gap:
-                12px;
-        }
-
-        .announcement {
-            padding:
-                20px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius:
-                17px;
-
-            background:
-                rgba(255,255,255,0.025);
-
-            transition:
-                0.2s ease;
-        }
-
-        .announcement:hover {
-            border-color:
-                rgba(155,108,255,0.20);
-
-            background:
-                rgba(155,108,255,0.035);
-        }
-
-        .announcement.important {
-            border-color:
-                rgba(255,187,88,0.25);
-
-            background:
-                rgba(255,187,88,0.045);
-        }
-
-        .announcement-top {
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            justify-content:
-                space-between;
-
-            gap:
-                15px;
-        }
-
-        .announcement-title {
-            font-size:
-                16px;
-
-            font-weight:
-                800;
-        }
-
-        .important-badge {
-            flex-shrink:
-                0;
-
-            padding:
-                6px 9px;
-
-            border-radius:
-                999px;
-
-            background:
-                rgba(255,187,88,0.12);
-
-            color:
-                #ffcb86;
-
-            font-size:
-                9px;
-
-            font-weight:
-                800;
-
-            text-transform:
-                uppercase;
-
-            letter-spacing:
-                0.08em;
-        }
-
-        .announcement-date {
-            margin-top:
-                6px;
-
-            color:
-                #716d7a;
-
-            font-size:
-                9px;
-        }
-
-        .announcement-content {
-            margin-top:
-                13px;
-
-            color:
-                #aaa6b5;
-
-            font-size:
-                12px;
-
-            line-height:
-                1.75;
-
-            white-space:
-                pre-wrap;
-        }
-
-        .announcement-loading,
-        .announcement-empty,
-        .announcement-error {
-            padding:
-                40px 20px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius:
-                16px;
-
-            background:
-                rgba(255,255,255,0.02);
-
-            text-align:
-                center;
-
-            color:
-                #85818f;
-
-            font-size:
-                11px;
-        }
-
-        /* =========================================
-           TICKETS
-        ========================================= */
-
-        .ticket-box {
-            padding:
-                38px;
-
-            border:
-                1px solid
-                rgba(155,108,255,0.18);
-
-            border-radius:
-                22px;
-
-            background:
-                radial-gradient(
-                    circle at top right,
-                    rgba(155,108,255,0.10),
-                    transparent 42%
-                ),
-                rgba(255,255,255,0.025);
-
-            text-align:
-                center;
-        }
-
-        .ticket-box h2 {
-            font-size:
-                31px;
-
-            letter-spacing:
-                -0.04em;
-        }
-
-        .ticket-box p {
-            max-width:
-                580px;
-
-            margin:
-                11px auto 21px;
-
-            color:
-                #9692a2;
-
-            font-size:
-                12px;
-
-            line-height:
-                1.7;
-        }
-
-        /* =========================================
-           FOOTER
-        ========================================= */
-
-        footer {
-            padding:
-                35px 6% 45px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            text-align:
-                center;
-
-            color:
-                #686573;
-
-            font-size:
-                10px;
-        }
-
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
-
-        @media (max-width: 900px) {
-
-            .cards {
-                grid-template-columns:
-                    1fr;
-            }
-        }
-
-        @media (max-width: 650px) {
-
-            nav {
-                padding:
-                    15px 5%;
-            }
-
-            .logo {
-                font-size:
-                    17px;
-            }
-
-            .nav-links {
-                gap:
-                    8px;
-            }
-
-            .nav-links a {
-                font-size:
-                    10px;
-            }
-
-            .nav-links a:nth-child(2),
-            .nav-links a:nth-child(4),
-            .nav-links a:nth-child(5) {
-                display:
-                    none;
-            }
-
-            .hero {
-                min-height:
-                    70vh;
-
-                padding:
-                    65px 5%;
-            }
-
-            .hero h1 {
-                font-size:
-                    48px;
-            }
-
-            .section {
-                width:
-                    90%;
-
-                padding:
-                    70px 0;
-            }
-
-            .announcement-top {
-                align-items:
-                    flex-start;
-
-                flex-direction:
-                    column;
-            }
-
-            .important-badge {
-                align-self:
-                    flex-start;
-            }
-
-            .ticket-box {
-                padding:
-                    27px 18px;
-            }
-
-            .ticket-box h2 {
-                font-size:
-                    25px;
-            }
-        }
-    </style>
+      .cta {
+        padding: 28px 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- =========================================
-         NAV
-    ========================================== -->
+  <!-- =========================
+       NAVBAR
+  ========================= -->
 
-    <nav>
+  <header class="navbar">
 
-        <a
-            href="#accueil"
-            class="logo"
-        >
-            BUSINESS.
-        </a>
+    <a href="/page2.html" class="logo">
+      MON <span>PREMIER</span> SITE
+    </a>
 
-        <div class="nav-links">
-
-            <a href="#accueil">
-                Accueil
-            </a>
-
-            <a href="#apropos">
-                À propos
-            </a>
-
-            <a href="#services">
-                Services
-            </a>
-
-            <a href="#annonces">
-                Annonces
-            </a>
-
-            <a href="#tickets">
-                Tickets
-            </a>
-
-            <a
-                href="/staff.html"
-                class="nav-staff"
-            >
-                Staff
-            </a>
-
-        </div>
-
+    <nav class="nav-links">
+      <a href="#accueil">Accueil</a>
+      <a href="#apropos">À propos</a>
+      <a href="#services">Services</a>
+      <a href="#annonces">Annonces</a>
+      <a href="/ticket.html">Tickets</a>
+      <a href="/staff-login.html">Staff</a>
     </nav>
 
-    <!-- =========================================
-         HERO
-    ========================================== -->
+  </header>
 
-    <section
-        class="hero"
-        id="accueil"
-    >
+  <!-- =========================
+       HERO
+  ========================= -->
 
-        <div class="hero-content">
+  <section id="accueil" class="hero">
 
-            <span class="eyebrow">
-                BUSINESS. — espace officiel
-            </span>
+    <div class="hero-content">
 
-            <h1>
-                Construisons
-                <span class="gradient-text">
-                    quelque chose de grand.
-                </span>
-            </h1>
+      <div class="hero-tag">
+        Bienvenue
+      </div>
 
-            <p>
-                Bienvenue sur BUSINESS.
-                Découvre les annonces, participe à la vie
-                de la communauté et profite de nos différents
-                espaces.
-            </p>
+      <h1>
+        BUSINESS <span>IS</span> BUSINESS
+      </h1>
 
-            <div class="hero-actions">
+      <p>
+        Bienvenue sur notre espace communautaire.
+        Découvre nos projets, nos services et les différentes
+        initiatives mises en place par la communauté.
+      </p>
 
-                <a
-                    href="#annonces"
-                    class="hero-btn hero-btn-primary"
-                >
-                    📢 Voir les annonces
-                </a>
+      <a href="#apropos" class="hero-button">
+        Découvrir le site →
+      </a>
 
-                <a
-                    href="#services"
-                    class="hero-btn hero-btn-secondary"
-                >
-                    Découvrir les services
-                </a>
+    </div>
 
-            </div>
+  </section>
 
+  <!-- =========================
+       À PROPOS
+  ========================= -->
+
+  <section id="apropos" class="section">
+
+    <h2 class="section-title">
+      À propos
+    </h2>
+
+    <p class="section-subtitle">
+      Trois espaces pour développer les idées, la créativité
+      et les projets de la communauté.
+    </p>
+
+    <div class="cards">
+
+      <!-- INNOVATION -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          💡
         </div>
 
-    </section>
-
-    <!-- =========================================
-         À PROPOS
-    ========================================== -->
-
-    <section
-        class="section"
-        id="apropos"
-    >
-
-        <div class="section-head">
-
-            <div class="section-label">
-                À propos
-            </div>
-
-            <h2 class="section-title">
-                Une communauté qui avance ensemble.
-            </h2>
-
-            <p class="section-text">
-                BUSINESS. rassemble plusieurs espaces
-                permettant aux membres de participer,
-                proposer, créer et échanger.
-            </p>
-
-        </div>
-
-        <div class="cards">
-
-            <!-- INNOVATION -->
-
-            <div class="card">
-
-                <div class="card-icon">
-                    💡
-                </div>
-
-                <h3>
-                    Innovation
-                </h3>
-
-                <p>
-                    Propose tes idées, découvre celles des
-                    autres membres et participe à l'évolution
-                    de la communauté.
-                </p>
-
-                <a
-                    href="/innovation.html"
-                    class="card-button"
-                >
-                    Ouvrir l'espace Innovation →
-                </a>
-
-            </div>
-
-            <!-- CRÉATIVITÉ -->
-
-            <div class="card">
-
-                <div class="card-icon">
-                    🎨
-                </div>
-
-                <h3>
-                    Créativité
-                </h3>
-
-                <p>
-                    Partage tes créations, présente ton travail
-                    et discute avec les autres membres.
-                </p>
-
-                <a
-                    href="/creativite.html"
-                    class="card-button"
-                >
-                    Ouvrir l'espace Créativité →
-                </a>
-
-            </div>
-
-            <!-- AMBITION -->
-
-            <div class="card">
-
-                <div class="card-icon">
-                    🚀
-                </div>
-
-                <h3>
-                    Ambition
-                </h3>
-
-                <p>
-                    Fais évoluer tes projets et participe
-                    aux futurs objectifs de la communauté.
-                </p>
-
-                <span class="card-link">
-                    Bientôt disponible →
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- =========================================
-         SERVICES
-    ========================================== -->
-
-    <section
-        class="section"
-        id="services"
-    >
-
-        <div class="section-head">
-
-            <div class="section-label">
-                Services
-            </div>
-
-            <h2 class="section-title">
-                Les outils de la communauté.
-            </h2>
-
-            <p class="section-text">
-                Retrouve ici les différents systèmes
-                disponibles sur BUSINESS.
-            </p>
-
-        </div>
-
-        <div class="cards">
-
-            <!-- SYSTÈME DE VIE -->
-
-            <a
-                href="/vie.html"
-                class="card"
-            >
-
-                <div class="card-icon">
-                    👤
-                </div>
-
-                <h3>
-                    Système de vie
-                </h3>
-
-                <p>
-                    Crée ta présentation et partage
-                    ton personnage avec la communauté.
-                </p>
-
-                <span class="card-link">
-                    Ouvrir →
-                </span>
-
-            </a>
-
-            <!-- TICKETS -->
-
-            <a
-                href="/ticket.html"
-                class="card"
-            >
-
-                <div class="card-icon">
-                    🎫
-                </div>
-
-                <h3>
-                    Formulaire de demande
-                </h3>
-
-                <p>
-                    Envoie une demande au Staff
-                    directement depuis le site.
-                </p>
-
-                <span class="card-link">
-                    Ouvrir →
-                </span>
-
-            </a>
-
-            <!-- CRÉATIVITÉ -->
-
-            <a
-                href="/creativite.html"
-                class="card"
-            >
-
-                <div class="card-icon">
-                    🎨
-                </div>
-
-                <h3>
-                    Créativité
-                </h3>
-
-                <p>
-                    Découvre les créations des membres
-                    et participe à la discussion.
-                </p>
-
-                <span class="card-link">
-                    Accéder →
-                </span>
-
-            </a>
-
-        </div>
-
-    </section>
-
-    <!-- =========================================
-         ANNONCES
-    ========================================== -->
-
-    <section
-        class="section"
-        id="annonces"
-    >
-
-        <div class="section-head">
-
-            <div class="section-label">
-                Actualités
-            </div>
-
-            <h2 class="section-title">
-                Les dernières annonces.
-            </h2>
-
-            <p class="section-text">
-                Les annonces publiées par le Staff
-                apparaissent automatiquement ici.
-            </p>
-
-        </div>
-
-        <div
-            id="annoncesContainer"
-            class="annonces-list"
+        <h3>
+          Innovation
+        </h3>
+
+        <p>
+          Propose tes idées, vote pour celles de la communauté
+          et découvre les projets qui pourraient voir le jour.
+        </p>
+
+        <a
+          href="/innovation.html"
+          class="card-button"
         >
+          Ouvrir l’espace Innovation →
+        </a>
 
-            <div class="announcement-loading">
-                Chargement des annonces...
-            </div>
+      </div>
 
+      <!-- CRÉATIVITÉ -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          🎨
         </div>
 
-    </section>
+        <h3>
+          Créativité
+        </h3>
 
-    <!-- =========================================
-         TICKETS
-    ========================================== -->
+        <p>
+          Partage tes créations avec la communauté et échange
+          avec les autres membres dans l’espace créatif.
+        </p>
 
-    <section
-        class="section"
-        id="tickets"
+        <a
+          href="/creativite.html"
+          class="card-button"
+        >
+          Ouvrir l’espace Créativité →
+        </a>
+
+      </div>
+
+      <!-- AMBITION -->
+
+      <div class="card">
+
+        <div class="card-icon">
+          🚀
+        </div>
+
+        <h3>
+          Ambition
+        </h3>
+
+        <p>
+          Découvre les projets, les objectifs et les grandes
+          initiatives portées par la communauté.
+        </p>
+
+        <a
+          href="/ambition.html"
+          class="card-button"
+        >
+          Ouvrir l’espace Ambition →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================
+       SERVICES
+  ========================= -->
+
+  <section id="services" class="section">
+
+    <h2 class="section-title">
+      Services
+    </h2>
+
+    <p class="section-subtitle">
+      Les principaux outils disponibles sur le site.
+    </p>
+
+    <div class="services">
+
+      <div class="service">
+
+        <h3>
+          ❤️ Système de vie
+        </h3>
+
+        <p>
+          Crée ta fiche de vie et présente ton personnage
+          à la communauté.
+        </p>
+
+        <a href="/vie.html">
+          Ouvrir →
+        </a>
+
+      </div>
+
+      <div class="service">
+
+        <h3>
+          🎫 Formulaire de demande
+        </h3>
+
+        <p>
+          Une demande ou un problème ?
+          Envoie directement un ticket au Staff.
+        </p>
+
+        <a href="/ticket.html">
+          Créer un ticket →
+        </a>
+
+      </div>
+
+      <div class="service">
+
+        <h3>
+          🎨 Créativité
+        </h3>
+
+        <p>
+          Publie tes créations et échange avec les autres
+          membres dans la galerie.
+        </p>
+
+        <a href="/creativite.html">
+          Découvrir →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================
+       ANNONCES
+  ========================= -->
+
+  <section id="annonces" class="section">
+
+    <h2 class="section-title">
+      Annonces
+    </h2>
+
+    <p class="section-subtitle">
+      Les dernières informations publiées par le Staff.
+    </p>
+
+    <div
+      id="annoncesContainer"
+      class="annonces-container"
     >
 
-        <div class="ticket-box">
+      <div class="empty">
+        Chargement des annonces...
+      </div>
 
-            <h2>
-                Besoin d'aide ?
-            </h2>
+    </div>
 
-            <p>
-                Une question, un problème ou une demande ?
-                Utilise le formulaire pour contacter le Staff.
-            </p>
+  </section>
 
-            <a
-                href="/ticket.html"
-                class="hero-btn hero-btn-primary"
-            >
-                🎫 Ouvrir le formulaire
-            </a>
+  <!-- =========================
+       TICKET CTA
+  ========================= -->
 
-        </div>
+  <section class="section">
 
-    </section>
+    <div class="cta">
 
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
+      <h2>
+        Une demande ?
+      </h2>
 
-    <footer>
+      <p>
+        Contacte le Staff en envoyant directement un ticket.
+      </p>
 
-        © 2026 BUSINESS. — Tous droits réservés.
+      <a
+        href="/ticket.html"
+        class="hero-button"
+      >
+        Ouvrir le formulaire →
+      </a>
 
-    </footer>
+    </div>
 
-    <!-- =========================================
-         JAVASCRIPT
-    ========================================== -->
+  </section>
 
-    <script>
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-        function escapeHTML(value) {
+  <footer>
+    © 2026 Mon Premier Site — Tous droits réservés.
+  </footer>
 
-            return String(
-                value ?? ""
-            )
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-            .replace(
-                /</g,
-                "&lt;"
-            )
-            .replace(
-                />/g,
-                "&gt;"
-            )
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-            .replace(
-                /'/g,
-                "&#039;"
-            );
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+    async function chargerAnnonces() {
+
+      const container =
+        document.getElementById("annoncesContainer");
+
+      try {
+
+        const response =
+          await fetch("/api/annonces");
+
+        if (!response.ok) {
+          throw new Error("Erreur serveur");
         }
 
-        function formatDate(value) {
+        const data =
+          await response.json();
 
-            if (!value) {
-                return "";
-            }
+        const annonces =
+          data.annonces || [];
 
-            const date =
-                new Date(value);
+        if (!annonces.length) {
 
-            if (
-                Number.isNaN(
-                    date.getTime()
-                )
-            ) {
-                return "";
-            }
+          container.innerHTML = `
+            <div class="empty">
+              Aucune annonce pour le moment.
+            </div>
+          `;
 
-            return date.toLocaleString(
-                "fr-FR",
-                {
-                    dateStyle:
-                        "medium",
-                    timeStyle:
-                        "short"
-                }
-            );
+          return;
         }
 
-        async function loadAnnonces() {
+        container.innerHTML =
+          annonces
+            .slice(0, 10)
+            .map(annonce => {
 
-            const container =
-                document.getElementById(
-                    "annoncesContainer"
-                );
+              const date =
+                annonce.date
+                  ? new Date(annonce.date)
+                      .toLocaleString("fr-FR")
+                  : "";
 
-            try {
+              return `
+                <article class="annonce">
 
-                const response =
-                    await fetch(
-                        "/api/annonces"
-                    );
+                  <h3>
+                    ${escapeHTML(annonce.titre)}
+                  </h3>
 
-                const data =
-                    await response.json();
+                  <p>
+                    ${escapeHTML(annonce.contenu)}
+                  </p>
 
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
+                  <div class="annonce-meta">
+                    ${escapeHTML(annonce.auteur || "Staff")}
+                    ${date ? " · " + escapeHTML(date) : ""}
+                  </div>
 
-                    throw new Error(
-                        data.message ||
-                        "Impossible de charger les annonces."
-                    );
-                }
+                </article>
+              `;
+            })
+            .join("");
 
-                const annonces =
-                    Array.isArray(
-                        data.annonces
-                    )
-                        ? data.annonces
-                        : [];
+      } catch (error) {
 
-                if (
-                    annonces.length === 0
-                ) {
+        console.error(error);
 
-                    container.innerHTML = `
-                        <div class="announcement-empty">
+        container.innerHTML = `
+          <div class="empty">
+            Impossible de charger les annonces.
+          </div>
+        `;
+      }
+    }
 
-                            📢
+    function escapeHTML(value) {
 
-                            <br><br>
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
-                            Aucune annonce pour le moment.
+    }
 
-                        </div>
-                    `;
+    chargerAnnonces();
 
-                    return;
-                }
-
-                container.innerHTML =
-                    annonces
-                        .map(
-                            annonce => {
-
-                                const important =
-                                    annonce.important === true;
-
-                                return `
-                                    <article
-                                        class="
-                                            announcement
-                                            ${
-                                                important
-                                                    ? "important"
-                                                    : ""
-                                            }
-                                        "
-                                    >
-
-                                        <div
-                                            class="announcement-top"
-                                        >
-
-                                            <div
-                                                class="announcement-title"
-                                            >
-                                                ${escapeHTML(
-                                                    annonce.titre
-                                                )}
-                                            </div>
-
-                                            ${
-                                                important
-                                                    ? `
-                                                        <span
-                                                            class="important-badge"
-                                                        >
-                                                            ⭐ Important
-                                                        </span>
-                                                    `
-                                                    : ""
-                                            }
-
-                                        </div>
-
-                                        <div
-                                            class="announcement-date"
-                                        >
-                                            ${formatDate(
-                                                annonce.date
-                                            )}
-                                        </div>
-
-                                        <div
-                                            class="announcement-content"
-                                        >
-                                            ${escapeHTML(
-                                                annonce.contenu
-                                            )}
-                                        </div>
-
-                                    </article>
-                                `;
-                            }
-                        )
-                        .join("");
-
-            } catch (error) {
-
-                console.error(
-                    error
-                );
-
-                container.innerHTML = `
-                    <div class="announcement-error">
-
-                        ⚠️
-
-                        <br><br>
-
-                        Impossible de charger les annonces.
-
-                    </div>
-                `;
-            }
-        }
-
-        loadAnnonces();
-
-    </script>
+    setInterval(
+      chargerAnnonces,
+      15000
+    );
+  </script>
 
 </body>
 </html>
