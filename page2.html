@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BUSINESS. — Accueil</title>
+    <title>BUSINESS.</title>
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         html {
@@ -19,59 +19,75 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
-            color: white;
             background:
-                radial-gradient(circle at 10% 0%, #29104d, transparent 35%),
-                radial-gradient(circle at 90% 30%, #35105c, transparent 35%),
-                #07050d;
-            overflow-x: hidden;
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(123, 76, 255, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 25%,
+                    rgba(177, 101, 255, 0.10),
+                    transparent 28%
+                ),
+                #07070b;
+            color: #f8f5ff;
+            min-height: 100vh;
         }
 
-        /* =========================
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        /* ==========================
            NAVIGATION
-        ========================= */
+        =========================== */
 
         nav {
             position: sticky;
             top: 0;
-            z-index: 100;
-
-            height: 76px;
+            z-index: 50;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            padding: 0 7%;
+            padding: 18px 6%;
 
-            background: rgba(7, 5, 13, 0.75);
-            backdrop-filter: blur(18px);
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.07);
 
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background:
+                rgba(7, 7, 11, 0.78);
+
+            backdrop-filter: blur(20px);
         }
 
         .logo {
-            font-size: 25px;
+            font-size: 20px;
             font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .logo span {
-            color: #a855f7;
+            letter-spacing: 0.08em;
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 28px;
+            gap: 24px;
         }
 
         .nav-links a {
-            color: #aaa2b5;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: 0.3s;
+            color: #aaa5b7;
+            font-size: 13px;
+            transition: 0.2s ease;
         }
 
         .nav-links a:hover {
@@ -79,175 +95,261 @@
         }
 
         .nav-staff {
-            padding: 9px 15px;
+            padding: 9px 13px;
             border-radius: 10px;
 
-            background: rgba(168,85,247,0.12);
-            border: 1px solid rgba(168,85,247,0.2);
+            background:
+                rgba(148, 100, 255, 0.10);
 
-            color: #c084fc !important;
+            border:
+                1px solid
+                rgba(148, 100, 255, 0.20);
         }
 
-        /* =========================
+        /* ==========================
            HERO
-        ========================= */
+        =========================== */
 
         .hero {
-            min-height: 85vh;
+            position: relative;
+
+            min-height: 78vh;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
+            padding: 80px 6%;
+
             text-align: center;
 
-            padding: 80px 7%;
+            overflow: hidden;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 340px;
+            height: 340px;
+
+            border-radius: 50%;
+
+            filter: blur(100px);
+
+            pointer-events: none;
+        }
+
+        .hero::before {
+            top: 5%;
+            left: 8%;
+            background: rgba(126, 79, 255, 0.16);
+        }
+
+        .hero::after {
+            right: 8%;
+            bottom: 5%;
+            background: rgba(180, 102, 255, 0.09);
         }
 
         .hero-content {
+            position: relative;
+            z-index: 1;
+
             max-width: 850px;
         }
 
-        .tag {
+        .eyebrow {
             display: inline-block;
 
-            padding: 8px 15px;
+            margin-bottom: 18px;
+
+            padding: 7px 11px;
 
             border-radius: 999px;
 
-            background: rgba(168,85,247,0.12);
-            border: 1px solid rgba(168,85,247,0.25);
+            background:
+                rgba(148, 100, 255, 0.09);
 
-            color: #c084fc;
+            border:
+                1px solid
+                rgba(148, 100, 255, 0.18);
 
-            font-size: 12px;
-            font-weight: bold;
+            color: #bfa8ff;
 
-            letter-spacing: 1px;
+            font-size: 10px;
+
+            letter-spacing: 0.13em;
+
             text-transform: uppercase;
-
-            margin-bottom: 25px;
         }
 
         .hero h1 {
-            font-size: clamp(48px, 8vw, 90px);
-            line-height: 0.95;
-            letter-spacing: -4px;
+            font-size:
+                clamp(
+                    46px,
+                    8vw,
+                    92px
+                );
 
-            margin-bottom: 25px;
+            line-height: 0.96;
+
+            letter-spacing:
+                -0.055em;
         }
 
-        .hero h1 span {
+        .gradient-text {
             background:
                 linear-gradient(
-                    90deg,
+                    135deg,
                     #ffffff,
-                    #c084fc,
-                    #a855f7
+                    #b99cff,
+                    #8059ff
                 );
 
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+
+            color: transparent;
         }
 
         .hero p {
-            max-width: 650px;
-            margin: auto;
+            max-width: 640px;
 
-            color: #aaa2b5;
+            margin:
+                24px
+                auto
+                0;
 
-            font-size: 17px;
+            color: #9c98aa;
+
+            font-size: 15px;
+
             line-height: 1.7;
         }
 
-        .hero-buttons {
+        .hero-actions {
             display: flex;
             justify-content: center;
-            gap: 15px;
 
-            margin-top: 35px;
+            gap: 10px;
+
+            margin-top: 30px;
 
             flex-wrap: wrap;
         }
 
-        .button {
+        .hero-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
 
-            padding: 15px 23px;
+            padding:
+                13px
+                18px;
 
-            border-radius: 13px;
+            border-radius: 12px;
 
-            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
 
-            font-size: 14px;
-            font-weight: bold;
-
-            transition: 0.3s;
+            transition: 0.2s ease;
         }
 
-        .button-primary {
-            color: white;
-
+        .hero-btn-primary {
             background:
                 linear-gradient(
                     135deg,
-                    #7c3aed,
-                    #a855f7
+                    #9c6cff,
+                    #7045ff
                 );
 
             box-shadow:
-                0 15px 35px rgba(124,58,237,0.25);
+                0 12px 35px
+                rgba(112, 69, 255, 0.22);
         }
 
-        .button-primary:hover {
-            transform: translateY(-3px);
-
-            box-shadow:
-                0 20px 45px rgba(168,85,247,0.35);
+        .hero-btn-primary:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
         }
 
-        .button-secondary {
-            color: #ddd6e5;
+        .hero-btn-secondary {
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
 
-            background: rgba(255,255,255,0.05);
+            background:
+                rgba(255, 255, 255, 0.04);
 
-            border: 1px solid rgba(255,255,255,0.1);
+            color: #ded9e9;
         }
 
-        .button-secondary:hover {
-            background: rgba(255,255,255,0.09);
+        .hero-btn-secondary:hover {
+            background:
+                rgba(255, 255, 255, 0.07);
         }
 
-        /* =========================
+        /* ==========================
            SECTIONS
-        ========================= */
+        =========================== */
 
-        section {
-            width: min(1100px, 90%);
-            margin: 0 auto;
-            padding: 100px 0;
+        .section {
+            width: min(1120px, 88%);
+
+            margin:
+                0 auto;
+
+            padding:
+                95px
+                0;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 45px;
+        .section-head {
+            margin-bottom: 30px;
         }
 
-        .section-header h2 {
-            font-size: clamp(32px, 5vw, 50px);
-            margin-bottom: 12px;
+        .section-label {
+            color: #9f7aff;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.16em;
+
+            margin-bottom: 9px;
         }
 
-        .section-header p {
-            color: #8f8799;
-            line-height: 1.6;
+        .section-title {
+            font-size:
+                clamp(
+                    28px,
+                    4vw,
+                    42px
+                );
+
+            letter-spacing:
+                -0.035em;
         }
 
-        /* =========================
-           CARDS
-        ========================= */
+        .section-text {
+            margin-top: 9px;
+
+            max-width: 650px;
+
+            color: #9793a3;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+        }
+
+        /* ==========================
+           ABOUT / SERVICES
+        =========================== */
 
         .cards {
             display: grid;
@@ -255,199 +357,353 @@
             grid-template-columns:
                 repeat(3, 1fr);
 
-            gap: 20px;
+            gap: 14px;
         }
 
         .card {
-            padding: 30px;
+            padding: 22px;
 
-            border-radius: 22px;
-
-            background:
-                rgba(255,255,255,0.045);
+            min-height: 190px;
 
             border:
-                1px solid rgba(255,255,255,0.08);
+                1px solid
+                rgba(255, 255, 255, 0.07);
 
-            transition: 0.3s;
+            border-radius: 18px;
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+            transition:
+                0.22s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
 
             border-color:
-                rgba(168,85,247,0.3);
+                rgba(157, 107, 255, 0.24);
 
             background:
-                rgba(168,85,247,0.06);
+                rgba(157, 107, 255, 0.045);
         }
 
         .card-icon {
-            font-size: 30px;
-            margin-bottom: 20px;
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                rgba(157, 107, 255, 0.10);
+
+            margin-bottom: 16px;
+
+            font-size: 18px;
         }
 
         .card h3 {
-            margin-bottom: 10px;
-            font-size: 20px;
+            font-size: 15px;
         }
 
         .card p {
-            color: #918a9a;
-            line-height: 1.7;
-            font-size: 14px;
+            margin-top: 9px;
+
+            color: #8f8b9c;
+
+            font-size: 12px;
+
+            line-height: 1.65;
         }
 
-        /* =========================
-           SERVICES
-        ========================= */
+        .card-link {
+            display: inline-block;
 
-        .services {
+            margin-top: 15px;
+
+            color: #bda8ff;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+        /* ==========================
+           ANNONCES
+        =========================== */
+
+        .annonces-wrapper {
             display: grid;
 
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 22px;
+            gap: 12px;
         }
 
-        .service {
-            padding: 32px;
+        .announcement {
+            padding: 20px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.07);
+
+            border-radius: 17px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            transition: 0.2s ease;
+        }
+
+        .announcement:hover {
+            border-color:
+                rgba(157, 107, 255, 0.22);
+
+            background:
+                rgba(157,107,255,0.04);
+        }
+
+        .announcement.important {
+            border-color:
+                rgba(255, 186, 88, 0.25);
+
+            background:
+                rgba(255, 186, 88, 0.045);
+        }
+
+        .announcement-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .announcement-title {
+            font-size: 16px;
+
+            font-weight: 800;
+        }
+
+        .important-badge {
+            flex-shrink: 0;
+
+            padding:
+                6px
+                9px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255,186,88,0.12);
+
+            color: #ffc982;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.08em;
+        }
+
+        .announcement-date {
+            margin-top: 6px;
+
+            color: #716d7c;
+
+            font-size: 10px;
+        }
+
+        .announcement-content {
+            margin-top: 13px;
+
+            color: #aaa6b5;
+
+            font-size: 12px;
+
+            line-height: 1.75;
+
+            white-space: pre-wrap;
+        }
+
+        .announcement-loading,
+        .announcement-empty,
+        .announcement-error {
+            padding: 38px 20px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.06);
+
+            border-radius: 17px;
+
+            background:
+                rgba(255,255,255,0.02);
+
+            text-align: center;
+
+            color: #85818f;
+
+            font-size: 12px;
+        }
+
+        .announcement-loading::before {
+            content: "◌";
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            color: #a77cff;
+
+            font-size: 26px;
+        }
+
+        /* ==========================
+           TICKETS CTA
+        =========================== */
+
+        .ticket-box {
+            padding: 35px;
+
+            border:
+                1px solid
+                rgba(157,107,255,0.18);
 
             border-radius: 22px;
 
             background:
-                linear-gradient(
-                    135deg,
-                    rgba(168,85,247,0.09),
-                    rgba(255,255,255,0.035)
-                );
-
-            border:
-                1px solid rgba(255,255,255,0.09);
-        }
-
-        .service-icon {
-            font-size: 35px;
-            margin-bottom: 18px;
-        }
-
-        .service h3 {
-            font-size: 23px;
-            margin-bottom: 10px;
-        }
-
-        .service p {
-            color: #98909f;
-            line-height: 1.7;
-            margin-bottom: 22px;
-        }
-
-        .service a {
-            display: inline-block;
-
-            color: #c084fc;
-
-            text-decoration: none;
-
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .service a:hover {
-            color: white;
-        }
-
-        /* =========================
-           TICKETS
-        ========================= */
-
-        .ticket-box {
-            padding: 45px;
-
-            border-radius: 26px;
+                radial-gradient(
+                    circle at top right,
+                    rgba(157,107,255,0.10),
+                    transparent 42%
+                ),
+                rgba(255,255,255,0.025);
 
             text-align: center;
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    rgba(168,85,247,0.14),
-                    transparent 55%
-                ),
-                rgba(255,255,255,0.04);
-
-            border:
-                1px solid rgba(255,255,255,0.09);
         }
 
         .ticket-box h2 {
-            font-size: 35px;
-            margin-bottom: 15px;
+            font-size: 30px;
+
+            letter-spacing:
+                -0.04em;
         }
 
         .ticket-box p {
-            max-width: 600px;
-            margin: 0 auto 28px;
+            max-width: 560px;
 
-            color: #97909f;
+            margin:
+                11px
+                auto
+                20px;
+
+            color: #9692a2;
+
             line-height: 1.7;
+
+            font-size: 12px;
         }
 
-        /* =========================
+        /* ==========================
            FOOTER
-        ========================= */
+        =========================== */
 
         footer {
-            padding: 35px 7%;
+            padding:
+                35px
+                6%
+                45px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.06);
 
             text-align: center;
 
-            color: #625b6c;
+            color: #686573;
 
-            font-size: 13px;
-
-            border-top:
-                1px solid rgba(255,255,255,0.06);
+            font-size: 10px;
         }
 
-        /* =========================
-           MOBILE
-        ========================= */
+        /* ==========================
+           RESPONSIVE
+        =========================== */
 
-        @media (max-width: 750px) {
-
-            nav {
-                padding: 0 5%;
-            }
+        @media (max-width: 850px) {
 
             .nav-links {
                 gap: 12px;
             }
 
             .nav-links a {
-                font-size: 12px;
+                font-size: 11px;
             }
 
-            .nav-staff {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding:
+                    15px
+                    5%;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .nav-links {
+                gap: 8px;
+            }
+
+            .nav-links a:nth-child(
+                2
+            ) {
                 display: none;
             }
 
             .hero {
-                min-height: 75vh;
+                min-height: 70vh;
+
+                padding:
+                    65px
+                    5%;
             }
 
             .hero h1 {
-                letter-spacing: -2px;
+                font-size: 48px;
             }
 
-            .cards,
-            .services {
-                grid-template-columns: 1fr;
+            .section {
+                padding:
+                    70px
+                    0;
+            }
+
+            .announcement-top {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
             .ticket-box {
-                padding: 30px 20px;
+                padding: 25px 18px;
+            }
+
+            .ticket-box h2 {
+                font-size: 24px;
             }
         }
     </style>
@@ -455,296 +711,563 @@
 
 <body>
 
-    <!-- =========================
-         NAVIGATION
-    ========================= -->
+<!-- ==========================================
+     NAVIGATION
+========================================== -->
 
-    <nav>
+<nav>
 
-        <div class="logo">
-            BUSINESS<span>.</span>
-        </div>
+    <a
+        href="#accueil"
+        class="logo"
+    >
+        BUSINESS.
+    </a>
 
-        <div class="nav-links">
+    <div class="nav-links">
 
-            <a href="#accueil">
-                Accueil
-            </a>
+        <a href="#accueil">
+            Accueil
+        </a>
 
-            <a href="#apropos">
-                À propos
-            </a>
+        <a href="#apropos">
+            À propos
+        </a>
 
-            <a href="#services">
-                Services
-            </a>
+        <a href="#services">
+            Services
+        </a>
 
-            <a href="#tickets">
-                Tickets
+        <a href="#annonces">
+            Annonces
+        </a>
+
+        <a href="#tickets">
+            Tickets
+        </a>
+
+        <a
+            href="/staff.html"
+            class="nav-staff"
+        >
+            Staff
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- ==========================================
+     ACCUEIL
+========================================== -->
+
+<section
+    class="hero"
+    id="accueil"
+>
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            BUSINESS. — espace officiel
+        </span>
+
+        <h1>
+            Construisons
+            <span class="gradient-text">
+                quelque chose de grand.
+            </span>
+        </h1>
+
+        <p>
+            Bienvenue sur BUSINESS.
+            Retrouvez ici les annonces,
+            les services et les différents
+            systèmes disponibles pour la communauté.
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="#annonces"
+                class="hero-btn hero-btn-primary"
+            >
+                📢 Voir les annonces
             </a>
 
             <a
-                href="staff.html"
-                class="nav-staff"
+                href="#services"
+                class="hero-btn hero-btn-secondary"
             >
-                🛡️ Staff
+                Découvrir les services
             </a>
 
         </div>
 
-    </nav>
+    </div>
 
+</section>
 
-    <!-- =========================
-         ACCUEIL
-    ========================= -->
+<!-- ==========================================
+     À PROPOS
+========================================== -->
 
-    <header
-        class="hero"
-        id="accueil"
+<section
+    class="section"
+    id="apropos"
+>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            À propos
+        </div>
+
+        <h2 class="section-title">
+            Une communauté tournée vers l'avenir.
+        </h2>
+
+        <p class="section-text">
+            BUSINESS. rassemble plusieurs systèmes
+            afin de simplifier la vie de la communauté
+            et de centraliser les informations importantes.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">
+                💡
+            </div>
+
+            <h3>
+                Innovation
+            </h3>
+
+            <p>
+                Des outils modernes pour améliorer
+                l'expérience des membres.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">
+                🎨
+            </div>
+
+            <h3>
+                Créativité
+            </h3>
+
+            <p>
+                Une interface pensée pour être
+                simple, élégante et agréable.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">
+                🚀
+            </div>
+
+            <h3>
+                Ambition
+            </h3>
+
+            <p>
+                Faire évoluer continuellement
+                la communauté et ses outils.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     SERVICES
+========================================== -->
+
+<section
+    class="section"
+    id="services"
+>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            Services
+        </div>
+
+        <h2 class="section-title">
+            Les outils de la communauté.
+        </h2>
+
+        <p class="section-text">
+            Plusieurs systèmes sont disponibles
+            directement depuis le site.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">
+                👤
+            </div>
+
+            <h3>
+                Système de vie
+            </h3>
+
+            <p>
+                Crée ta présentation et partage
+                ton personnage avec la communauté.
+            </p>
+
+            <a
+                href="/vie.html"
+                class="card-link"
+            >
+                Ouvrir →
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">
+                🎫
+            </div>
+
+            <h3>
+                Formulaire de demande
+            </h3>
+
+            <p>
+                Envoie une demande au Staff
+                directement depuis le site.
+            </p>
+
+            <a
+                href="/ticket.html"
+                class="card-link"
+            >
+                Ouvrir →
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">
+                📢
+            </div>
+
+            <h3>
+                Annonces
+            </h3>
+
+            <p>
+                Consulte les dernières informations
+                publiées par le Staff.
+            </p>
+
+            <a
+                href="#annonces"
+                class="card-link"
+            >
+                Consulter →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     ANNONCES
+========================================== -->
+
+<section
+    class="section"
+    id="annonces"
+>
+
+    <div class="section-head">
+
+        <div class="section-label">
+            Actualités
+        </div>
+
+        <h2 class="section-title">
+            Les dernières annonces.
+        </h2>
+
+        <p class="section-text">
+            Les annonces publiées par le Staff
+            apparaissent automatiquement ici.
+        </p>
+
+    </div>
+
+    <div
+        id="annoncesContainer"
+        class="annonces-wrapper"
     >
 
-        <div class="hero-content">
-
-            <div class="tag">
-                BUSINESS. — Bienvenue
-            </div>
-
-            <h1>
-                Construisons quelque chose de
-                <span>grand.</span>
-            </h1>
-
-            <p>
-                Bienvenue sur BUSINESS., votre espace central
-                pour découvrir notre univers, envoyer une demande
-                au Staff et présenter votre personnage.
-            </p>
-
-            <div class="hero-buttons">
-
-                <a
-                    href="#services"
-                    class="button button-primary"
-                >
-                    Découvrir →
-                </a>
-
-                <a
-                    href="#tickets"
-                    class="button button-secondary"
-                >
-                    🎫 Ouvrir une demande
-                </a>
-
-            </div>
-
+        <div class="announcement-loading">
+            Chargement des annonces...
         </div>
 
-    </header>
+    </div>
 
+</section>
 
-    <!-- =========================
-         À PROPOS
-    ========================= -->
+<!-- ==========================================
+     TICKETS
+========================================== -->
 
-    <section id="apropos">
+<section
+    class="section"
+    id="tickets"
+>
 
-        <div class="section-header">
+    <div class="ticket-box">
 
-            <h2>
-                Notre univers
-            </h2>
+        <h2>
+            Besoin d'aide ?
+        </h2>
 
-            <p>
-                Un espace pensé pour rassembler
-                la communauté et ses différents systèmes.
-            </p>
+        <p>
+            Une demande, une question ou un problème ?
+            Utilise le formulaire pour contacter
+            le Staff.
+        </p>
 
-        </div>
+        <a
+            href="/ticket.html"
+            class="hero-btn hero-btn-primary"
+        >
+            🎫 Ouvrir le formulaire
+        </a>
 
+    </div>
 
-        <div class="cards">
+</section>
 
-            <div class="card">
+<!-- ==========================================
+     FOOTER
+========================================== -->
 
-                <div class="card-icon">
-                    🚀
+<footer>
+
+    © 2026 BUSINESS. — Tous droits réservés.
+
+</footer>
+
+<script>
+
+    /* ==========================================
+       ECHAPPER LE HTML
+    ========================================== */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    /* ==========================================
+       DATE
+    ========================================== */
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "";
+        }
+
+        const date =
+            new Date(value);
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+            return "";
+        }
+
+        return date.toLocaleString(
+            "fr-FR",
+            {
+                dateStyle: "medium",
+                timeStyle: "short"
+            }
+        );
+    }
+
+    /* ==========================================
+       CHARGER LES ANNONCES
+    ========================================== */
+
+    async function loadAnnonces() {
+
+        const container =
+            document.getElementById(
+                "annoncesContainer"
+            );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/annonces"
+                );
+
+            const data =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+                throw new Error(
+                    data.message ||
+                    "Impossible de charger les annonces."
+                );
+            }
+
+            const annonces =
+                Array.isArray(
+                    data.annonces
+                )
+                    ? data.annonces
+                    : [];
+
+            if (
+                annonces.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="announcement-empty">
+
+                        📢
+
+                        <br><br>
+
+                        Aucune annonce pour le moment.
+
+                    </div>
+                `;
+
+                return;
+            }
+
+            container.innerHTML =
+                annonces
+                    .map(annonce => {
+
+                        const important =
+                            annonce.important === true;
+
+                        return `
+                            <article
+                                class="announcement ${
+                                    important
+                                        ? "important"
+                                        : ""
+                                }"
+                            >
+
+                                <div class="announcement-top">
+
+                                    <div class="announcement-title">
+                                        ${escapeHTML(
+                                            annonce.titre
+                                        )}
+                                    </div>
+
+                                    ${
+                                        important
+                                            ? `
+                                                <span class="important-badge">
+                                                    ⭐ Important
+                                                </span>
+                                            `
+                                            : ""
+                                    }
+
+                                </div>
+
+                                <div class="announcement-date">
+
+                                    ${formatDate(
+                                        annonce.date
+                                    )}
+
+                                </div>
+
+                                <div class="announcement-content">
+
+                                    ${escapeHTML(
+                                        annonce.contenu
+                                    )}
+
+                                </div>
+
+                            </article>
+                        `;
+                    })
+                    .join("");
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            container.innerHTML = `
+                <div class="announcement-error">
+
+                    ⚠️
+
+                    <br><br>
+
+                    Impossible de charger les annonces.
+
+                    <br>
+
+                    Réessaie dans quelques instants.
+
                 </div>
+            `;
+        }
+    }
 
-                <h3>
-                    Innovation
-                </h3>
+    /* ==========================================
+       DEMARRAGE
+    ========================================== */
 
-                <p>
-                    Des systèmes simples et modernes
-                    pour améliorer l'expérience de la communauté.
-                </p>
+    loadAnnonces();
 
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-icon">
-                    🎨
-                </div>
-
-                <h3>
-                    Créativité
-                </h3>
-
-                <p>
-                    Créez votre personnage, développez
-                    son histoire et construisez votre propre univers.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-icon">
-                    🏆
-                </div>
-
-                <h3>
-                    Ambition
-                </h3>
-
-                <p>
-                    Un objectif simple : créer une expérience
-                    communautaire toujours plus complète.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         SERVICES
-    ========================= -->
-
-    <section id="services">
-
-        <div class="section-header">
-
-            <h2>
-                Les systèmes
-            </h2>
-
-            <p>
-                Retrouvez rapidement les différents espaces
-                disponibles sur le site.
-            </p>
-
-        </div>
-
-
-        <div class="services">
-
-            <!-- VIE -->
-
-            <div class="service">
-
-                <div class="service-icon">
-                    👤
-                </div>
-
-                <h3>
-                    Système de vie
-                </h3>
-
-                <p>
-                    Présentez votre personnage avec son prénom,
-                    son âge, son genre, votre Discord et son histoire.
-                    La fiche sera ensuite accessible au Staff.
-                </p>
-
-                <a href="vie.html">
-                    Créer ma présentation →
-                </a>
-
-            </div>
-
-
-            <!-- TICKETS -->
-
-            <div class="service">
-
-                <div class="service-icon">
-                    🎫
-                </div>
-
-                <h3>
-                    Formulaire de demande
-                </h3>
-
-                <p>
-                    Une demande vous a été transmise par le Staff ?
-                    Utilisez le formulaire pour envoyer toutes
-                    les informations nécessaires.
-                </p>
-
-                <a href="#tickets">
-                    Accéder aux tickets →
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         TICKETS
-    ========================= -->
-
-    <section id="tickets">
-
-        <div class="ticket-box">
-
-            <div class="tag">
-                Support
-            </div>
-
-            <h2>
-                Besoin de contacter le Staff ?
-            </h2>
-
-            <p>
-                Remplissez notre formulaire afin de transmettre
-                votre demande directement à l'équipe.
-                Votre demande sera ensuite consultable dans
-                l'espace Staff.
-            </p>
-
-            <a
-                href="ticket.html"
-                class="button button-primary"
-            >
-                🎫 Remplir le formulaire →
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         FOOTER
-    ========================= -->
-
-    <footer>
-
-        © 2026 BUSINESS. —
-        Tous droits réservés.
-
-    </footer>
+</script>
 
 </body>
 </html>
