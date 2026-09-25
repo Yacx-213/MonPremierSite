@@ -348,7 +348,7 @@
         }
 
         /* ==========================
-           ABOUT / SERVICES
+           CARDS
         =========================== */
 
         .cards {
@@ -564,7 +564,7 @@
         }
 
         /* ==========================
-           TICKETS CTA
+           TICKETS
         =========================== */
 
         .ticket-box {
@@ -669,9 +669,7 @@
                 gap: 8px;
             }
 
-            .nav-links a:nth-child(
-                2
-            ) {
+            .nav-links a:nth-child(2) {
                 display: none;
             }
 
@@ -711,9 +709,9 @@
 
 <body>
 
-<!-- ==========================================
+<!-- ==================================
      NAVIGATION
-========================================== -->
+================================== -->
 
 <nav>
 
@@ -757,9 +755,9 @@
 
 </nav>
 
-<!-- ==========================================
+<!-- ==================================
      ACCUEIL
-========================================== -->
+================================== -->
 
 <section
     class="hero"
@@ -808,9 +806,9 @@
 
 </section>
 
-<!-- ==========================================
+<!-- ==================================
      À PROPOS
-========================================== -->
+================================== -->
 
 <section
     class="section"
@@ -854,7 +852,10 @@
 
         </div>
 
-        <div class="card">
+        <a
+            href="/creativite.html"
+            class="card"
+        >
 
             <div class="card-icon">
                 🎨
@@ -865,11 +866,16 @@
             </h3>
 
             <p>
-                Une interface pensée pour être
-                simple, élégante et agréable.
+                Partage tes créations, découvre
+                celles des autres membres et discute
+                avec la communauté.
             </p>
 
-        </div>
+            <span class="card-link">
+                Ouvrir l'espace Créativité →
+            </span>
+
+        </a>
 
         <div class="card">
 
@@ -892,9 +898,9 @@
 
 </section>
 
-<!-- ==========================================
+<!-- ==================================
      SERVICES
-========================================== -->
+================================== -->
 
 <section
     class="section"
@@ -968,37 +974,38 @@
 
         </div>
 
-        <div class="card">
+        <a
+            href="/creativite.html"
+            class="card"
+        >
 
             <div class="card-icon">
-                📢
+                🎨
             </div>
 
             <h3>
-                Annonces
+                Créativité
             </h3>
 
             <p>
-                Consulte les dernières informations
-                publiées par le Staff.
+                Publie tes créations, échange
+                avec les membres et découvre
+                leurs réalisations.
             </p>
 
-            <a
-                href="#annonces"
-                class="card-link"
-            >
-                Consulter →
-            </a>
+            <span class="card-link">
+                Accéder →
+            </span>
 
-        </div>
+        </a>
 
     </div>
 
 </section>
 
-<!-- ==========================================
+<!-- ==================================
      ANNONCES
-========================================== -->
+================================== -->
 
 <section
     class="section"
@@ -1035,9 +1042,9 @@
 
 </section>
 
-<!-- ==========================================
+<!-- ==================================
      TICKETS
-========================================== -->
+================================== -->
 
 <section
     class="section"
@@ -1067,10 +1074,6 @@
 
 </section>
 
-<!-- ==========================================
-     FOOTER
-========================================== -->
-
 <footer>
 
     © 2026 BUSINESS. — Tous droits réservés.
@@ -1078,10 +1081,6 @@
 </footer>
 
 <script>
-
-    /* ==========================================
-       ECHAPPER LE HTML
-    ========================================== */
 
     function escapeHTML(value) {
 
@@ -1092,10 +1091,6 @@
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
     }
-
-    /* ==========================================
-       DATE
-    ========================================== */
 
     function formatDate(value) {
 
@@ -1122,10 +1117,6 @@
             }
         );
     }
-
-    /* ==========================================
-       CHARGER LES ANNONCES
-    ========================================== */
 
     async function loadAnnonces() {
 
@@ -1196,9 +1187,13 @@
                                 }"
                             >
 
-                                <div class="announcement-top">
+                                <div
+                                    class="announcement-top"
+                                >
 
-                                    <div class="announcement-title">
+                                    <div
+                                        class="announcement-title"
+                                    >
                                         ${escapeHTML(
                                             annonce.titre
                                         )}
@@ -1216,20 +1211,20 @@
 
                                 </div>
 
-                                <div class="announcement-date">
-
+                                <div
+                                    class="announcement-date"
+                                >
                                     ${formatDate(
                                         annonce.date
                                     )}
-
                                 </div>
 
-                                <div class="announcement-content">
-
+                                <div
+                                    class="announcement-content"
+                                >
                                     ${escapeHTML(
                                         annonce.contenu
                                     )}
-
                                 </div>
 
                             </article>
@@ -1252,18 +1247,10 @@
 
                     Impossible de charger les annonces.
 
-                    <br>
-
-                    Réessaie dans quelques instants.
-
                 </div>
             `;
         }
     }
-
-    /* ==========================================
-       DEMARRAGE
-    ========================================== */
 
     loadAnnonces();
 
