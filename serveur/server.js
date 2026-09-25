@@ -16,6 +16,10 @@ const HOST = "0.0.0.0";
 const SITE_FOLDER = path.join(__dirname, "..");
 const DATA_FOLDER = path.join(__dirname, "data");
 
+/* =========================
+   FICHIERS DE DONNÉES
+========================= */
+
 const TICKETS_FILE = path.join(DATA_FOLDER, "tickets.json");
 const VIES_FILE = path.join(DATA_FOLDER, "vies.json");
 const ANNONCES_FILE = path.join(DATA_FOLDER, "annonces.json");
@@ -23,14 +27,12 @@ const EVENEMENTS_FILE = path.join(DATA_FOLDER, "evenements.json");
 const MEMBRES_FILE = path.join(DATA_FOLDER, "membres.json");
 const PARAMETRES_FILE = path.join(DATA_FOLDER, "parametres.json");
 
-const CREATIONS_FILE = path.join(
-    DATA_FOLDER,
-    "creations.json"
-);
+const CREATIONS_FILE = path.join(DATA_FOLDER, "creations.json");
+const MESSAGES_FILE = path.join(DATA_FOLDER, "messages.json");
 
-const MESSAGES_FILE = path.join(
+const INNOVATION_FILE = path.join(
     DATA_FOLDER,
-    "messages.json"
+    "innovation.json"
 );
 
 const UPLOADS_FOLDER = path.join(
@@ -41,6 +43,10 @@ const UPLOADS_FOLDER = path.join(
 
 const STAFF_PASSWORD = process.env.STAFF_PASSWORD;
 const SESSION_SECRET = process.env.SESSION_SECRET;
+
+/* =========================
+   VARIABLES OBLIGATOIRES
+========================= */
 
 if (!STAFF_PASSWORD) {
     console.error(
@@ -58,6 +64,10 @@ if (!SESSION_SECRET) {
     process.exit(1);
 }
 
+/* =========================
+   DOSSIERS
+========================= */
+
 if (!fs.existsSync(DATA_FOLDER)) {
     fs.mkdirSync(DATA_FOLDER, {
         recursive: true
@@ -70,11 +80,14 @@ if (!fs.existsSync(UPLOADS_FOLDER)) {
     });
 }
 
-/* =========================================================
-   CREATION DES FICHIERS
-========================================================= */
+/* =========================
+   CRÉATION FICHIERS
+========================= */
 
-function createFileIfMissing(file, defaultValue) {
+function createFileIfMissing(
+    file,
+    defaultValue
+) {
     if (!fs.existsSync(file)) {
         fs.writeFileSync(
             file,
@@ -124,6 +137,11 @@ createFileIfMissing(
 );
 
 createFileIfMissing(
+    INNOVATION_FILE,
+    []
+);
+
+createFileIfMissing(
     PARAMETRES_FILE,
     {
         nomSite: "BUSINESS.",
@@ -135,9 +153,9 @@ createFileIfMissing(
     }
 );
 
-/* =========================================================
+/* =========================
    EXPRESS
-========================================================= */
+========================= */
 
 app.set(
     "trust proxy",
@@ -162,6 +180,7 @@ app.use(
         secret: SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+
         cookie: {
             httpOnly: true,
             sameSite: "lax",
@@ -173,9 +192,9 @@ app.use(
     })
 );
 
-/* =========================================================
-   MULTER — IMAGES CREATIVITE
-========================================================= */
+/* =========================
+   MULTER
+========================= */
 
 const storage =
     multer.diskStorage({
@@ -199,18 +218,22 @@ const storage =
         ) => {
 
             const extension =
-                path.extname(
-                    file.originalname
-                ).toLowerCase();
+                path
+                    .extname(
+                        file.originalname
+                    )
+                    .toLowerCase();
+
+            const allowedExtensions = [
+                ".jpg",
+                ".jpeg",
+                ".png",
+                ".gif",
+                ".webp"
+            ];
 
             const safeExtension =
-                [
-                    ".jpg",
-                    ".jpeg",
-                    ".png",
-                    ".gif",
-                    ".webp"
-                ].includes(
+                allowedExtensions.includes(
                     extension
                 )
                     ? extension
@@ -254,6 +277,7 @@ const imageUpload =
                     file.mimetype
                 )
             ) {
+
                 callback(
                     null,
                     true
@@ -270,9 +294,9 @@ const imageUpload =
         }
     });
 
-/* =========================================================
+/* =========================
    OUTILS
-========================================================= */
+========================= */
 
 function readJSON(
     file,
@@ -496,14 +520,27 @@ app.post(
             );
 
         const ticket = {
+
             id: Date.now(),
-            type: clean(type),
-            nom: clean(nom),
-            discord: clean(discord),
-            sujet: clean(sujet),
-            message: clean(message),
+
+            type:
+                clean(type),
+
+            nom:
+                clean(nom),
+
+            discord:
+                clean(discord),
+
+            sujet:
+                clean(sujet),
+
+            message:
+                clean(message),
+
             date:
                 new Date().toISOString(),
+
             status:
                 "Nouveau"
         };
@@ -556,10 +593,6 @@ app.patch(
         const id =
             Number(req.params.id);
 
-        const {
-            status
-        } = req.body;
-
         const tickets =
             readJSON(
                 TICKETS_FILE,
@@ -584,7 +617,7 @@ app.patch(
         }
 
         ticket.status =
-            clean(status);
+            clean(req.body.status);
 
         saveJSON(
             TICKETS_FILE,
@@ -684,19 +717,27 @@ app.post(
             );
 
         const vie = {
+
             id: Date.now(),
+
             prenom:
                 clean(prenom),
+
             genre:
                 clean(genre),
+
             age:
                 clean(age),
+
             discord:
                 clean(discord),
+
             histoire:
                 clean(histoire),
+
             date:
                 new Date().toISOString(),
+
             status:
                 "Nouveau"
         };
@@ -749,10 +790,6 @@ app.patch(
         const id =
             Number(req.params.id);
 
-        const {
-            status
-        } = req.body;
-
         const vies =
             readJSON(
                 VIES_FILE,
@@ -777,7 +814,7 @@ app.patch(
         }
 
         vie.status =
-            clean(status);
+            clean(req.body.status);
 
         saveJSON(
             VIES_FILE,
@@ -891,13 +928,18 @@ app.post(
             );
 
         const annonce = {
+
             id: Date.now(),
+
             titre:
                 clean(titre),
+
             contenu:
                 clean(contenu),
+
             important:
                 Boolean(important),
+
             date:
                 new Date().toISOString()
         };
@@ -953,8 +995,7 @@ app.patch(
         }
 
         if (
-            req.body.titre !==
-            undefined
+            req.body.titre !== undefined
         ) {
 
             annonce.titre =
@@ -964,8 +1005,7 @@ app.patch(
         }
 
         if (
-            req.body.contenu !==
-            undefined
+            req.body.contenu !== undefined
         ) {
 
             annonce.contenu =
@@ -975,8 +1015,7 @@ app.patch(
         }
 
         if (
-            req.body.important !==
-            undefined
+            req.body.important !== undefined
         ) {
 
             annonce.important =
@@ -1100,17 +1139,24 @@ app.post(
             );
 
         const evenement = {
+
             id: Date.now(),
+
             titre:
                 clean(titre),
+
             dateEvenement:
                 clean(dateEvenement),
+
             heure:
                 clean(heure),
+
             description:
                 clean(description),
+
             lieu:
                 clean(lieu),
+
             dateCreation:
                 new Date().toISOString()
         };
@@ -1166,8 +1212,7 @@ app.patch(
         }
 
         if (
-            req.body.titre !==
-            undefined
+            req.body.titre !== undefined
         ) {
 
             evenement.titre =
@@ -1177,8 +1222,7 @@ app.patch(
         }
 
         if (
-            req.body.dateEvenement !==
-            undefined
+            req.body.dateEvenement !== undefined
         ) {
 
             evenement.dateEvenement =
@@ -1188,8 +1232,7 @@ app.patch(
         }
 
         if (
-            req.body.heure !==
-            undefined
+            req.body.heure !== undefined
         ) {
 
             evenement.heure =
@@ -1199,8 +1242,7 @@ app.patch(
         }
 
         if (
-            req.body.description !==
-            undefined
+            req.body.description !== undefined
         ) {
 
             evenement.description =
@@ -1210,8 +1252,7 @@ app.patch(
         }
 
         if (
-            req.body.lieu !==
-            undefined
+            req.body.lieu !== undefined
         ) {
 
             evenement.lieu =
@@ -1333,15 +1374,21 @@ app.post(
             );
 
         const membre = {
+
             id: Date.now(),
+
             pseudo:
                 clean(pseudo),
+
             discord:
                 clean(discord),
+
             role:
                 clean(role),
+
             description:
                 clean(description),
+
             date:
                 new Date().toISOString()
         };
@@ -1397,8 +1444,7 @@ app.patch(
         }
 
         if (
-            req.body.pseudo !==
-            undefined
+            req.body.pseudo !== undefined
         ) {
 
             membre.pseudo =
@@ -1408,8 +1454,7 @@ app.patch(
         }
 
         if (
-            req.body.discord !==
-            undefined
+            req.body.discord !== undefined
         ) {
 
             membre.discord =
@@ -1419,8 +1464,7 @@ app.patch(
         }
 
         if (
-            req.body.role !==
-            undefined
+            req.body.role !== undefined
         ) {
 
             membre.role =
@@ -1430,8 +1474,7 @@ app.patch(
         }
 
         if (
-            req.body.description !==
-            undefined
+            req.body.description !== undefined
         ) {
 
             membre.description =
@@ -1585,11 +1628,6 @@ app.patch(
    🎨 CREATIVITE — CREATIONS
 ========================================================= */
 
-/*
-    GET PUBLIC
-    Tout le monde peut voir les créations.
-*/
-
 app.get(
     "/api/creativite/creations",
     (req, res) => {
@@ -1607,11 +1645,6 @@ app.get(
         });
     }
 );
-
-/*
-    POST PUBLIC
-    Un membre peut publier une création.
-*/
 
 app.post(
     "/api/creativite/creations",
@@ -1800,10 +1833,6 @@ app.post(
     }
 );
 
-/*
-    DELETE STAFF
-*/
-
 app.delete(
     "/api/creativite/creations/:id",
     requireStaff,
@@ -1889,10 +1918,6 @@ app.delete(
    💬 CREATIVITE — CHAT
 ========================================================= */
 
-/*
-    GET PUBLIC
-*/
-
 app.get(
     "/api/creativite/messages",
     (req, res) => {
@@ -1911,24 +1936,19 @@ app.get(
     }
 );
 
-/*
-    POST PUBLIC
-*/
-
 app.post(
     "/api/creativite/messages",
     (req, res) => {
 
-        const {
-            pseudo,
-            message
-        } = req.body;
-
         const cleanPseudo =
-            clean(pseudo);
+            clean(
+                req.body?.pseudo
+            );
 
         const cleanMessage =
-            clean(message);
+            clean(
+                req.body?.message
+            );
 
         if (
             !cleanPseudo ||
@@ -1996,17 +2016,9 @@ app.post(
             newMessage
         );
 
-        /*
-            On garde seulement
-            les 300 derniers messages.
-        */
-
-        const limitedMessages =
-            messages.slice(-300);
-
         saveJSON(
             MESSAGES_FILE,
-            limitedMessages
+            messages.slice(-300)
         );
 
         sendSuccess(
@@ -2019,10 +2031,6 @@ app.post(
         );
     }
 );
-
-/*
-    DELETE MESSAGE STAFF
-*/
 
 app.delete(
     "/api/creativite/messages/:id",
@@ -2071,6 +2079,355 @@ app.delete(
 );
 
 /* =========================================================
+   💡 INNOVATION
+========================================================= */
+
+/*
+    Tout le monde peut voir les idées.
+*/
+
+app.get(
+    "/api/innovation",
+    (req, res) => {
+
+        const ideas =
+            readJSON(
+                INNOVATION_FILE,
+                []
+            );
+
+        res.json({
+            success: true,
+            ideas:
+                [...ideas].reverse()
+        });
+    }
+);
+
+/*
+    Tout le monde peut proposer une idée.
+*/
+
+app.post(
+    "/api/innovation",
+    (req, res) => {
+
+        const {
+            pseudo,
+            titre,
+            description
+        } = req.body;
+
+        const cleanPseudo =
+            clean(pseudo);
+
+        const cleanTitre =
+            clean(titre);
+
+        const cleanDescription =
+            clean(description);
+
+        if (
+            !cleanPseudo ||
+            !cleanTitre ||
+            !cleanDescription
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message:
+                        "Tous les champs sont obligatoires."
+                });
+        }
+
+        if (
+            cleanPseudo.length >
+            40
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message:
+                        "Le pseudo est trop long."
+                });
+        }
+
+        if (
+            cleanTitre.length >
+            100
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message:
+                        "Le titre est trop long."
+                });
+        }
+
+        if (
+            cleanDescription.length >
+            1500
+        ) {
+
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message:
+                        "La description est trop longue."
+                });
+        }
+
+        const ideas =
+            readJSON(
+                INNOVATION_FILE,
+                []
+            );
+
+        const idea = {
+
+            id: Date.now(),
+
+            pseudo:
+                cleanPseudo,
+
+            titre:
+                cleanTitre,
+
+            description:
+                cleanDescription,
+
+            votes: 0,
+
+            status:
+                "Nouvelle",
+
+            date:
+                new Date().toISOString()
+        };
+
+        ideas.push(
+            idea
+        );
+
+        saveJSON(
+            INNOVATION_FILE,
+            ideas
+        );
+
+        console.log(
+            "NOUVELLE IDEE :",
+            idea.id
+        );
+
+        sendSuccess(
+            res,
+            "Idée publiée.",
+            {
+                idea
+            }
+        );
+    }
+);
+
+/*
+    Voter pour une idée.
+*/
+
+app.post(
+    "/api/innovation/:id/vote",
+    (req, res) => {
+
+        const id =
+            Number(req.params.id);
+
+        const ideas =
+            readJSON(
+                INNOVATION_FILE,
+                []
+            );
+
+        const idea =
+            ideas.find(
+                item =>
+                    item.id === id
+            );
+
+        if (!idea) {
+
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message:
+                        "Idée introuvable."
+                });
+        }
+
+        idea.votes =
+            Number(
+                idea.votes || 0
+            ) + 1;
+
+        saveJSON(
+            INNOVATION_FILE,
+            ideas
+        );
+
+        res.json({
+            success: true,
+            votes:
+                idea.votes
+        });
+    }
+);
+
+/*
+    Modifier une idée — STAFF.
+*/
+
+app.patch(
+    "/api/innovation/:id",
+    requireStaff,
+    (req, res) => {
+
+        const id =
+            Number(req.params.id);
+
+        const ideas =
+            readJSON(
+                INNOVATION_FILE,
+                []
+            );
+
+        const idea =
+            ideas.find(
+                item =>
+                    item.id === id
+            );
+
+        if (!idea) {
+
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message:
+                        "Idée introuvable."
+                });
+        }
+
+        if (
+            req.body.titre !== undefined
+        ) {
+
+            idea.titre =
+                clean(
+                    req.body.titre
+                );
+        }
+
+        if (
+            req.body.description !== undefined
+        ) {
+
+            idea.description =
+                clean(
+                    req.body.description
+                );
+        }
+
+        if (
+            req.body.status !== undefined
+        ) {
+
+            const allowedStatuses = [
+                "Nouvelle",
+                "En étude",
+                "Acceptée",
+                "Refusée"
+            ];
+
+            if (
+                allowedStatuses.includes(
+                    req.body.status
+                )
+            ) {
+
+                idea.status =
+                    req.body.status;
+            }
+        }
+
+        saveJSON(
+            INNOVATION_FILE,
+            ideas
+        );
+
+        res.json({
+            success: true,
+            idea
+        });
+    }
+);
+
+/*
+    Supprimer une idée — STAFF.
+*/
+
+app.delete(
+    "/api/innovation/:id",
+    requireStaff,
+    (req, res) => {
+
+        const id =
+            Number(req.params.id);
+
+        const ideas =
+            readJSON(
+                INNOVATION_FILE,
+                []
+            );
+
+        const newIdeas =
+            ideas.filter(
+                idea =>
+                    idea.id !== id
+            );
+
+        if (
+            newIdeas.length ===
+            ideas.length
+        ) {
+
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message:
+                        "Idée introuvable."
+                });
+        }
+
+        saveJSON(
+            INNOVATION_FILE,
+            newIdeas
+        );
+
+        sendSuccess(
+            res,
+            "Idée supprimée."
+        );
+    }
+);
+
+/* =========================================================
    PAGE STAFF
 ========================================================= */
 
@@ -2111,7 +2468,12 @@ app.use(
 ========================================================= */
 
 app.use(
-    (error, req, res, next) => {
+    (
+        error,
+        req,
+        res,
+        next
+    ) => {
 
         if (
             error instanceof
@@ -2163,11 +2525,16 @@ app.use(
 );
 
 /* =========================================================
-   ERREUR GENERALE
+   ERREUR GÉNÉRALE
 ========================================================= */
 
 app.use(
-    (error, req, res, next) => {
+    (
+        error,
+        req,
+        res,
+        next
+    ) => {
 
         console.error(
             "ERREUR SERVEUR :",
@@ -2192,7 +2559,7 @@ app.use(
 );
 
 /* =========================================================
-   DEMARRAGE
+   DÉMARRAGE
 ========================================================= */
 
 app.listen(
