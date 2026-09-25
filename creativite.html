@@ -241,7 +241,7 @@
         }
 
         /* ==================================
-           CREATION FORM
+           FORMULAIRE
         ================================== */
 
         .field {
@@ -265,8 +265,7 @@
         }
 
         .input,
-        .textarea,
-        .file {
+        .textarea {
             width: 100%;
 
             border:
@@ -287,29 +286,197 @@
                 12px;
 
             font-size: 12px;
+
+            transition:
+                0.2s ease;
         }
 
         .textarea {
             min-height: 105px;
-
             resize: vertical;
         }
 
         .input:focus,
-        .textarea:focus,
-        .file:focus {
+        .textarea:focus {
             border-color:
                 rgba(155,108,255,0.45);
+
+            background:
+                rgba(155,108,255,0.04);
         }
 
-        .file {
-            padding: 9px;
+        /* ==================================
+           NOUVEAU BOUTON IMAGE
+        ================================== */
+
+        .upload-zone {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 185px;
+
+            padding: 25px;
+
+            border:
+                1px dashed
+                rgba(160, 116, 255, 0.35);
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(155,108,255,0.06),
+                    rgba(255,255,255,0.015)
+                );
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition:
+                0.25s ease;
         }
 
-        .hint {
-            color: #696673;
-            font-size: 9px;
+        .upload-zone:hover {
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(180,140,255,0.65);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(155,108,255,0.11),
+                    rgba(255,255,255,0.025)
+                );
+
+            box-shadow:
+                0 15px 40px
+                rgba(100,70,180,0.14);
+        }
+
+        .upload-zone.dragover {
+            border-color:
+                #b79aff;
+
+            background:
+                rgba(155,108,255,0.14);
+
+            transform:
+                scale(1.01);
+        }
+
+        .upload-icon {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                rgba(155,108,255,0.12);
+
+            border:
+                1px solid
+                rgba(155,108,255,0.18);
+
+            font-size: 26px;
+
+            margin-bottom: 13px;
+        }
+
+        .upload-title {
+            font-size: 13px;
+            font-weight: 800;
+
+            color: #f0ecf9;
+        }
+
+        .upload-subtitle {
+            margin-top: 6px;
+
+            color: #888494;
+
+            font-size: 10px;
+
             line-height: 1.5;
+        }
+
+        .upload-file-name {
+            display: none;
+
+            max-width: 100%;
+
+            margin-top: 12px;
+
+            padding:
+                8px
+                11px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(155,108,255,0.10);
+
+            border:
+                1px solid
+                rgba(155,108,255,0.18);
+
+            color: #c7b5ff;
+
+            font-size: 10px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .upload-file-name.show {
+            display: block;
+        }
+
+        .upload-preview {
+            display: none;
+
+            width: 100%;
+
+            margin-top: 14px;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.06);
+        }
+
+        .upload-preview.show {
+            display: block;
+        }
+
+        .upload-preview img {
+            display: block;
+
+            width: 100%;
+
+            max-height: 190px;
+
+            object-fit: cover;
+        }
+
+        #image {
+            display: none;
         }
 
         .publish-btn {
@@ -396,7 +563,7 @@
         }
 
         /* ==================================
-           GALLERY
+           GALERIE
         ================================== */
 
         .gallery {
@@ -727,10 +894,6 @@
 
 <body>
 
-<!-- ==================================
-     NAV
-================================== -->
-
 <nav>
 
     <a
@@ -748,10 +911,6 @@
     </a>
 
 </nav>
-
-<!-- ==================================
-     HERO
-================================== -->
 
 <section class="hero">
 
@@ -774,15 +933,9 @@
 
 </section>
 
-<!-- ==================================
-     MAIN
-================================== -->
-
 <main class="layout">
 
-    <!-- ==================================
-         GALERIE
-    ================================== -->
+    <!-- GALERIE -->
 
     <section class="panel">
 
@@ -815,13 +968,9 @@
 
     </section>
 
-    <!-- ==================================
-         CHAT
-    ================================== -->
+    <!-- CHAT -->
 
-    <section
-        class="panel chat-panel"
-    >
+    <section class="panel chat-panel">
 
         <div class="panel-head">
 
@@ -884,9 +1033,7 @@
 
     </section>
 
-    <!-- ==================================
-         PUBLICATION
-    ================================== -->
+    <!-- PUBLICATION -->
 
     <section class="panel">
 
@@ -973,25 +1120,54 @@
 
                 <div class="field">
 
-                    <label
-                        class="label"
-                        for="image"
-                    >
+                    <label class="label">
                         Image
+                    </label>
+
+                    <label
+                        for="image"
+                        class="upload-zone"
+                        id="uploadZone"
+                    >
+
+                        <div class="upload-icon">
+                            🖼️
+                        </div>
+
+                        <div class="upload-title">
+                            Ajouter une image
+                        </div>
+
+                        <div class="upload-subtitle">
+                            Clique ici ou dépose ton image
+                            <br>
+                            JPG, PNG, GIF ou WebP · maximum 5 Mo
+                        </div>
+
+                        <div
+                            class="upload-file-name"
+                            id="uploadFileName"
+                        ></div>
+
+                        <div
+                            class="upload-preview"
+                            id="uploadPreview"
+                        >
+                            <img
+                                id="previewImage"
+                                alt="Aperçu"
+                            >
+                        </div>
+
                     </label>
 
                     <input
                         id="image"
                         name="image"
-                        class="file"
                         type="file"
                         accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp"
                         required
                     >
-
-                    <div class="hint">
-                        JPG, PNG, GIF ou WebP · maximum 5 Mo
-                    </div>
 
                 </div>
 
@@ -1108,15 +1284,11 @@
 
                 gallery.innerHTML = `
                     <div class="creation-empty">
-
                         🎨
-
                         <br><br>
-
                         Aucune création pour le moment.
                         <br>
                         Sois le premier à publier !
-
                     </div>
                 `;
 
@@ -1199,20 +1371,164 @@
 
             gallery.innerHTML = `
                 <div class="creation-error">
-
                     ⚠️
-
                     <br><br>
-
                     Impossible de charger les créations.
-
                 </div>
             `;
         }
     }
 
     /* ==================================
-       PUBLICATION CREATION
+       UPLOAD IMAGE
+    ================================== */
+
+    const imageInput =
+        document.getElementById(
+            "image"
+        );
+
+    const uploadZone =
+        document.getElementById(
+            "uploadZone"
+        );
+
+    const fileName =
+        document.getElementById(
+            "uploadFileName"
+        );
+
+    const preview =
+        document.getElementById(
+            "uploadPreview"
+        );
+
+    const previewImage =
+        document.getElementById(
+            "previewImage"
+        );
+
+    function updateSelectedFile(
+        file
+    ) {
+
+        if (!file) {
+            return;
+        }
+
+        if (
+            file.size >
+            5 * 1024 * 1024
+        ) {
+
+            fileName.textContent =
+                "⚠️ Image trop lourde — maximum 5 Mo";
+
+            fileName.classList.add(
+                "show"
+            );
+
+            preview.classList.remove(
+                "show"
+            );
+
+            return;
+        }
+
+        fileName.textContent =
+            "✓ " + file.name;
+
+        fileName.classList.add(
+            "show"
+        );
+
+        const imageURL =
+            URL.createObjectURL(
+                file
+            );
+
+        previewImage.src =
+            imageURL;
+
+        preview.classList.add(
+            "show"
+        );
+    }
+
+    imageInput.addEventListener(
+        "change",
+        () => {
+
+            const file =
+                imageInput.files[0];
+
+            updateSelectedFile(
+                file
+            );
+        }
+    );
+
+    /* ==================================
+       DRAG & DROP
+    ================================== */
+
+    uploadZone.addEventListener(
+        "dragover",
+        event => {
+
+            event.preventDefault();
+
+            uploadZone.classList.add(
+                "dragover"
+            );
+        }
+    );
+
+    uploadZone.addEventListener(
+        "dragleave",
+        () => {
+
+            uploadZone.classList.remove(
+                "dragover"
+            );
+        }
+    );
+
+    uploadZone.addEventListener(
+        "drop",
+        event => {
+
+            event.preventDefault();
+
+            uploadZone.classList.remove(
+                "dragover"
+            );
+
+            const file =
+                event.dataTransfer.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            const dataTransfer =
+                new DataTransfer();
+
+            dataTransfer.items.add(
+                file
+            );
+
+            imageInput.files =
+                dataTransfer.files;
+
+            updateSelectedFile(
+                file
+            );
+        }
+    );
+
+    /* ==================================
+       PUBLICATION
     ================================== */
 
     document
@@ -1239,9 +1555,7 @@
                     );
 
                 const file =
-                    document.getElementById(
-                        "image"
-                    ).files[0];
+                    imageInput.files[0];
 
                 if (!file) {
 
@@ -1306,6 +1620,20 @@
 
                     form.reset();
 
+                    fileName.textContent = "";
+
+                    fileName.classList.remove(
+                        "show"
+                    );
+
+                    preview.classList.remove(
+                        "show"
+                    );
+
+                    previewImage.removeAttribute(
+                        "src"
+                    );
+
                     showFormMessage(
                         messageBox,
                         "🎉 Ta création est maintenant publiée !",
@@ -1355,9 +1683,6 @@
     /* ==================================
        CHAT
     ================================== */
-
-    let lastMessageId =
-        0;
 
     async function loadMessages(
         keepScroll = false
@@ -1474,16 +1799,6 @@
 
                 container.scrollTop =
                     previousScroll;
-            }
-
-            if (
-                messages.length > 0
-            ) {
-
-                lastMessageId =
-                    messages[
-                        messages.length - 1
-                    ].id;
             }
 
         } catch (error) {
@@ -1612,7 +1927,7 @@
         );
 
     /* ==================================
-       REFRESH CHAT
+       AUTO-REFRESH CHAT
     ================================== */
 
     setInterval(
