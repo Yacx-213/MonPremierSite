@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BUSINESS. — Ambition</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 12% 10%,
+                    rgba(76, 220, 150, 0.12),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 88% 18%,
+                    rgba(112, 82, 255, 0.12),
+                    transparent 30%
+                ),
+                #07070b;
+
+            color: #f7f4ff;
+
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================================
+           NAV
+        ========================================== */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding:
+                17px 6%;
+
+            background:
+                rgba(7, 7, 11, 0.82);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.07);
+
+            backdrop-filter:
+                blur(20px);
+        }
+
+        .logo {
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+        }
+
+        .back {
+            color: #aaa6b6;
+            font-size: 12px;
+            transition: 0.2s ease;
+        }
+
+        .back:hover {
+            color: white;
+        }
+
+        /* =========================================
+           HERO
+        ========================================== */
+
+        .hero {
+            width: min(1100px, 88%);
+            margin: 0 auto;
+
+            padding:
+                88px 0
+                55px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+
+            padding:
+                7px 11px;
+
+            border-radius:
+                999px;
+
+            border:
+                1px solid
+                rgba(72, 220, 149, 0.18);
+
+            background:
+                rgba(72, 220, 149, 0.07);
+
+            color:
+                #91e7bd;
+
+            font-size:
+                9px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.14em;
+        }
+
+        .hero h1 {
+            margin-top:
+                18px;
+
+            font-size:
+                clamp(
+                    42px,
+                    7vw,
+                    74px
+                );
+
+            line-height:
+                1;
+
+            letter-spacing:
+                -0.05em;
+        }
+
+        .gradient {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #b8ffd9,
+                    #78dba8
+                );
+
+            -webkit-background-clip:
+                text;
+
+            background-clip:
+                text;
+
+            color:
+                transparent;
+        }
+
+        .hero p {
+            max-width:
+                680px;
+
+            margin-top:
+                20px;
+
+            color:
+                #9793a4;
+
+            font-size:
+                13px;
+
+            line-height:
+                1.75;
+        }
+
+        /* =========================================
+           LAYOUT
+        ========================================== */
+
+        .layout {
+            width:
+                min(1100px, 88%);
+
+            margin:
+                0 auto;
+
+            padding-bottom:
+                90px;
+        }
+
+        .panel {
+            overflow:
+                hidden;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.07);
+
+            border-radius:
+                20px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 25px 75px
+                rgba(0,0,0,0.30);
+        }
+
+        .panel-head {
+            padding:
+                20px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.06);
+        }
+
+        .panel-head h2 {
+            font-size:
+                17px;
+        }
+
+        .panel-head p {
+            margin-top:
+                5px;
+
+            color:
+                #858190;
+
+            font-size:
+                11px;
+        }
+
+        .panel-body {
+            padding:
+                18px;
+        }
+
+        /* =========================================
+           PROJECTS
+        ========================================== */
+
+        .projects {
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap:
+                13px;
+        }
+
+        .project {
+            padding:
+                18px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.06);
+
+            border-radius:
+                16px;
+
+            background:
+                rgba(255,255,255,0.02);
+
+            transition:
+                0.22s ease;
+        }
+
+        .project:hover {
+            transform:
+                translateY(-3px);
+
+            border-color:
+                rgba(72,220,149,0.22);
+
+            background:
+                rgba(72,220,149,0.035);
+        }
+
+        .project-top {
+            display:
+                flex;
+
+            align-items:
+                flex-start;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+        }
+
+        .project-title {
+            font-size:
+                15px;
+
+            font-weight:
+                800;
+        }
+
+        .project-meta {
+            margin-top:
+                5px;
+
+            color:
+                #8c8898;
+
+            font-size:
+                10px;
+        }
+
+        .status {
+            flex-shrink:
+                0;
+
+            padding:
+                6px 9px;
+
+            border-radius:
+                999px;
+
+            font-size:
+                9px;
+
+            font-weight:
+                700;
+        }
+
+        .status-planned {
+            color:
+                #b8c0ff;
+
+            background:
+                rgba(118,128,255,0.10);
+        }
+
+        .status-progress {
+            color:
+                #a5e7ff;
+
+            background:
+                rgba(99,180,255,0.10);
+        }
+
+        .status-done {
+            color:
+                #82e7ae;
+
+            background:
+                rgba(72,220,149,0.10);
+        }
+
+        .status-paused {
+            color:
+                #ffca87;
+
+            background:
+                rgba(255,184,98,0.10);
+        }
+
+        .project-description {
+            margin-top:
+                13px;
+
+            color:
+                #9894a3;
+
+            font-size:
+                11px;
+
+            line-height:
+                1.7;
+
+            white-space:
+                pre-wrap;
+        }
+
+        /* =========================================
+           PROGRESS
+        ========================================== */
+
+        .progress-area {
+            margin-top:
+                16px;
+        }
+
+        .progress-head {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            color:
+                #777381;
+
+            font-size:
+                9px;
+        }
+
+        .progress-percent {
+            color:
+                #baf2d2;
+
+            font-weight:
+                800;
+        }
+
+        .progress-bar {
+            width:
+                100%;
+
+            height:
+                8px;
+
+            margin-top:
+                7px;
+
+            overflow:
+                hidden;
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(255,255,255,0.06);
+        }
+
+        .progress-fill {
+            height:
+                100%;
+
+            border-radius:
+                inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #56da97,
+                    #8ff1bd
+                );
+
+            transition:
+                width
+                0.35s
+                ease;
+        }
+
+        .project-bottom {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            margin-top:
+                13px;
+
+            color:
+                #6f6b78;
+
+            font-size:
+                9px;
+        }
+
+        /* =========================================
+           EMPTY
+        ========================================== */
+
+        .empty {
+            padding:
+                55px 20px;
+
+            text-align:
+                center;
+
+            color:
+                #777381;
+
+            font-size:
+                11px;
+        }
+
+        .empty-icon {
+            margin-bottom:
+                11px;
+
+            font-size:
+                32px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================== */
+
+        footer {
+            padding:
+                35px 5% 45px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.06);
+
+            text-align:
+                center;
+
+            color:
+                #65626f;
+
+            font-size:
+                9px;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 760px) {
+
+            .projects {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .hero {
+                padding-top:
+                    65px;
+            }
+
+            .project-top {
+                flex-direction:
+                    column;
+            }
+
+            .status {
+                align-self:
+                    flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+
+    <a
+        href="/page2.html"
+        class="logo"
+    >
+        BUSINESS.
+    </a>
+
+    <a
+        href="/page2.html#apropos"
+        class="back"
+    >
+        ← Retour au site
+    </a>
+
+</nav>
+
+<section class="hero">
+
+    <span class="eyebrow">
+        Communauté · Ambition
+    </span>
+
+    <h1>
+        Aller plus loin,
+        <span class="gradient">
+            ensemble.
+        </span>
+    </h1>
+
+    <p>
+        Découvre les projets et objectifs de la communauté.
+        Suis leur progression et vois les ambitions
+        qui prennent forme au fil du temps.
+    </p>
+
+</section>
+
+<main class="layout">
+
+    <section class="panel">
+
+        <div class="panel-head">
+
+            <h2>
+                🚀 Projets de la communauté
+            </h2>
+
+            <p>
+                Les projets et objectifs actuellement suivis.
+            </p>
+
+        </div>
+
+        <div class="panel-body">
+
+            <div
+                id="projects"
+                class="projects"
+            >
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🚀
+                    </div>
+
+                    Chargement des projets...
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    © 2026 BUSINESS. — Espace Ambition
+
+</footer>
+
+<script>
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function statusClass(status) {
+
+        switch (status) {
+
+            case "En préparation":
+                return "status-planned";
+
+            case "En cours":
+                return "status-progress";
+
+            case "Terminé":
+                return "status-done";
+
+            case "En pause":
+                return "status-paused";
+
+            default:
+                return "status-planned";
+        }
+    }
+
+    function formatDate(value) {
+
+        if (!value) {
+            return "Aucune date";
+        }
+
+        const date =
+            new Date(value + "T00:00:00");
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+            return "Aucune date";
+        }
+
+        return date.toLocaleDateString(
+            "fr-FR",
+            {
+                dateStyle: "long"
+            }
+        );
+    }
+
+    async function loadProjects() {
+
+        const container =
+            document.getElementById(
+                "projects"
+            );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/ambition"
+                );
+
+            const data =
+                await response.json();
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Impossible de charger les projets."
+                );
+            }
+
+            const projects =
+                Array.isArray(
+                    data.projects
+                )
+                    ? data.projects
+                    : [];
+
+            if (
+                projects.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🚀
+                        </div>
+
+                        <strong>
+                            Aucun projet pour le moment.
+                        </strong>
+
+                        <br>
+
+                        Les prochains projets apparaîtront ici.
+
+                    </div>
+                `;
+
+                return;
+            }
+
+            container.innerHTML =
+                projects
+                    .map(
+                        project => {
+
+                            const progress =
+                                Math.max(
+                                    0,
+                                    Math.min(
+                                        100,
+                                        Number(
+                                            project.progress || 0
+                                        )
+                                    )
+                                );
+
+                            return `
+                                <article
+                                    class="project"
+                                >
+
+                                    <div
+                                        class="project-top"
+                                    >
+
+                                        <div>
+
+                                            <div
+                                                class="project-title"
+                                            >
+                                                ${escapeHTML(
+                                                    project.titre
+                                                )}
+                                            </div>
+
+                                            <div
+                                                class="project-meta"
+                                            >
+                                                ${
+                                                    project.responsable
+                                                        ? "Responsable : " +
+                                                          escapeHTML(
+                                                              project.responsable
+                                                          )
+                                                        : "Projet communautaire"
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                        <span
+                                            class="status ${statusClass(
+                                                project.status
+                                            )}"
+                                        >
+                                            ${escapeHTML(
+                                                project.status
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                    <div
+                                        class="project-description"
+                                    >
+                                        ${escapeHTML(
+                                            project.description
+                                        )}
+                                    </div>
+
+                                    <div
+                                        class="progress-area"
+                                    >
+
+                                        <div
+                                            class="progress-head"
+                                        >
+
+                                            <span>
+                                                Progression
+                                            </span>
+
+                                            <span
+                                                class="progress-percent"
+                                            >
+                                                ${progress}%
+                                            </span>
+
+                                        </div>
+
+                                        <div
+                                            class="progress-bar"
+                                        >
+
+                                            <div
+                                                class="progress-fill"
+                                                style="width: ${progress}%"
+                                            ></div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div
+                                        class="project-bottom"
+                                    >
+
+                                        <span>
+                                            ${
+                                                project.dateFin
+                                                    ? "Objectif : " +
+                                                      formatDate(
+                                                          project.dateFin
+                                                      )
+                                                    : "Pas de date cible"
+                                            }
+                                        </span>
+
+                                        <span>
+                                            ${progress} / 100
+                                        </span>
+
+                                    </div>
+
+                                </article>
+                            `;
+                        }
+                    )
+                    .join("");
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            container.innerHTML = `
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    Impossible de charger les projets.
+
+                </div>
+            `;
+        }
+    }
+
+    loadProjects();
+
+    /*
+        Actualisation automatique.
+    */
+
+    setInterval(
+        loadProjects,
+        10000
+    );
+
+</script>
+
+</body>
+</html>

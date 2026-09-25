@@ -6,9 +6,11 @@ const path = require("path");
 const multer = require("multer");
 const crypto = require("crypto");
 
-dotenv.config();
+dotenv.config({
+  path: path.join(__dirname, ".env"),
+});
 
-const app = express();
+  const app = express();
 
 const PORT = process.env.PORT || 3000;
 const HOST = "0.0.0.0";
@@ -16,2577 +18,1308 @@ const HOST = "0.0.0.0";
 const SITE_FOLDER = path.join(__dirname, "..");
 const DATA_FOLDER = path.join(__dirname, "data");
 
-/* =========================
-   FICHIERS DE DONNÉES
-========================= */
-
 const TICKETS_FILE = path.join(DATA_FOLDER, "tickets.json");
 const VIES_FILE = path.join(DATA_FOLDER, "vies.json");
 const ANNONCES_FILE = path.join(DATA_FOLDER, "annonces.json");
 const EVENEMENTS_FILE = path.join(DATA_FOLDER, "evenements.json");
 const MEMBRES_FILE = path.join(DATA_FOLDER, "membres.json");
 const PARAMETRES_FILE = path.join(DATA_FOLDER, "parametres.json");
-
 const CREATIONS_FILE = path.join(DATA_FOLDER, "creations.json");
 const MESSAGES_FILE = path.join(DATA_FOLDER, "messages.json");
+const INNOVATION_FILE = path.join(DATA_FOLDER, "innovation.json");
+const AMBITION_FILE = path.join(DATA_FOLDER, "ambition.json");
 
-const INNOVATION_FILE = path.join(
-    DATA_FOLDER,
-    "innovation.json"
-);
-
-const UPLOADS_FOLDER = path.join(
-    SITE_FOLDER,
-    "uploads",
-    "creativite"
-);
+const UPLOAD_FOLDER = path.join(SITE_FOLDER, "uploads", "creativite");
 
 const STAFF_PASSWORD = process.env.STAFF_PASSWORD;
 const SESSION_SECRET = process.env.SESSION_SECRET;
 
-/* =========================
-   VARIABLES OBLIGATOIRES
-========================= */
-
 if (!STAFF_PASSWORD) {
-    console.error(
-        "ERREUR : STAFF_PASSWORD manque dans .env ou dans les variables Render."
-    );
-
-    process.exit(1);
+  console.error("ERREUR : STAFF_PASSWORD est manquant dans .env");
+  process.exit(1);
 }
 
 if (!SESSION_SECRET) {
-    console.error(
-        "ERREUR : SESSION_SECRET manque dans .env ou dans les variables Render."
-    );
-
-    process.exit(1);
+  console.error("ERREUR : SESSION_SECRET est manquant dans .env");
+  process.exit(1);
 }
 
-/* =========================
-   DOSSIERS
-========================= */
+fs.mkdirSync(DATA_FOLDER, { recursive: true });
+fs.mkdirSync(UPLOAD_FOLDER, { recursive: true });
 
-if (!fs.existsSync(DATA_FOLDER)) {
-    fs.mkdirSync(DATA_FOLDER, {
-        recursive: true
-    });
+function createFileIfMissing(filePath, defaultValue = []) {
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, JSON.stringify(defaultValue, null, 2), "utf8");
+  }
 }
 
-if (!fs.existsSync(UPLOADS_FOLDER)) {
-    fs.mkdirSync(UPLOADS_FOLDER, {
-        recursive: true
-    });
-}
+createFileIfMissing(TICKETS_FILE, []);
+createFileIfMissing(VIES_FILE, []);
+createFileIfMissing(ANNONCES_FILE, []);
+createFileIfMissing(EVENEMENTS_FILE, []);
+createFileIfMissing(MEMBRES_FILE, []);
+createFileIfMissing(PARAMETRES_FILE, {});
+createFileIfMissing(CREATIONS_FILE, []);
+createFileIfMissing(MESSAGES_FILE, []);
+createFileIfMissing(INNOVATION_FILE, []);
+createFileIfMissing(AMBITION_FILE, []);
 
-/* =========================
-   CRÉATION FICHIERS
-========================= */
+app.set("trust proxy", 1);
 
-function createFileIfMissing(
-    file,
-    defaultValue
-) {
-    if (!fs.existsSync(file)) {
-        fs.writeFileSync(
-            file,
-            JSON.stringify(
-                defaultValue,
-                null,
-                2
-            ),
-            "utf8"
-        );
-    }
-}
-
-createFileIfMissing(
-    TICKETS_FILE,
-    []
-);
-
-createFileIfMissing(
-    VIES_FILE,
-    []
-);
-
-createFileIfMissing(
-    ANNONCES_FILE,
-    []
-);
-
-createFileIfMissing(
-    EVENEMENTS_FILE,
-    []
-);
-
-createFileIfMissing(
-    MEMBRES_FILE,
-    []
-);
-
-createFileIfMissing(
-    CREATIONS_FILE,
-    []
-);
-
-createFileIfMissing(
-    MESSAGES_FILE,
-    []
-);
-
-createFileIfMissing(
-    INNOVATION_FILE,
-    []
-);
-
-createFileIfMissing(
-    PARAMETRES_FILE,
-    {
-        nomSite: "BUSINESS.",
-        slogan: "Construisons quelque chose de grand.",
-        description: "Bienvenue sur BUSINESS.",
-        discord: "",
-        texteAccueil: "Bienvenue sur notre site.",
-        maintenance: false
-    }
-);
-
-/* =========================
-   EXPRESS
-========================= */
-
-app.set(
-    "trust proxy",
-    1
-);
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
-    express.json({
-        limit: "1mb"
-    })
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
 );
 
-app.use(
-    express.urlencoded({
-        extended: true,
-        limit: "1mb"
-    })
-);
-
-app.use(
-    session({
-        secret: SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-
-        cookie: {
-            httpOnly: true,
-            sameSite: "lax",
-            secure:
-                process.env.NODE_ENV === "production",
-            maxAge:
-                8 * 60 * 60 * 1000
-        }
-    })
-);
-
-/* =========================
-   MULTER
-========================= */
-
-const storage =
-    multer.diskStorage({
-
-        destination: (
-            req,
-            file,
-            callback
-        ) => {
-
-            callback(
-                null,
-                UPLOADS_FOLDER
-            );
-        },
-
-        filename: (
-            req,
-            file,
-            callback
-        ) => {
-
-            const extension =
-                path
-                    .extname(
-                        file.originalname
-                    )
-                    .toLowerCase();
-
-            const allowedExtensions = [
-                ".jpg",
-                ".jpeg",
-                ".png",
-                ".gif",
-                ".webp"
-            ];
-
-            const safeExtension =
-                allowedExtensions.includes(
-                    extension
-                )
-                    ? extension
-                    : ".png";
-
-            const filename =
-                `${Date.now()}-${crypto.randomUUID()}${safeExtension}`;
-
-            callback(
-                null,
-                filename
-            );
-        }
-    });
-
-const imageUpload =
-    multer({
-
-        storage,
-
-        limits: {
-            fileSize:
-                5 * 1024 * 1024
-        },
-
-        fileFilter: (
-            req,
-            file,
-            callback
-        ) => {
-
-            const allowedTypes = [
-                "image/jpeg",
-                "image/png",
-                "image/gif",
-                "image/webp"
-            ];
-
-            if (
-                allowedTypes.includes(
-                    file.mimetype
-                )
-            ) {
-
-                callback(
-                    null,
-                    true
-                );
-
-                return;
-            }
-
-            callback(
-                new Error(
-                    "Type d'image non autorisé. Utilise JPG, PNG, GIF ou WebP."
-                )
-            );
-        }
-    });
-
-/* =========================
-   OUTILS
-========================= */
-
-function readJSON(
-    file,
-    fallback = []
-) {
-
-    try {
-
-        const data =
-            fs.readFileSync(
-                file,
-                "utf8"
-            );
-
-        return JSON.parse(data);
-
-    } catch (error) {
-
-        console.error(
-            `Erreur lecture ${path.basename(file)} :`,
-            error
-        );
-
-        return fallback;
+function readJSON(filePath, fallback = []) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return fallback;
     }
+
+    const raw = fs.readFileSync(filePath, "utf8");
+
+    if (!raw.trim()) {
+      return fallback;
+    }
+
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error(`Erreur lecture JSON : ${filePath}`, error);
+    return fallback;
+  }
 }
 
-function saveJSON(
-    file,
-    data
-) {
-
-    fs.writeFileSync(
-        file,
-        JSON.stringify(
-            data,
-            null,
-            2
-        ),
-        "utf8"
-    );
+function saveJSON(filePath, data) {
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
 }
 
 function clean(value) {
-
-    return String(
-        value ?? ""
-    ).trim();
+  return String(value ?? "").trim();
 }
 
-function requireStaff(
-    req,
-    res,
-    next
-) {
+function generateId() {
+  return crypto.randomUUID();
+}
 
-    if (
-        req.session.staff === true
-    ) {
+function nowISO() {
+  return new Date().toISOString();
+}
 
-        next();
+function requireStaff(req, res, next) {
+  if (req.session && req.session.staff === true) {
+    return next();
+  }
 
-        return;
+  return res.status(401).json({
+    success: false,
+    message: "Accès réservé au Staff.",
+  });
+}
+
+function sendSuccess(res, data = {}) {
+  return res.json({
+    success: true,
+    ...data,
+  });
+}
+
+/* =========================================================
+   MULTER - CRÉATIVITÉ
+========================================================= */
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, UPLOAD_FOLDER);
+  },
+
+  filename: (req, file, cb) => {
+    const extension = path.extname(file.originalname).toLowerCase();
+    const filename = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${extension}`;
+
+    cb(null, filename);
+  },
+});
+
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+  fileFilter: (req, file, cb) => {
+    const allowed = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+    ];
+
+    if (!allowed.includes(file.mimetype)) {
+      return cb(new Error("FORMAT_IMAGE_INVALIDE"));
     }
 
-    res.status(401).json({
-        success: false,
-        message:
-            "Accès réservé au Staff."
-    });
-}
-
-function sendSuccess(
-    res,
-    message,
-    extra = {}
-) {
-
-    res.json({
-        success: true,
-        message,
-        ...extra
-    });
-}
+    cb(null, true);
+  },
+});
 
 /* =========================================================
    TEST
 ========================================================= */
 
-app.get(
-    "/api/test",
-    (req, res) => {
-
-        res.json({
-            success: true,
-            message:
-                "Le serveur fonctionne !"
-        });
-    }
-);
+app.get("/api/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "Serveur opérationnel.",
+  });
+});
 
 /* =========================================================
-   LOGIN
+   AUTH STAFF
 ========================================================= */
 
-app.post(
-    "/api/login",
-    (req, res) => {
+app.post("/api/login", (req, res) => {
+  const password = clean(req.body.password);
 
-        const password =
-            req.body?.password;
+  if (!password || password !== STAFF_PASSWORD) {
+    return res.status(401).json({
+      success: false,
+      message: "Mot de passe incorrect.",
+    });
+  }
 
-        if (
-            password !==
-            STAFF_PASSWORD
-        ) {
+  req.session.staff = true;
 
-            return res
-                .status(401)
-                .json({
-                    success: false,
-                    message:
-                        "Mot de passe incorrect."
-                });
-        }
+  return sendSuccess(res, {
+    message: "Connexion réussie.",
+  });
+});
 
-        req.session.staff =
-            true;
+app.post("/api/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({
+      success: true,
+      message: "Déconnexion réussie.",
+    });
+  });
+});
 
-        sendSuccess(
-            res,
-            "Connexion réussie."
-        );
-    }
-);
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-app.post(
-    "/api/logout",
-    (req, res) => {
-
-        req.session.destroy(
-            error => {
-
-                if (error) {
-
-                    return res
-                        .status(500)
-                        .json({
-                            success: false,
-                            message:
-                                "Erreur pendant la déconnexion."
-                        });
-                }
-
-                sendSuccess(
-                    res,
-                    "Déconnexion réussie."
-                );
-            }
-        );
-    }
-);
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-app.get(
-    "/api/session",
-    (req, res) => {
-
-        res.json({
-            success: true,
-            loggedIn:
-                req.session.staff === true
-        });
-    }
-);
+app.get("/api/session", (req, res) => {
+  res.json({
+    success: true,
+    staff: req.session?.staff === true,
+  });
+});
 
 /* =========================================================
    TICKETS
 ========================================================= */
 
-app.post(
-    "/api/tickets",
-    (req, res) => {
+app.get("/api/tickets", requireStaff, (req, res) => {
+  const tickets = readJSON(TICKETS_FILE, []);
+  res.json({
+    success: true,
+    tickets,
+  });
+});
 
-        const {
-            type,
-            nom,
-            discord,
-            sujet,
-            message
-        } = req.body;
+app.post("/api/tickets", (req, res) => {
+  const type = clean(req.body.type);
+  const nom = clean(req.body.nom);
+  const discord = clean(req.body.discord);
+  const sujet = clean(req.body.sujet);
+  const message = clean(req.body.message);
 
-        if (
-            !type ||
-            !nom ||
-            !discord ||
-            !sujet ||
-            !message
-        ) {
+  if (!type || !nom || !discord || !sujet || !message) {
+    return res.status(400).json({
+      success: false,
+      message: "Tous les champs sont obligatoires.",
+    });
+  }
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Tous les champs sont obligatoires."
-                });
-        }
+  const tickets = readJSON(TICKETS_FILE, []);
 
-        const tickets =
-            readJSON(
-                TICKETS_FILE,
-                []
-            );
+  const ticket = {
+    id: generateId(),
+    type,
+    nom,
+    discord,
+    sujet,
+    message,
+    statut: "Nouveau",
+    date: nowISO(),
+  };
 
-        const ticket = {
+  tickets.push(ticket);
+  saveJSON(TICKETS_FILE, tickets);
 
-            id: Date.now(),
+  sendSuccess(res, {
+    message: "Ticket envoyé.",
+    ticket,
+  });
+});
 
-            type:
-                clean(type),
+app.patch("/api/tickets/:id", requireStaff, (req, res) => {
+  const tickets = readJSON(TICKETS_FILE, []);
+  const ticket = tickets.find((item) => item.id === req.params.id);
 
-            nom:
-                clean(nom),
+  if (!ticket) {
+    return res.status(404).json({
+      success: false,
+      message: "Ticket introuvable.",
+    });
+  }
 
-            discord:
-                clean(discord),
+  const allowedStatus = [
+    "Nouveau",
+    "En cours",
+    "Résolu",
+    "Fermé",
+  ];
 
-            sujet:
-                clean(sujet),
+  if (req.body.statut !== undefined) {
+    const statut = clean(req.body.statut);
 
-            message:
-                clean(message),
-
-            date:
-                new Date().toISOString(),
-
-            status:
-                "Nouveau"
-        };
-
-        tickets.push(
-            ticket
-        );
-
-        saveJSON(
-            TICKETS_FILE,
-            tickets
-        );
-
-        console.log(
-            "NOUVEAU TICKET :",
-            ticket.id
-        );
-
-        sendSuccess(
-            res,
-            "Formulaire envoyé avec succès."
-        );
+    if (!allowedStatus.includes(statut)) {
+      return res.status(400).json({
+        success: false,
+        message: "Statut de ticket invalide.",
+      });
     }
-);
 
-app.get(
-    "/api/tickets",
-    requireStaff,
-    (req, res) => {
+    ticket.statut = statut;
+  }
 
-        const tickets =
-            readJSON(
-                TICKETS_FILE,
-                []
-            );
+  if (req.body.reponse !== undefined) {
+    ticket.reponse = clean(req.body.reponse);
+  }
 
-        res.json({
-            success: true,
-            tickets:
-                [...tickets].reverse()
-        });
-    }
-);
+  ticket.modifieLe = nowISO();
 
-app.patch(
-    "/api/tickets/:id",
-    requireStaff,
-    (req, res) => {
+  saveJSON(TICKETS_FILE, tickets);
 
-        const id =
-            Number(req.params.id);
+  sendSuccess(res, {
+    message: "Ticket modifié.",
+    ticket,
+  });
+});
 
-        const tickets =
-            readJSON(
-                TICKETS_FILE,
-                []
-            );
+app.delete("/api/tickets/:id", requireStaff, (req, res) => {
+  const tickets = readJSON(TICKETS_FILE, []);
+  const index = tickets.findIndex((item) => item.id === req.params.id);
 
-        const ticket =
-            tickets.find(
-                item =>
-                    item.id === id
-            );
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Ticket introuvable.",
+    });
+  }
 
-        if (!ticket) {
+  tickets.splice(index, 1);
+  saveJSON(TICKETS_FILE, tickets);
 
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Formulaire introuvable."
-                });
-        }
-
-        ticket.status =
-            clean(req.body.status);
-
-        saveJSON(
-            TICKETS_FILE,
-            tickets
-        );
-
-        res.json({
-            success: true,
-            ticket
-        });
-    }
-);
-
-app.delete(
-    "/api/tickets/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const tickets =
-            readJSON(
-                TICKETS_FILE,
-                []
-            );
-
-        const newTickets =
-            tickets.filter(
-                ticket =>
-                    ticket.id !== id
-            );
-
-        if (
-            newTickets.length ===
-            tickets.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Formulaire introuvable."
-                });
-        }
-
-        saveJSON(
-            TICKETS_FILE,
-            newTickets
-        );
-
-        sendSuccess(
-            res,
-            "Formulaire supprimé."
-        );
-    }
-);
+  sendSuccess(res, {
+    message: "Ticket supprimé.",
+  });
+});
 
 /* =========================================================
    FICHES DE VIE
 ========================================================= */
 
-app.post(
-    "/api/vies",
-    (req, res) => {
+app.get("/api/vies", requireStaff, (req, res) => {
+  const vies = readJSON(VIES_FILE, []);
 
-        const {
-            prenom,
-            genre,
-            age,
-            discord,
-            histoire
-        } = req.body;
+  res.json({
+    success: true,
+    vies,
+  });
+});
 
-        if (
-            !prenom ||
-            !genre ||
-            !age ||
-            !discord ||
-            !histoire
-        ) {
+app.post("/api/vies", (req, res) => {
+  const prenom = clean(req.body.prenom);
+  const genre = clean(req.body.genre);
+  const age = clean(req.body.age);
+  const discord = clean(req.body.discord);
+  const histoire = clean(req.body.histoire);
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Tous les champs sont obligatoires."
-                });
-        }
+  if (!prenom || !genre || !age || !discord || !histoire) {
+    return res.status(400).json({
+      success: false,
+      message: "Tous les champs sont obligatoires.",
+    });
+  }
 
-        const vies =
-            readJSON(
-                VIES_FILE,
-                []
-            );
+  const vies = readJSON(VIES_FILE, []);
 
-        const vie = {
+  const vie = {
+    id: generateId(),
+    prenom,
+    genre,
+    age,
+    discord,
+    histoire,
+    date: nowISO(),
+  };
 
-            id: Date.now(),
+  vies.push(vie);
+  saveJSON(VIES_FILE, vies);
 
-            prenom:
-                clean(prenom),
+  sendSuccess(res, {
+    message: "Fiche de vie enregistrée.",
+    vie,
+  });
+});
 
-            genre:
-                clean(genre),
+app.patch("/api/vies/:id", requireStaff, (req, res) => {
+  const vies = readJSON(VIES_FILE, []);
+  const vie = vies.find((item) => item.id === req.params.id);
 
-            age:
-                clean(age),
+  if (!vie) {
+    return res.status(404).json({
+      success: false,
+      message: "Fiche introuvable.",
+    });
+  }
 
-            discord:
-                clean(discord),
+  const fields = [
+    "prenom",
+    "genre",
+    "age",
+    "discord",
+    "histoire",
+  ];
 
-            histoire:
-                clean(histoire),
-
-            date:
-                new Date().toISOString(),
-
-            status:
-                "Nouveau"
-        };
-
-        vies.push(
-            vie
-        );
-
-        saveJSON(
-            VIES_FILE,
-            vies
-        );
-
-        console.log(
-            "NOUVELLE FICHE DE VIE :",
-            vie.id
-        );
-
-        sendSuccess(
-            res,
-            "Présentation envoyée avec succès."
-        );
+  for (const field of fields) {
+    if (req.body[field] !== undefined) {
+      vie[field] = clean(req.body[field]);
     }
-);
+  }
 
-app.get(
-    "/api/vies",
-    requireStaff,
-    (req, res) => {
+  vie.modifieLe = nowISO();
 
-        const vies =
-            readJSON(
-                VIES_FILE,
-                []
-            );
+  saveJSON(VIES_FILE, vies);
 
-        res.json({
-            success: true,
-            vies:
-                [...vies].reverse()
-        });
-    }
-);
+  sendSuccess(res, {
+    message: "Fiche modifiée.",
+    vie,
+  });
+});
 
-app.patch(
-    "/api/vies/:id",
-    requireStaff,
-    (req, res) => {
+app.delete("/api/vies/:id", requireStaff, (req, res) => {
+  const vies = readJSON(VIES_FILE, []);
+  const index = vies.findIndex((item) => item.id === req.params.id);
 
-        const id =
-            Number(req.params.id);
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Fiche introuvable.",
+    });
+  }
 
-        const vies =
-            readJSON(
-                VIES_FILE,
-                []
-            );
+  vies.splice(index, 1);
+  saveJSON(VIES_FILE, vies);
 
-        const vie =
-            vies.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!vie) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Fiche de vie introuvable."
-                });
-        }
-
-        vie.status =
-            clean(req.body.status);
-
-        saveJSON(
-            VIES_FILE,
-            vies
-        );
-
-        res.json({
-            success: true,
-            vie
-        });
-    }
-);
-
-app.delete(
-    "/api/vies/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const vies =
-            readJSON(
-                VIES_FILE,
-                []
-            );
-
-        const newVies =
-            vies.filter(
-                vie =>
-                    vie.id !== id
-            );
-
-        if (
-            newVies.length ===
-            vies.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Fiche de vie introuvable."
-                });
-        }
-
-        saveJSON(
-            VIES_FILE,
-            newVies
-        );
-
-        sendSuccess(
-            res,
-            "Fiche de vie supprimée."
-        );
-    }
-);
+  sendSuccess(res, {
+    message: "Fiche supprimée.",
+  });
+});
 
 /* =========================================================
    ANNONCES
 ========================================================= */
 
-app.get(
-    "/api/annonces",
-    (req, res) => {
+app.get("/api/annonces", (req, res) => {
+  const annonces = readJSON(ANNONCES_FILE, []);
 
-        const annonces =
-            readJSON(
-                ANNONCES_FILE,
-                []
-            );
+  res.json({
+    success: true,
+    annonces: annonces.reverse(),
+  });
+});
 
-        res.json({
-            success: true,
-            annonces:
-                [...annonces].reverse()
-        });
-    }
-);
+app.post("/api/annonces", requireStaff, (req, res) => {
+  const titre = clean(req.body.titre);
+  const contenu = clean(req.body.contenu);
+  const auteur = clean(req.body.auteur) || "Staff";
 
-app.post(
-    "/api/annonces",
-    requireStaff,
-    (req, res) => {
+  if (!titre || !contenu) {
+    return res.status(400).json({
+      success: false,
+      message: "Titre et contenu obligatoires.",
+    });
+  }
 
-        const {
-            titre,
-            contenu,
-            important
-        } = req.body;
+  const annonces = readJSON(ANNONCES_FILE, []);
 
-        if (
-            !titre ||
-            !contenu
-        ) {
+  const annonce = {
+    id: generateId(),
+    titre,
+    contenu,
+    auteur,
+    date: nowISO(),
+  };
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le titre et le contenu sont obligatoires."
-                });
-        }
+  annonces.push(annonce);
+  saveJSON(ANNONCES_FILE, annonces);
 
-        const annonces =
-            readJSON(
-                ANNONCES_FILE,
-                []
-            );
+  sendSuccess(res, {
+    message: "Annonce créée.",
+    annonce,
+  });
+});
 
-        const annonce = {
+app.patch("/api/annonces/:id", requireStaff, (req, res) => {
+  const annonces = readJSON(ANNONCES_FILE, []);
+  const annonce = annonces.find((item) => item.id === req.params.id);
 
-            id: Date.now(),
+  if (!annonce) {
+    return res.status(404).json({
+      success: false,
+      message: "Annonce introuvable.",
+    });
+  }
 
-            titre:
-                clean(titre),
+  if (req.body.titre !== undefined) {
+    annonce.titre = clean(req.body.titre);
+  }
 
-            contenu:
-                clean(contenu),
+  if (req.body.contenu !== undefined) {
+    annonce.contenu = clean(req.body.contenu);
+  }
 
-            important:
-                Boolean(important),
+  if (req.body.auteur !== undefined) {
+    annonce.auteur = clean(req.body.auteur);
+  }
 
-            date:
-                new Date().toISOString()
-        };
+  annonce.modifieLe = nowISO();
 
-        annonces.push(
-            annonce
-        );
+  saveJSON(ANNONCES_FILE, annonces);
 
-        saveJSON(
-            ANNONCES_FILE,
-            annonces
-        );
+  sendSuccess(res, {
+    message: "Annonce modifiée.",
+    annonce,
+  });
+});
 
-        sendSuccess(
-            res,
-            "Annonce créée.",
-            {
-                annonce
-            }
-        );
-    }
-);
+app.delete("/api/annonces/:id", requireStaff, (req, res) => {
+  const annonces = readJSON(ANNONCES_FILE, []);
+  const index = annonces.findIndex((item) => item.id === req.params.id);
 
-app.patch(
-    "/api/annonces/:id",
-    requireStaff,
-    (req, res) => {
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Annonce introuvable.",
+    });
+  }
 
-        const id =
-            Number(req.params.id);
+  annonces.splice(index, 1);
+  saveJSON(ANNONCES_FILE, annonces);
 
-        const annonces =
-            readJSON(
-                ANNONCES_FILE,
-                []
-            );
-
-        const annonce =
-            annonces.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!annonce) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Annonce introuvable."
-                });
-        }
-
-        if (
-            req.body.titre !== undefined
-        ) {
-
-            annonce.titre =
-                clean(
-                    req.body.titre
-                );
-        }
-
-        if (
-            req.body.contenu !== undefined
-        ) {
-
-            annonce.contenu =
-                clean(
-                    req.body.contenu
-                );
-        }
-
-        if (
-            req.body.important !== undefined
-        ) {
-
-            annonce.important =
-                Boolean(
-                    req.body.important
-                );
-        }
-
-        saveJSON(
-            ANNONCES_FILE,
-            annonces
-        );
-
-        res.json({
-            success: true,
-            annonce
-        });
-    }
-);
-
-app.delete(
-    "/api/annonces/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const annonces =
-            readJSON(
-                ANNONCES_FILE,
-                []
-            );
-
-        const newAnnonces =
-            annonces.filter(
-                annonce =>
-                    annonce.id !== id
-            );
-
-        if (
-            newAnnonces.length ===
-            annonces.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Annonce introuvable."
-                });
-        }
-
-        saveJSON(
-            ANNONCES_FILE,
-            newAnnonces
-        );
-
-        sendSuccess(
-            res,
-            "Annonce supprimée."
-        );
-    }
-);
+  sendSuccess(res, {
+    message: "Annonce supprimée.",
+  });
+});
 
 /* =========================================================
    EVENEMENTS
 ========================================================= */
 
-app.get(
-    "/api/evenements",
-    (req, res) => {
+app.get("/api/evenements", requireStaff, (req, res) => {
+  const evenements = readJSON(EVENEMENTS_FILE, []);
 
-        const evenements =
-            readJSON(
-                EVENEMENTS_FILE,
-                []
-            );
+  res.json({
+    success: true,
+    evenements,
+  });
+});
 
-        res.json({
-            success: true,
-            evenements:
-                [...evenements].reverse()
-        });
+app.post("/api/evenements", requireStaff, (req, res) => {
+  const titre = clean(req.body.titre);
+  const description = clean(req.body.description);
+  const date = clean(req.body.date);
+  const heure = clean(req.body.heure);
+  const lieu = clean(req.body.lieu);
+
+  if (!titre || !description || !date) {
+    return res.status(400).json({
+      success: false,
+      message: "Les champs principaux sont obligatoires.",
+    });
+  }
+
+  const evenements = readJSON(EVENEMENTS_FILE, []);
+
+  const evenement = {
+    id: generateId(),
+    titre,
+    description,
+    date,
+    heure,
+    lieu,
+    dateCreation: nowISO(),
+  };
+
+  evenements.push(evenement);
+  saveJSON(EVENEMENTS_FILE, evenements);
+
+  sendSuccess(res, {
+    message: "Événement créé.",
+    evenement,
+  });
+});
+
+app.patch("/api/evenements/:id", requireStaff, (req, res) => {
+  const evenements = readJSON(EVENEMENTS_FILE, []);
+  const evenement = evenements.find((item) => item.id === req.params.id);
+
+  if (!evenement) {
+    return res.status(404).json({
+      success: false,
+      message: "Événement introuvable.",
+    });
+  }
+
+  const fields = [
+    "titre",
+    "description",
+    "date",
+    "heure",
+    "lieu",
+  ];
+
+  for (const field of fields) {
+    if (req.body[field] !== undefined) {
+      evenement[field] = clean(req.body[field]);
     }
-);
+  }
 
-app.post(
-    "/api/evenements",
-    requireStaff,
-    (req, res) => {
+  evenement.modifieLe = nowISO();
 
-        const {
-            titre,
-            dateEvenement,
-            heure,
-            description,
-            lieu
-        } = req.body;
+  saveJSON(EVENEMENTS_FILE, evenements);
 
-        if (
-            !titre ||
-            !dateEvenement ||
-            !description
-        ) {
+  sendSuccess(res, {
+    message: "Événement modifié.",
+    evenement,
+  });
+});
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le titre, la date et la description sont obligatoires."
-                });
-        }
+app.delete("/api/evenements/:id", requireStaff, (req, res) => {
+  const evenements = readJSON(EVENEMENTS_FILE, []);
+  const index = evenements.findIndex((item) => item.id === req.params.id);
 
-        const evenements =
-            readJSON(
-                EVENEMENTS_FILE,
-                []
-            );
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Événement introuvable.",
+    });
+  }
 
-        const evenement = {
+  evenements.splice(index, 1);
+  saveJSON(EVENEMENTS_FILE, evenements);
 
-            id: Date.now(),
-
-            titre:
-                clean(titre),
-
-            dateEvenement:
-                clean(dateEvenement),
-
-            heure:
-                clean(heure),
-
-            description:
-                clean(description),
-
-            lieu:
-                clean(lieu),
-
-            dateCreation:
-                new Date().toISOString()
-        };
-
-        evenements.push(
-            evenement
-        );
-
-        saveJSON(
-            EVENEMENTS_FILE,
-            evenements
-        );
-
-        sendSuccess(
-            res,
-            "Événement créé.",
-            {
-                evenement
-            }
-        );
-    }
-);
-
-app.patch(
-    "/api/evenements/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const evenements =
-            readJSON(
-                EVENEMENTS_FILE,
-                []
-            );
-
-        const evenement =
-            evenements.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!evenement) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Événement introuvable."
-                });
-        }
-
-        if (
-            req.body.titre !== undefined
-        ) {
-
-            evenement.titre =
-                clean(
-                    req.body.titre
-                );
-        }
-
-        if (
-            req.body.dateEvenement !== undefined
-        ) {
-
-            evenement.dateEvenement =
-                clean(
-                    req.body.dateEvenement
-                );
-        }
-
-        if (
-            req.body.heure !== undefined
-        ) {
-
-            evenement.heure =
-                clean(
-                    req.body.heure
-                );
-        }
-
-        if (
-            req.body.description !== undefined
-        ) {
-
-            evenement.description =
-                clean(
-                    req.body.description
-                );
-        }
-
-        if (
-            req.body.lieu !== undefined
-        ) {
-
-            evenement.lieu =
-                clean(
-                    req.body.lieu
-                );
-        }
-
-        saveJSON(
-            EVENEMENTS_FILE,
-            evenements
-        );
-
-        res.json({
-            success: true,
-            evenement
-        });
-    }
-);
-
-app.delete(
-    "/api/evenements/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const evenements =
-            readJSON(
-                EVENEMENTS_FILE,
-                []
-            );
-
-        const newEvenements =
-            evenements.filter(
-                evenement =>
-                    evenement.id !== id
-            );
-
-        if (
-            newEvenements.length ===
-            evenements.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Événement introuvable."
-                });
-        }
-
-        saveJSON(
-            EVENEMENTS_FILE,
-            newEvenements
-        );
-
-        sendSuccess(
-            res,
-            "Événement supprimé."
-        );
-    }
-);
+  sendSuccess(res, {
+    message: "Événement supprimé.",
+  });
+});
 
 /* =========================================================
    MEMBRES
 ========================================================= */
 
-app.get(
-    "/api/membres",
-    (req, res) => {
+app.get("/api/membres", requireStaff, (req, res) => {
+  const membres = readJSON(MEMBRES_FILE, []);
 
-        const membres =
-            readJSON(
-                MEMBRES_FILE,
-                []
-            );
+  res.json({
+    success: true,
+    membres,
+  });
+});
 
-        res.json({
-            success: true,
-            membres
-        });
+app.post("/api/membres", requireStaff, (req, res) => {
+  const pseudo = clean(req.body.pseudo);
+  const discord = clean(req.body.discord);
+  const role = clean(req.body.role);
+  const statut = clean(req.body.statut) || "Actif";
+
+  if (!pseudo || !discord) {
+    return res.status(400).json({
+      success: false,
+      message: "Pseudo et Discord sont obligatoires.",
+    });
+  }
+
+  const membres = readJSON(MEMBRES_FILE, []);
+
+  const membre = {
+    id: generateId(),
+    pseudo,
+    discord,
+    role,
+    statut,
+    dateAjout: nowISO(),
+  };
+
+  membres.push(membre);
+  saveJSON(MEMBRES_FILE, membres);
+
+  sendSuccess(res, {
+    message: "Membre ajouté.",
+    membre,
+  });
+});
+
+app.patch("/api/membres/:id", requireStaff, (req, res) => {
+  const membres = readJSON(MEMBRES_FILE, []);
+  const membre = membres.find((item) => item.id === req.params.id);
+
+  if (!membre) {
+    return res.status(404).json({
+      success: false,
+      message: "Membre introuvable.",
+    });
+  }
+
+  const fields = [
+    "pseudo",
+    "discord",
+    "role",
+    "statut",
+  ];
+
+  for (const field of fields) {
+    if (req.body[field] !== undefined) {
+      membre[field] = clean(req.body[field]);
     }
-);
+  }
 
-app.post(
-    "/api/membres",
-    requireStaff,
-    (req, res) => {
+  membre.modifieLe = nowISO();
 
-        const {
-            pseudo,
-            discord,
-            role,
-            description
-        } = req.body;
+  saveJSON(MEMBRES_FILE, membres);
 
-        if (
-            !pseudo ||
-            !discord ||
-            !role
-        ) {
+  sendSuccess(res, {
+    message: "Membre modifié.",
+    membre,
+  });
+});
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le pseudo, Discord et le rôle sont obligatoires."
-                });
-        }
+app.delete("/api/membres/:id", requireStaff, (req, res) => {
+  const membres = readJSON(MEMBRES_FILE, []);
+  const index = membres.findIndex((item) => item.id === req.params.id);
 
-        const membres =
-            readJSON(
-                MEMBRES_FILE,
-                []
-            );
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Membre introuvable.",
+    });
+  }
 
-        const membre = {
+  membres.splice(index, 1);
+  saveJSON(MEMBRES_FILE, membres);
 
-            id: Date.now(),
-
-            pseudo:
-                clean(pseudo),
-
-            discord:
-                clean(discord),
-
-            role:
-                clean(role),
-
-            description:
-                clean(description),
-
-            date:
-                new Date().toISOString()
-        };
-
-        membres.push(
-            membre
-        );
-
-        saveJSON(
-            MEMBRES_FILE,
-            membres
-        );
-
-        sendSuccess(
-            res,
-            "Membre ajouté.",
-            {
-                membre
-            }
-        );
-    }
-);
-
-app.patch(
-    "/api/membres/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const membres =
-            readJSON(
-                MEMBRES_FILE,
-                []
-            );
-
-        const membre =
-            membres.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!membre) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Membre introuvable."
-                });
-        }
-
-        if (
-            req.body.pseudo !== undefined
-        ) {
-
-            membre.pseudo =
-                clean(
-                    req.body.pseudo
-                );
-        }
-
-        if (
-            req.body.discord !== undefined
-        ) {
-
-            membre.discord =
-                clean(
-                    req.body.discord
-                );
-        }
-
-        if (
-            req.body.role !== undefined
-        ) {
-
-            membre.role =
-                clean(
-                    req.body.role
-                );
-        }
-
-        if (
-            req.body.description !== undefined
-        ) {
-
-            membre.description =
-                clean(
-                    req.body.description
-                );
-        }
-
-        saveJSON(
-            MEMBRES_FILE,
-            membres
-        );
-
-        res.json({
-            success: true,
-            membre
-        });
-    }
-);
-
-app.delete(
-    "/api/membres/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const membres =
-            readJSON(
-                MEMBRES_FILE,
-                []
-            );
-
-        const newMembres =
-            membres.filter(
-                membre =>
-                    membre.id !== id
-            );
-
-        if (
-            newMembres.length ===
-            membres.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Membre introuvable."
-                });
-        }
-
-        saveJSON(
-            MEMBRES_FILE,
-            newMembres
-        );
-
-        sendSuccess(
-            res,
-            "Membre supprimé."
-        );
-    }
-);
+  sendSuccess(res, {
+    message: "Membre supprimé.",
+  });
+});
 
 /* =========================================================
    PARAMETRES
 ========================================================= */
 
-app.get(
-    "/api/parametres",
-    (req, res) => {
+app.get("/api/parametres", requireStaff, (req, res) => {
+  const parametres = readJSON(PARAMETRES_FILE, {});
 
-        const parametres =
-            readJSON(
-                PARAMETRES_FILE,
-                {}
-            );
+  res.json({
+    success: true,
+    parametres,
+  });
+});
 
-        res.json({
-            success: true,
-            parametres
-        });
-    }
-);
+app.patch("/api/parametres", requireStaff, (req, res) => {
+  const current = readJSON(PARAMETRES_FILE, {});
+  const updates = req.body || {};
 
-app.patch(
-    "/api/parametres",
-    requireStaff,
-    (req, res) => {
+  const parametres = {
+    ...current,
+    ...updates,
+    modifieLe: nowISO(),
+  };
 
-        const parametres =
-            readJSON(
-                PARAMETRES_FILE,
-                {}
-            );
+  saveJSON(PARAMETRES_FILE, parametres);
 
-        const fields = [
-            "nomSite",
-            "slogan",
-            "description",
-            "discord",
-            "texteAccueil",
-            "maintenance"
-        ];
-
-        for (
-            const field
-            of fields
-        ) {
-
-            if (
-                req.body[field] !==
-                undefined
-            ) {
-
-                if (
-                    field ===
-                    "maintenance"
-                ) {
-
-                    parametres[field] =
-                        Boolean(
-                            req.body[field]
-                        );
-
-                } else {
-
-                    parametres[field] =
-                        clean(
-                            req.body[field]
-                        );
-                }
-            }
-        }
-
-        saveJSON(
-            PARAMETRES_FILE,
-            parametres
-        );
-
-        res.json({
-            success: true,
-            parametres
-        });
-    }
-);
+  sendSuccess(res, {
+    message: "Paramètres enregistrés.",
+    parametres,
+  });
+});
 
 /* =========================================================
-   🎨 CREATIVITE — CREATIONS
+   CRÉATIVITÉ - GALERIE
 ========================================================= */
 
-app.get(
-    "/api/creativite/creations",
-    (req, res) => {
+app.get("/api/creativite/creations", (req, res) => {
+  const creations = readJSON(CREATIONS_FILE, []);
 
-        const creations =
-            readJSON(
-                CREATIONS_FILE,
-                []
-            );
-
-        res.json({
-            success: true,
-            creations:
-                [...creations].reverse()
-        });
-    }
-);
+  res.json({
+    success: true,
+    creations: creations.reverse(),
+  });
+});
 
 app.post(
-    "/api/creativite/creations",
-    imageUpload.single("image"),
-    (req, res) => {
-
-        try {
-
-            const {
-                pseudo,
-                titre,
-                description
-            } = req.body;
-
-            if (
-                !pseudo ||
-                !titre ||
-                !description
-            ) {
-
-                if (
-                    req.file &&
-                    fs.existsSync(
-                        req.file.path
-                    )
-                ) {
-
-                    fs.unlinkSync(
-                        req.file.path
-                    );
-                }
-
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message:
-                            "Le pseudo, le titre et la description sont obligatoires."
-                    });
-            }
-
-            if (!req.file) {
-
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message:
-                            "Tu dois sélectionner une image."
-                    });
-            }
-
-            if (
-                clean(pseudo).length >
-                40
-            ) {
-
-                fs.unlinkSync(
-                    req.file.path
-                );
-
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message:
-                            "Le pseudo est trop long."
-                    });
-            }
-
-            if (
-                clean(titre).length >
-                100
-            ) {
-
-                fs.unlinkSync(
-                    req.file.path
-                );
-
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message:
-                            "Le titre est trop long."
-                    });
-            }
-
-            if (
-                clean(description).length >
-                1000
-            ) {
-
-                fs.unlinkSync(
-                    req.file.path
-                );
-
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message:
-                            "La description est trop longue."
-                    });
-            }
-
-            const creations =
-                readJSON(
-                    CREATIONS_FILE,
-                    []
-                );
-
-            const creation = {
-
-                id: Date.now(),
-
-                pseudo:
-                    clean(pseudo),
-
-                titre:
-                    clean(titre),
-
-                description:
-                    clean(description),
-
-                image:
-                    "/uploads/creativite/" +
-                    req.file.filename,
-
-                fichier:
-                    req.file.filename,
-
-                date:
-                    new Date().toISOString()
-            };
-
-            creations.push(
-                creation
-            );
-
-            saveJSON(
-                CREATIONS_FILE,
-                creations
-            );
-
-            console.log(
-                "NOUVELLE CREATION :",
-                creation.id
-            );
-
-            sendSuccess(
-                res,
-                "Création publiée.",
-                {
-                    creation
-                }
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Erreur création :",
-                error
-            );
-
-            if (
-                req.file &&
-                fs.existsSync(
-                    req.file.path
-                )
-            ) {
-
-                fs.unlinkSync(
-                    req.file.path
-                );
-            }
-
-            res
-                .status(500)
-                .json({
-                    success: false,
-                    message:
-                        "Impossible de publier la création."
-                });
-        }
-    }
-);
-
-app.delete(
-    "/api/creativite/creations/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const creations =
-            readJSON(
-                CREATIONS_FILE,
-                []
-            );
-
-        const creation =
-            creations.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!creation) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Création introuvable."
-                });
-        }
-
-        const newCreations =
-            creations.filter(
-                item =>
-                    item.id !== id
-            );
-
-        saveJSON(
-            CREATIONS_FILE,
-            newCreations
-        );
-
-        if (
-            creation.fichier
-        ) {
-
-            const imagePath =
-                path.join(
-                    UPLOADS_FOLDER,
-                    creation.fichier
-                );
-
-            if (
-                fs.existsSync(
-                    imagePath
-                )
-            ) {
-
-                try {
-
-                    fs.unlinkSync(
-                        imagePath
-                    );
-
-                } catch (error) {
-
-                    console.error(
-                        "Impossible de supprimer l'image :",
-                        error
-                    );
-                }
-            }
-        }
-
-        sendSuccess(
-            res,
-            "Création supprimée."
-        );
-    }
-);
-
-/* =========================================================
-   💬 CREATIVITE — CHAT
-========================================================= */
-
-app.get(
-    "/api/creativite/messages",
-    (req, res) => {
-
-        const messages =
-            readJSON(
-                MESSAGES_FILE,
-                []
-            );
-
-        res.json({
-            success: true,
-            messages:
-                messages.slice(-100)
+  "/api/creativite/creations",
+  upload.single("image"),
+  (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: "Aucune image reçue.",
         });
-    }
-);
+      }
 
-app.post(
-    "/api/creativite/messages",
-    (req, res) => {
+      const pseudo = clean(req.body.pseudo);
+      const titre = clean(req.body.titre);
+      const description = clean(req.body.description);
 
-        const cleanPseudo =
-            clean(
-                req.body?.pseudo
-            );
+      if (!pseudo || !titre) {
+        fs.unlinkSync(req.file.path);
 
-        const cleanMessage =
-            clean(
-                req.body?.message
-            );
-
-        if (
-            !cleanPseudo ||
-            !cleanMessage
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le pseudo et le message sont obligatoires."
-                });
-        }
-
-        if (
-            cleanPseudo.length >
-            40
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le pseudo est trop long."
-                });
-        }
-
-        if (
-            cleanMessage.length >
-            500
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le message est trop long."
-                });
-        }
-
-        const messages =
-            readJSON(
-                MESSAGES_FILE,
-                []
-            );
-
-        const newMessage = {
-
-            id: Date.now(),
-
-            pseudo:
-                cleanPseudo,
-
-            message:
-                cleanMessage,
-
-            date:
-                new Date().toISOString()
-        };
-
-        messages.push(
-            newMessage
-        );
-
-        saveJSON(
-            MESSAGES_FILE,
-            messages.slice(-300)
-        );
-
-        sendSuccess(
-            res,
-            "Message envoyé.",
-            {
-                message:
-                    newMessage
-            }
-        );
-    }
-);
-
-app.delete(
-    "/api/creativite/messages/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const messages =
-            readJSON(
-                MESSAGES_FILE,
-                []
-            );
-
-        const newMessages =
-            messages.filter(
-                item =>
-                    item.id !== id
-            );
-
-        if (
-            newMessages.length ===
-            messages.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Message introuvable."
-                });
-        }
-
-        saveJSON(
-            MESSAGES_FILE,
-            newMessages
-        );
-
-        sendSuccess(
-            res,
-            "Message supprimé."
-        );
-    }
-);
-
-/* =========================================================
-   💡 INNOVATION
-========================================================= */
-
-/*
-    Tout le monde peut voir les idées.
-*/
-
-app.get(
-    "/api/innovation",
-    (req, res) => {
-
-        const ideas =
-            readJSON(
-                INNOVATION_FILE,
-                []
-            );
-
-        res.json({
-            success: true,
-            ideas:
-                [...ideas].reverse()
+        return res.status(400).json({
+          success: false,
+          message: "Pseudo et titre obligatoires.",
         });
+      }
+
+      const creations = readJSON(CREATIONS_FILE, []);
+
+      const creation = {
+        id: generateId(),
+        pseudo,
+        titre,
+        description,
+        image: `/uploads/creativite/${req.file.filename}`,
+        date: nowISO(),
+      };
+
+      creations.push(creation);
+      saveJSON(CREATIONS_FILE, creations);
+
+      sendSuccess(res, {
+        message: "Création publiée.",
+        creation,
+      });
+    } catch (error) {
+      console.error(error);
+
+      if (req.file?.path && fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+
+      res.status(500).json({
+        success: false,
+        message: "Impossible de publier la création.",
+      });
     }
+  }
 );
 
-/*
-    Tout le monde peut proposer une idée.
-*/
+app.delete("/api/creativite/creations/:id", requireStaff, (req, res) => {
+  const creations = readJSON(CREATIONS_FILE, []);
+  const index = creations.findIndex((item) => item.id === req.params.id);
 
-app.post(
-    "/api/innovation",
-    (req, res) => {
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Création introuvable.",
+    });
+  }
 
-        const {
-            pseudo,
-            titre,
-            description
-        } = req.body;
+  const creation = creations[index];
 
-        const cleanPseudo =
-            clean(pseudo);
+  if (creation.image) {
+    const relativePath = creation.image.replace(/^\/+/, "");
+    const imagePath = path.join(SITE_FOLDER, relativePath);
 
-        const cleanTitre =
-            clean(titre);
-
-        const cleanDescription =
-            clean(description);
-
-        if (
-            !cleanPseudo ||
-            !cleanTitre ||
-            !cleanDescription
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Tous les champs sont obligatoires."
-                });
-        }
-
-        if (
-            cleanPseudo.length >
-            40
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le pseudo est trop long."
-                });
-        }
-
-        if (
-            cleanTitre.length >
-            100
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Le titre est trop long."
-                });
-        }
-
-        if (
-            cleanDescription.length >
-            1500
-        ) {
-
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "La description est trop longue."
-                });
-        }
-
-        const ideas =
-            readJSON(
-                INNOVATION_FILE,
-                []
-            );
-
-        const idea = {
-
-            id: Date.now(),
-
-            pseudo:
-                cleanPseudo,
-
-            titre:
-                cleanTitre,
-
-            description:
-                cleanDescription,
-
-            votes: 0,
-
-            status:
-                "Nouvelle",
-
-            date:
-                new Date().toISOString()
-        };
-
-        ideas.push(
-            idea
-        );
-
-        saveJSON(
-            INNOVATION_FILE,
-            ideas
-        );
-
-        console.log(
-            "NOUVELLE IDEE :",
-            idea.id
-        );
-
-        sendSuccess(
-            res,
-            "Idée publiée.",
-            {
-                idea
-            }
-        );
+    if (fs.existsSync(imagePath)) {
+      try {
+        fs.unlinkSync(imagePath);
+      } catch (error) {
+        console.error("Impossible de supprimer l'image :", error);
+      }
     }
-);
+  }
 
-/*
-    Voter pour une idée.
-*/
+  creations.splice(index, 1);
+  saveJSON(CREATIONS_FILE, creations);
 
-app.post(
-    "/api/innovation/:id/vote",
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const ideas =
-            readJSON(
-                INNOVATION_FILE,
-                []
-            );
-
-        const idea =
-            ideas.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!idea) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Idée introuvable."
-                });
-        }
-
-        idea.votes =
-            Number(
-                idea.votes || 0
-            ) + 1;
-
-        saveJSON(
-            INNOVATION_FILE,
-            ideas
-        );
-
-        res.json({
-            success: true,
-            votes:
-                idea.votes
-        });
-    }
-);
-
-/*
-    Modifier une idée — STAFF.
-*/
-
-app.patch(
-    "/api/innovation/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const ideas =
-            readJSON(
-                INNOVATION_FILE,
-                []
-            );
-
-        const idea =
-            ideas.find(
-                item =>
-                    item.id === id
-            );
-
-        if (!idea) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Idée introuvable."
-                });
-        }
-
-        if (
-            req.body.titre !== undefined
-        ) {
-
-            idea.titre =
-                clean(
-                    req.body.titre
-                );
-        }
-
-        if (
-            req.body.description !== undefined
-        ) {
-
-            idea.description =
-                clean(
-                    req.body.description
-                );
-        }
-
-        if (
-            req.body.status !== undefined
-        ) {
-
-            const allowedStatuses = [
-                "Nouvelle",
-                "En étude",
-                "Acceptée",
-                "Refusée"
-            ];
-
-            if (
-                allowedStatuses.includes(
-                    req.body.status
-                )
-            ) {
-
-                idea.status =
-                    req.body.status;
-            }
-        }
-
-        saveJSON(
-            INNOVATION_FILE,
-            ideas
-        );
-
-        res.json({
-            success: true,
-            idea
-        });
-    }
-);
-
-/*
-    Supprimer une idée — STAFF.
-*/
-
-app.delete(
-    "/api/innovation/:id",
-    requireStaff,
-    (req, res) => {
-
-        const id =
-            Number(req.params.id);
-
-        const ideas =
-            readJSON(
-                INNOVATION_FILE,
-                []
-            );
-
-        const newIdeas =
-            ideas.filter(
-                idea =>
-                    idea.id !== id
-            );
-
-        if (
-            newIdeas.length ===
-            ideas.length
-        ) {
-
-            return res
-                .status(404)
-                .json({
-                    success: false,
-                    message:
-                        "Idée introuvable."
-                });
-        }
-
-        saveJSON(
-            INNOVATION_FILE,
-            newIdeas
-        );
-
-        sendSuccess(
-            res,
-            "Idée supprimée."
-        );
-    }
-);
+  sendSuccess(res, {
+    message: "Création supprimée.",
+  });
+});
 
 /* =========================================================
-   PAGE STAFF
+   CRÉATIVITÉ - MESSAGES
 ========================================================= */
 
-app.get(
-    "/staff.html",
-    (req, res) => {
+app.get("/api/creativite/messages", (req, res) => {
+  const messages = readJSON(MESSAGES_FILE, []);
 
-        if (
-            req.session.staff !== true
-        ) {
+  res.json({
+    success: true,
+    messages: messages.slice(-100),
+  });
+});
 
-            return res.redirect(
-                "/staff-login.html"
-            );
-        }
+app.post("/api/creativite/messages", (req, res) => {
+  const pseudo = clean(req.body.pseudo);
+  const message = clean(req.body.message);
 
-        res.sendFile(
-            path.join(
-                SITE_FOLDER,
-                "staff.html"
-            )
-        );
-    }
-);
+  if (!pseudo || !message) {
+    return res.status(400).json({
+      success: false,
+      message: "Pseudo et message obligatoires.",
+    });
+  }
+
+  if (message.length > 500) {
+    return res.status(400).json({
+      success: false,
+      message: "Message trop long.",
+    });
+  }
+
+  const messages = readJSON(MESSAGES_FILE, []);
+
+  const newMessage = {
+    id: generateId(),
+    pseudo,
+    message,
+    date: nowISO(),
+  };
+
+  messages.push(newMessage);
+
+  if (messages.length > 500) {
+    messages.splice(0, messages.length - 500);
+  }
+
+  saveJSON(MESSAGES_FILE, messages);
+
+  sendSuccess(res, {
+    message: "Message envoyé.",
+    data: newMessage,
+  });
+});
+
+app.delete("/api/creativite/messages/:id", requireStaff, (req, res) => {
+  const messages = readJSON(MESSAGES_FILE, []);
+  const index = messages.findIndex((item) => item.id === req.params.id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Message introuvable.",
+    });
+  }
+
+  messages.splice(index, 1);
+  saveJSON(MESSAGES_FILE, messages);
+
+  sendSuccess(res, {
+    message: "Message supprimé.",
+  });
+});
 
 /* =========================================================
-   FICHIERS DU SITE
+   INNOVATION
 ========================================================= */
 
-app.use(
-    express.static(
-        SITE_FOLDER
-    )
-);
+app.get("/api/innovation", (req, res) => {
+  const ideas = readJSON(INNOVATION_FILE, []);
+
+  res.json({
+    success: true,
+    ideas: ideas.reverse(),
+  });
+});
+
+app.post("/api/innovation", (req, res) => {
+  const titre = clean(req.body.titre);
+  const description = clean(req.body.description);
+  const auteur = clean(req.body.auteur) || "Anonyme";
+
+  if (!titre || !description) {
+    return res.status(400).json({
+      success: false,
+      message: "Titre et description obligatoires.",
+    });
+  }
+
+  const ideas = readJSON(INNOVATION_FILE, []);
+
+  const idea = {
+    id: generateId(),
+    titre,
+    description,
+    auteur,
+    votes: 0,
+    status: "Nouvelle",
+    date: nowISO(),
+  };
+
+  ideas.push(idea);
+  saveJSON(INNOVATION_FILE, ideas);
+
+  sendSuccess(res, {
+    message: "Idée proposée.",
+    idea,
+  });
+});
+
+app.post("/api/innovation/:id/vote", (req, res) => {
+  const ideas = readJSON(INNOVATION_FILE, []);
+  const idea = ideas.find((item) => item.id === req.params.id);
+
+  if (!idea) {
+    return res.status(404).json({
+      success: false,
+      message: "Idée introuvable.",
+    });
+  }
+
+  idea.votes = Number(idea.votes || 0) + 1;
+
+  saveJSON(INNOVATION_FILE, ideas);
+
+  sendSuccess(res, {
+    message: "Vote enregistré.",
+    votes: idea.votes,
+  });
+});
+
+app.patch("/api/innovation/:id", requireStaff, (req, res) => {
+  const ideas = readJSON(INNOVATION_FILE, []);
+  const idea = ideas.find((item) => item.id === req.params.id);
+
+  if (!idea) {
+    return res.status(404).json({
+      success: false,
+      message: "Idée introuvable.",
+    });
+  }
+
+  const allowedStatus = [
+    "Nouvelle",
+    "En étude",
+    "Acceptée",
+    "Refusée",
+  ];
+
+  if (req.body.titre !== undefined) {
+    idea.titre = clean(req.body.titre);
+  }
+
+  if (req.body.description !== undefined) {
+    idea.description = clean(req.body.description);
+  }
+
+  if (req.body.auteur !== undefined) {
+    idea.auteur = clean(req.body.auteur);
+  }
+
+  if (req.body.status !== undefined) {
+    const status = clean(req.body.status);
+
+    if (!allowedStatus.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Statut d'idée invalide.",
+      });
+    }
+
+    idea.status = status;
+  }
+
+  idea.modifieLe = nowISO();
+
+  saveJSON(INNOVATION_FILE, ideas);
+
+  sendSuccess(res, {
+    message: "Idée modifiée.",
+    idea,
+  });
+});
+
+app.delete("/api/innovation/:id", requireStaff, (req, res) => {
+  const ideas = readJSON(INNOVATION_FILE, []);
+  const index = ideas.findIndex((item) => item.id === req.params.id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Idée introuvable.",
+    });
+  }
+
+  ideas.splice(index, 1);
+  saveJSON(INNOVATION_FILE, ideas);
+
+  sendSuccess(res, {
+    message: "Idée supprimée.",
+  });
+});
 
 /* =========================================================
-   ERREURS MULTER
+   AMBITION
 ========================================================= */
 
-app.use(
-    (
-        error,
-        req,
-        res,
-        next
-    ) => {
+const AMBITION_STATUSES = [
+  "En préparation",
+  "En cours",
+  "Terminé",
+  "En pause",
+];
 
-        if (
-            error instanceof
-            multer.MulterError
-        ) {
+function normalizeProgress(value) {
+  const progress = Number(value);
 
-            if (
-                error.code ===
-                "LIMIT_FILE_SIZE"
-            ) {
+  if (!Number.isFinite(progress)) {
+    return null;
+  }
 
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message:
-                            "L'image est trop lourde. Maximum : 5 Mo."
-                    });
-            }
+  if (progress < 0 || progress > 100) {
+    return null;
+  }
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        "Erreur pendant l'envoi de l'image."
-                });
-        }
+  return Math.round(progress);
+}
 
-        if (
-            error &&
-            error.message &&
-            error.message.includes(
-                "Type d'image non autorisé"
-            )
-        ) {
+/* Public : voir les projets */
+app.get("/api/ambition", (req, res) => {
+  const projects = readJSON(AMBITION_FILE, []);
 
-            return res
-                .status(400)
-                .json({
-                    success: false,
-                    message:
-                        error.message
-                });
-        }
+  res.json({
+    success: true,
+    projects: projects.reverse(),
+  });
+});
 
-        next(error);
+/* Staff : créer un projet */
+app.post("/api/ambition", requireStaff, (req, res) => {
+  const titre = clean(req.body.titre);
+  const responsable = clean(req.body.responsable);
+  const description = clean(req.body.description);
+  const dateFin = clean(req.body.dateFin);
+  const status = clean(req.body.status) || "En préparation";
+  const progress = normalizeProgress(req.body.progress ?? 0);
+
+  if (!titre || !responsable || !description) {
+    return res.status(400).json({
+      success: false,
+      message: "Titre, responsable et description sont obligatoires.",
+    });
+  }
+
+  if (progress === null) {
+    return res.status(400).json({
+      success: false,
+      message: "La progression doit être comprise entre 0 et 100.",
+    });
+  }
+
+  if (!AMBITION_STATUSES.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Statut Ambition invalide.",
+    });
+  }
+
+  const projects = readJSON(AMBITION_FILE, []);
+
+  const project = {
+    id: generateId(),
+    titre,
+    responsable,
+    description,
+    progress,
+    dateFin,
+    status,
+    date: nowISO(),
+  };
+
+  projects.push(project);
+  saveJSON(AMBITION_FILE, projects);
+
+  sendSuccess(res, {
+    message: "Projet Ambition créé.",
+    project,
+  });
+});
+
+/* Staff : modifier un projet */
+app.patch("/api/ambition/:id", requireStaff, (req, res) => {
+  const projects = readJSON(AMBITION_FILE, []);
+  const project = projects.find((item) => item.id === req.params.id);
+
+  if (!project) {
+    return res.status(404).json({
+      success: false,
+      message: "Projet Ambition introuvable.",
+    });
+  }
+
+  if (req.body.titre !== undefined) {
+    project.titre = clean(req.body.titre);
+  }
+
+  if (req.body.responsable !== undefined) {
+    project.responsable = clean(req.body.responsable);
+  }
+
+  if (req.body.description !== undefined) {
+    project.description = clean(req.body.description);
+  }
+
+  if (req.body.dateFin !== undefined) {
+    project.dateFin = clean(req.body.dateFin);
+  }
+
+  if (req.body.progress !== undefined) {
+    const progress = normalizeProgress(req.body.progress);
+
+    if (progress === null) {
+      return res.status(400).json({
+        success: false,
+        message: "La progression doit être comprise entre 0 et 100.",
+      });
     }
-);
+
+    project.progress = progress;
+  }
+
+  if (req.body.status !== undefined) {
+    const status = clean(req.body.status);
+
+    if (!AMBITION_STATUSES.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Statut Ambition invalide.",
+      });
+    }
+
+    project.status = status;
+  }
+
+  project.modifieLe = nowISO();
+
+  saveJSON(AMBITION_FILE, projects);
+
+  sendSuccess(res, {
+    message: "Projet Ambition modifié.",
+    project,
+  });
+});
+
+/* Staff : supprimer un projet */
+app.delete("/api/ambition/:id", requireStaff, (req, res) => {
+  const projects = readJSON(AMBITION_FILE, []);
+  const index = projects.findIndex((item) => item.id === req.params.id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: "Projet Ambition introuvable.",
+    });
+  }
+
+  projects.splice(index, 1);
+  saveJSON(AMBITION_FILE, projects);
+
+  sendSuccess(res, {
+    message: "Projet Ambition supprimé.",
+  });
+});
+
+/* =========================================================
+   STAFF.HTML PROTÉGÉ
+========================================================= */
+
+app.get("/staff.html", (req, res, next) => {
+  if (req.session?.staff !== true) {
+    return res.redirect("/staff-login.html");
+  }
+
+  next();
+});
+
+/* =========================================================
+   FICHIERS STATIQUES
+========================================================= */
+
+app.use(express.static(SITE_FOLDER));
+
+/* =========================================================
+   GESTION MULTER
+========================================================= */
+
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    if (error.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({
+        success: false,
+        message: "Image trop lourde. Maximum : 5 Mo.",
+      });
+    }
+
+    return res.status(400).json({
+      success: false,
+      message: "Erreur lors de l'envoi de l'image.",
+    });
+  }
+
+  if (error?.message === "FORMAT_IMAGE_INVALIDE") {
+    return res.status(400).json({
+      success: false,
+      message: "Format accepté : JPG, PNG, WEBP ou GIF.",
+    });
+  }
+
+  next(error);
+});
 
 /* =========================================================
    ERREUR GÉNÉRALE
 ========================================================= */
 
-app.use(
-    (
-        error,
-        req,
-        res,
-        next
-    ) => {
+app.use((error, req, res, next) => {
+  console.error("Erreur serveur :", error);
 
-        console.error(
-            "ERREUR SERVEUR :",
-            error
-        );
+  if (res.headersSent) {
+    return next(error);
+  }
 
-        if (
-            res.headersSent
-        ) {
-
-            return next(error);
-        }
-
-        res
-            .status(500)
-            .json({
-                success: false,
-                message:
-                    "Une erreur serveur est survenue."
-            });
-    }
-);
+  res.status(500).json({
+    success: false,
+    message: "Une erreur serveur est survenue.",
+  });
+});
 
 /* =========================================================
    DÉMARRAGE
 ========================================================= */
 
-app.listen(
-    PORT,
-    HOST,
-    () => {
-
-        console.log("");
-        console.log(
-            "================================="
-        );
-        console.log(
-            "      BUSINESS. - SERVEUR"
-        );
-        console.log(
-            "================================="
-        );
-        console.log("");
-
-        console.log(
-            `Serveur lancé sur le port ${PORT}`
-        );
-
-        console.log(
-            `HOST utilisé : ${HOST}`
-        );
-
-        console.log("");
-    }
-);
+app.listen(PORT, HOST, () => {
+  console.log(`Serveur lancé sur http://${HOST}:${PORT}`);
+});
