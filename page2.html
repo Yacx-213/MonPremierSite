@@ -21,17 +21,17 @@
             font-family: Arial, Helvetica, sans-serif;
             background:
                 radial-gradient(
-                    circle at 15% 15%,
+                    circle at 15% 10%,
                     rgba(123, 76, 255, 0.18),
                     transparent 30%
                 ),
                 radial-gradient(
-                    circle at 85% 25%,
-                    rgba(177, 101, 255, 0.10),
+                    circle at 85% 20%,
+                    rgba(176, 96, 255, 0.10),
                     transparent 28%
                 ),
                 #07070b;
-            color: #f8f5ff;
+            color: #f7f4ff;
             min-height: 100vh;
         }
 
@@ -47,9 +47,13 @@
             font: inherit;
         }
 
-        /* ==========================
+        button {
+            cursor: pointer;
+        }
+
+        /* ==================================================
            NAVIGATION
-        =========================== */
+        ================================================== */
 
         nav {
             position: sticky;
@@ -62,12 +66,12 @@
 
             padding: 18px 6%;
 
+            background:
+                rgba(7, 7, 11, 0.80);
+
             border-bottom:
                 1px solid
                 rgba(255, 255, 255, 0.07);
-
-            background:
-                rgba(7, 7, 11, 0.78);
 
             backdrop-filter: blur(20px);
         }
@@ -81,12 +85,12 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 22px;
         }
 
         .nav-links a {
-            color: #aaa5b7;
-            font-size: 13px;
+            color: #aaa6b6;
+            font-size: 12px;
             transition: 0.2s ease;
         }
 
@@ -95,31 +99,36 @@
         }
 
         .nav-staff {
-            padding: 9px 13px;
-            border-radius: 10px;
-
-            background:
-                rgba(148, 100, 255, 0.10);
+            padding:
+                9px
+                13px;
 
             border:
                 1px solid
-                rgba(148, 100, 255, 0.20);
+                rgba(155,108,255,0.20);
+
+            border-radius: 10px;
+
+            background:
+                rgba(155,108,255,0.08);
+
+            color: #c4b2ff !important;
         }
 
-        /* ==========================
+        /* ==================================================
            HERO
-        =========================== */
+        ================================================== */
 
         .hero {
             position: relative;
 
-            min-height: 78vh;
+            min-height: 76vh;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            padding: 80px 6%;
+            padding: 90px 6%;
 
             text-align: center;
 
@@ -132,72 +141,76 @@
 
             position: absolute;
 
-            width: 340px;
-            height: 340px;
+            width: 350px;
+            height: 350px;
 
             border-radius: 50%;
 
-            filter: blur(100px);
+            filter: blur(110px);
 
             pointer-events: none;
         }
 
         .hero::before {
-            top: 5%;
-            left: 8%;
-            background: rgba(126, 79, 255, 0.16);
+            top: 0;
+            left: 5%;
+            background:
+                rgba(119, 74, 255, 0.16);
         }
 
         .hero::after {
-            right: 8%;
-            bottom: 5%;
-            background: rgba(180, 102, 255, 0.09);
+            right: 5%;
+            bottom: 0;
+            background:
+                rgba(183, 102, 255, 0.08);
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
 
-            max-width: 850px;
+            max-width: 900px;
         }
 
         .eyebrow {
             display: inline-block;
 
-            margin-bottom: 18px;
+            padding:
+                7px
+                11px;
 
-            padding: 7px 11px;
+            border:
+                1px solid
+                rgba(155,108,255,0.18);
 
             border-radius: 999px;
 
             background:
-                rgba(148, 100, 255, 0.09);
+                rgba(155,108,255,0.08);
 
-            border:
-                1px solid
-                rgba(148, 100, 255, 0.18);
+            color: #bea8ff;
 
-            color: #bfa8ff;
+            font-size: 9px;
 
-            font-size: 10px;
-
-            letter-spacing: 0.13em;
+            letter-spacing: 0.14em;
 
             text-transform: uppercase;
         }
 
         .hero h1 {
+            margin-top: 18px;
+
             font-size:
                 clamp(
-                    46px,
+                    48px,
                     8vw,
                     92px
                 );
 
-            line-height: 0.96;
+            line-height: 0.95;
 
             letter-spacing:
-                -0.055em;
+                -0.06em;
         }
 
         .gradient-text {
@@ -205,8 +218,8 @@
                 linear-gradient(
                     135deg,
                     #ffffff,
-                    #b99cff,
-                    #8059ff
+                    #bca1ff,
+                    #8058ff
                 );
 
             -webkit-background-clip: text;
@@ -216,7 +229,7 @@
         }
 
         .hero p {
-            max-width: 640px;
+            max-width: 670px;
 
             margin:
                 24px
@@ -225,9 +238,9 @@
 
             color: #9c98aa;
 
-            font-size: 15px;
+            font-size: 14px;
 
-            line-height: 1.7;
+            line-height: 1.75;
         }
 
         .hero-actions {
@@ -252,55 +265,60 @@
 
             border-radius: 12px;
 
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
 
-            transition: 0.2s ease;
+            transition:
+                0.2s ease;
         }
 
         .hero-btn-primary {
             background:
                 linear-gradient(
                     135deg,
-                    #9c6cff,
+                    #9a6cff,
                     #7045ff
                 );
 
             box-shadow:
                 0 12px 35px
-                rgba(112, 69, 255, 0.22);
+                rgba(112,69,255,0.22);
         }
 
         .hero-btn-primary:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.08);
+            transform:
+                translateY(-2px);
+
+            filter:
+                brightness(1.08);
         }
 
         .hero-btn-secondary {
             border:
                 1px solid
-                rgba(255, 255, 255, 0.10);
+                rgba(255,255,255,0.10);
 
             background:
-                rgba(255, 255, 255, 0.04);
+                rgba(255,255,255,0.04);
 
             color: #ded9e9;
         }
 
         .hero-btn-secondary:hover {
             background:
-                rgba(255, 255, 255, 0.07);
+                rgba(255,255,255,0.07);
         }
 
-        /* ==========================
+        /* ==================================================
            SECTIONS
-        =========================== */
+        ================================================== */
 
         .section {
             width: min(1120px, 88%);
 
             margin:
-                0 auto;
+                0
+                auto;
 
             padding:
                 95px
@@ -312,15 +330,15 @@
         }
 
         .section-label {
-            color: #9f7aff;
+            margin-bottom: 9px;
+
+            color: #a27dff;
 
             font-size: 10px;
 
             text-transform: uppercase;
 
             letter-spacing: 0.16em;
-
-            margin-bottom: 9px;
         }
 
         .section-title {
@@ -328,28 +346,28 @@
                 clamp(
                     28px,
                     4vw,
-                    42px
+                    43px
                 );
 
             letter-spacing:
-                -0.035em;
+                -0.04em;
         }
 
         .section-text {
+            max-width: 680px;
+
             margin-top: 9px;
 
-            max-width: 650px;
-
-            color: #9793a3;
-
-            line-height: 1.7;
+            color: #9692a2;
 
             font-size: 13px;
+
+            line-height: 1.7;
         }
 
-        /* ==========================
+        /* ==================================================
            CARDS
-        =========================== */
+        ================================================== */
 
         .cards {
             display: grid;
@@ -361,49 +379,69 @@
         }
 
         .card {
-            padding: 22px;
+            display: block;
 
-            min-height: 190px;
+            min-height: 205px;
+
+            padding: 22px;
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.07);
+                rgba(255,255,255,0.07);
 
             border-radius: 18px;
 
             background:
-                rgba(255, 255, 255, 0.025);
+                rgba(255,255,255,0.025);
+
+            color: inherit;
 
             transition:
-                0.22s ease;
+                transform 0.22s ease,
+                border-color 0.22s ease,
+                background 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        a.card {
+            cursor: pointer;
         }
 
         .card:hover {
-            transform: translateY(-4px);
+            transform:
+                translateY(-5px);
 
             border-color:
-                rgba(157, 107, 255, 0.24);
+                rgba(155,108,255,0.28);
 
             background:
-                rgba(157, 107, 255, 0.045);
+                rgba(155,108,255,0.045);
+
+            box-shadow:
+                0 20px 55px
+                rgba(0,0,0,0.20);
         }
 
         .card-icon {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
+            margin-bottom: 16px;
+
             border-radius: 13px;
 
             background:
-                rgba(157, 107, 255, 0.10);
+                rgba(155,108,255,0.10);
 
-            margin-bottom: 16px;
+            border:
+                1px solid
+                rgba(155,108,255,0.15);
 
-            font-size: 18px;
+            font-size: 19px;
         }
 
         .card h3 {
@@ -413,30 +451,30 @@
         .card p {
             margin-top: 9px;
 
-            color: #8f8b9c;
+            color: #8f8b9b;
 
             font-size: 12px;
 
-            line-height: 1.65;
+            line-height: 1.7;
         }
 
         .card-link {
             display: inline-block;
 
-            margin-top: 15px;
+            margin-top: 17px;
 
-            color: #bda8ff;
+            color: #bda7ff;
 
-            font-size: 11px;
+            font-size: 10px;
 
             font-weight: 700;
         }
 
-        /* ==========================
+        /* ==================================================
            ANNONCES
-        =========================== */
+        ================================================== */
 
-        .annonces-wrapper {
+        .annonces-list {
             display: grid;
 
             gap: 12px;
@@ -447,30 +485,31 @@
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.07);
+                rgba(255,255,255,0.07);
 
             border-radius: 17px;
 
             background:
                 rgba(255,255,255,0.025);
 
-            transition: 0.2s ease;
+            transition:
+                0.2s ease;
         }
 
         .announcement:hover {
             border-color:
-                rgba(157, 107, 255, 0.22);
+                rgba(155,108,255,0.20);
 
             background:
-                rgba(157,107,255,0.04);
+                rgba(155,108,255,0.035);
         }
 
         .announcement.important {
             border-color:
-                rgba(255, 186, 88, 0.25);
+                rgba(255,187,88,0.25);
 
             background:
-                rgba(255, 186, 88, 0.045);
+                rgba(255,187,88,0.045);
         }
 
         .announcement-top {
@@ -483,7 +522,6 @@
 
         .announcement-title {
             font-size: 16px;
-
             font-weight: 800;
         }
 
@@ -497,9 +535,9 @@
             border-radius: 999px;
 
             background:
-                rgba(255,186,88,0.12);
+                rgba(255,187,88,0.12);
 
-            color: #ffc982;
+            color: #ffcb86;
 
             font-size: 9px;
 
@@ -513,9 +551,9 @@
         .announcement-date {
             margin-top: 6px;
 
-            color: #716d7c;
+            color: #716d7a;
 
-            font-size: 10px;
+            font-size: 9px;
         }
 
         .announcement-content {
@@ -527,91 +565,93 @@
 
             line-height: 1.75;
 
-            white-space: pre-wrap;
+            white-space:
+                pre-wrap;
         }
 
         .announcement-loading,
         .announcement-empty,
         .announcement-error {
-            padding: 38px 20px;
+            padding:
+                40px
+                20px;
 
             border:
                 1px solid
                 rgba(255,255,255,0.06);
 
-            border-radius: 17px;
+            border-radius: 16px;
 
             background:
                 rgba(255,255,255,0.02);
 
-            text-align: center;
+            text-align:
+                center;
 
-            color: #85818f;
+            color:
+                #85818f;
 
-            font-size: 12px;
+            font-size:
+                11px;
         }
 
-        .announcement-loading::before {
-            content: "◌";
-
-            display: block;
-
-            margin-bottom: 10px;
-
-            color: #a77cff;
-
-            font-size: 26px;
-        }
-
-        /* ==========================
-           TICKETS
-        =========================== */
+        /* ==================================================
+           TICKET BOX
+        ================================================== */
 
         .ticket-box {
-            padding: 35px;
+            padding:
+                38px;
 
             border:
                 1px solid
-                rgba(157,107,255,0.18);
+                rgba(155,108,255,0.18);
 
-            border-radius: 22px;
+            border-radius:
+                22px;
 
             background:
                 radial-gradient(
                     circle at top right,
-                    rgba(157,107,255,0.10),
+                    rgba(155,108,255,0.10),
                     transparent 42%
                 ),
                 rgba(255,255,255,0.025);
 
-            text-align: center;
+            text-align:
+                center;
         }
 
         .ticket-box h2 {
-            font-size: 30px;
+            font-size:
+                31px;
 
             letter-spacing:
                 -0.04em;
         }
 
         .ticket-box p {
-            max-width: 560px;
+            max-width:
+                580px;
 
             margin:
                 11px
                 auto
-                20px;
+                21px;
 
-            color: #9692a2;
+            color:
+                #9692a2;
 
-            line-height: 1.7;
+            font-size:
+                12px;
 
-            font-size: 12px;
+            line-height:
+                1.7;
         }
 
-        /* ==========================
+        /* ==================================================
            FOOTER
-        =========================== */
+        ================================================== */
 
         footer {
             padding:
@@ -623,33 +663,35 @@
                 1px solid
                 rgba(255,255,255,0.06);
 
-            text-align: center;
+            text-align:
+                center;
 
-            color: #686573;
+            color:
+                #686573;
 
-            font-size: 10px;
+            font-size:
+                10px;
         }
 
-        /* ==========================
+        /* ==================================================
            RESPONSIVE
-        =========================== */
+        ================================================== */
 
         @media (max-width: 850px) {
 
             .nav-links {
-                gap: 12px;
+                gap:
+                    10px;
             }
 
             .nav-links a {
-                font-size: 11px;
+                font-size:
+                    10px;
             }
 
             .cards {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                width: 90%;
+                grid-template-columns:
+                    1fr;
             }
         }
 
@@ -657,24 +699,29 @@
 
             nav {
                 padding:
-                    15px
-                    5%;
+                    15px 5%;
             }
 
             .logo {
-                font-size: 17px;
+                font-size:
+                    17px;
             }
 
             .nav-links {
-                gap: 8px;
+                gap:
+                    8px;
             }
 
-            .nav-links a:nth-child(2) {
-                display: none;
+            .nav-links a:nth-child(2),
+            .nav-links a:nth-child(4),
+            .nav-links a:nth-child(5) {
+                display:
+                    none;
             }
 
             .hero {
-                min-height: 70vh;
+                min-height:
+                    70vh;
 
                 padding:
                     65px
@@ -682,26 +729,41 @@
             }
 
             .hero h1 {
-                font-size: 48px;
+                font-size:
+                    48px;
             }
 
             .section {
+                width:
+                    90%;
+
                 padding:
                     70px
                     0;
             }
 
             .announcement-top {
-                align-items: flex-start;
-                flex-direction: column;
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+            .important-badge {
+                align-self:
+                    flex-start;
             }
 
             .ticket-box {
-                padding: 25px 18px;
+                padding:
+                    27px
+                    18px;
             }
 
             .ticket-box h2 {
-                font-size: 24px;
+                font-size:
+                    25px;
             }
         }
     </style>
@@ -709,9 +771,9 @@
 
 <body>
 
-<!-- ==================================
+<!-- ==================================================
      NAVIGATION
-================================== -->
+================================================== -->
 
 <nav>
 
@@ -755,9 +817,9 @@
 
 </nav>
 
-<!-- ==================================
-     ACCUEIL
-================================== -->
+<!-- ==================================================
+     HERO
+================================================== -->
 
 <section
     class="hero"
@@ -779,9 +841,9 @@
 
         <p>
             Bienvenue sur BUSINESS.
-            Retrouvez ici les annonces,
-            les services et les différents
-            systèmes disponibles pour la communauté.
+            Découvre les annonces, participe à la vie
+            de la communauté et utilise nos différents
+            espaces pour partager tes idées et tes créations.
         </p>
 
         <div class="hero-actions">
@@ -806,9 +868,9 @@
 
 </section>
 
-<!-- ==================================
+<!-- ==================================================
      À PROPOS
-================================== -->
+================================================== -->
 
 <section
     class="section"
@@ -822,48 +884,47 @@
         </div>
 
         <h2 class="section-title">
-            Une communauté tournée vers l'avenir.
+            Une communauté qui avance ensemble.
         </h2>
 
         <p class="section-text">
-            BUSINESS. rassemble plusieurs systèmes
-            afin de simplifier la vie de la communauté
-            et de centraliser les informations importantes.
+            BUSINESS. rassemble plusieurs espaces
+            permettant aux membres de participer,
+            proposer, créer et échanger.
         </p>
 
     </div>
 
-    <a
-    href="/innovation.html"
-    class="card"
->
+    <div class="cards">
 
-    <div class="card-icon">
-        💡
-    </div>
+        <!-- INNOVATION -->
 
-    <h3>
-        Innovation
-    </h3>
+        <a
+            href="/innovation.html"
+            class="card"
+        >
 
-    <p>
-        Propose tes idées, découvre celles des autres
-        membres et aide la communauté à faire évoluer
-        ses projets.
-    </p>
+            <div class="card-icon">
+                💡
+            </div>
 
-    <span class="card-link">
-        Ouvrir l'espace Innovation →
-    </span>
-
-</a>
+            <h3>
+                Innovation
+            </h3>
 
             <p>
-                Des outils modernes pour améliorer
-                l'expérience des membres.
+                Propose tes idées, découvre celles des
+                autres membres et participe à l'évolution
+                de la communauté.
             </p>
 
-        </div>
+            <span class="card-link">
+                Ouvrir l'espace Innovation →
+            </span>
+
+        </a>
+
+        <!-- CREATIVITE -->
 
         <a
             href="/creativite.html"
@@ -879,9 +940,8 @@
             </h3>
 
             <p>
-                Partage tes créations, découvre
-                celles des autres membres et discute
-                avec la communauté.
+                Partage tes créations, présente ton travail
+                et discute avec les autres membres.
             </p>
 
             <span class="card-link">
@@ -889,6 +949,8 @@
             </span>
 
         </a>
+
+        <!-- AMBITION -->
 
         <div class="card">
 
@@ -901,9 +963,13 @@
             </h3>
 
             <p>
-                Faire évoluer continuellement
-                la communauté et ses outils.
+                Fais évoluer tes projets et participe
+                aux futurs objectifs de la communauté.
             </p>
+
+            <span class="card-link">
+                Bientôt disponible →
+            </span>
 
         </div>
 
@@ -911,9 +977,9 @@
 
 </section>
 
-<!-- ==================================
+<!-- ==================================================
      SERVICES
-================================== -->
+================================================== -->
 
 <section
     class="section"
@@ -931,15 +997,20 @@
         </h2>
 
         <p class="section-text">
-            Plusieurs systèmes sont disponibles
-            directement depuis le site.
+            Retrouve ici les différents systèmes
+            disponibles sur BUSINESS.
         </p>
 
     </div>
 
     <div class="cards">
 
-        <div class="card">
+        <!-- VIE -->
+
+        <a
+            href="/vie.html"
+            class="card"
+        >
 
             <div class="card-icon">
                 👤
@@ -954,16 +1025,18 @@
                 ton personnage avec la communauté.
             </p>
 
-            <a
-                href="/vie.html"
-                class="card-link"
-            >
+            <span class="card-link">
                 Ouvrir →
-            </a>
+            </span>
 
-        </div>
+        </a>
 
-        <div class="card">
+        <!-- TICKET -->
+
+        <a
+            href="/ticket.html"
+            class="card"
+        >
 
             <div class="card-icon">
                 🎫
@@ -978,14 +1051,13 @@
                 directement depuis le site.
             </p>
 
-            <a
-                href="/ticket.html"
-                class="card-link"
-            >
+            <span class="card-link">
                 Ouvrir →
-            </a>
+            </span>
 
-        </div>
+        </a>
+
+        <!-- CREATIVITE -->
 
         <a
             href="/creativite.html"
@@ -1001,9 +1073,8 @@
             </h3>
 
             <p>
-                Publie tes créations, échange
-                avec les membres et découvre
-                leurs réalisations.
+                Découvre les créations des membres
+                et participe à la discussion.
             </p>
 
             <span class="card-link">
@@ -1016,9 +1087,9 @@
 
 </section>
 
-<!-- ==================================
+<!-- ==================================================
      ANNONCES
-================================== -->
+================================================== -->
 
 <section
     class="section"
@@ -1044,7 +1115,7 @@
 
     <div
         id="annoncesContainer"
-        class="annonces-wrapper"
+        class="annonces-list"
     >
 
         <div class="announcement-loading">
@@ -1055,9 +1126,9 @@
 
 </section>
 
-<!-- ==================================
+<!-- ==================================================
      TICKETS
-================================== -->
+================================================== -->
 
 <section
     class="section"
@@ -1071,9 +1142,8 @@
         </h2>
 
         <p>
-            Une demande, une question ou un problème ?
-            Utilise le formulaire pour contacter
-            le Staff.
+            Une question, un problème ou une demande ?
+            Utilise le formulaire pour contacter le Staff.
         </p>
 
         <a
@@ -1087,6 +1157,10 @@
 
 </section>
 
+<!-- ==================================================
+     FOOTER
+================================================== -->
+
 <footer>
 
     © 2026 BUSINESS. — Tous droits réservés.
@@ -1094,6 +1168,10 @@
 </footer>
 
 <script>
+
+    /* ==================================================
+       SÉCURITÉ HTML
+    ================================================== */
 
     function escapeHTML(value) {
 
@@ -1104,6 +1182,10 @@
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&#039;");
     }
+
+    /* ==================================================
+       DATE
+    ================================================== */
 
     function formatDate(value) {
 
@@ -1125,11 +1207,18 @@
         return date.toLocaleString(
             "fr-FR",
             {
-                dateStyle: "medium",
-                timeStyle: "short"
+                dateStyle:
+                    "medium",
+
+                timeStyle:
+                    "short"
             }
         );
     }
+
+    /* ==================================================
+       ANNONCES
+    ================================================== */
 
     async function loadAnnonces() {
 
@@ -1152,6 +1241,7 @@
                 !response.ok ||
                 !data.success
             ) {
+
                 throw new Error(
                     data.message ||
                     "Impossible de charger les annonces."
@@ -1186,63 +1276,70 @@
 
             container.innerHTML =
                 annonces
-                    .map(annonce => {
+                    .map(
+                        annonce => {
 
-                        const important =
-                            annonce.important === true;
+                            const important =
+                                annonce.important === true;
 
-                        return `
-                            <article
-                                class="announcement ${
-                                    important
-                                        ? "important"
-                                        : ""
-                                }"
-                            >
-
-                                <div
-                                    class="announcement-top"
+                            return `
+                                <article
+                                    class="
+                                        announcement
+                                        ${
+                                            important
+                                                ? "important"
+                                                : ""
+                                        }
+                                    "
                                 >
 
                                     <div
-                                        class="announcement-title"
+                                        class="announcement-top"
                                     >
-                                        ${escapeHTML(
-                                            annonce.titre
+
+                                        <div
+                                            class="announcement-title"
+                                        >
+                                            ${escapeHTML(
+                                                annonce.titre
+                                            )}
+                                        </div>
+
+                                        ${
+                                            important
+                                                ? `
+                                                    <span
+                                                        class="important-badge"
+                                                    >
+                                                        ⭐ Important
+                                                    </span>
+                                                `
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                    <div
+                                        class="announcement-date"
+                                    >
+                                        ${formatDate(
+                                            annonce.date
                                         )}
                                     </div>
 
-                                    ${
-                                        important
-                                            ? `
-                                                <span class="important-badge">
-                                                    ⭐ Important
-                                                </span>
-                                            `
-                                            : ""
-                                    }
+                                    <div
+                                        class="announcement-content"
+                                    >
+                                        ${escapeHTML(
+                                            annonce.contenu
+                                        )}
+                                    </div>
 
-                                </div>
-
-                                <div
-                                    class="announcement-date"
-                                >
-                                    ${formatDate(
-                                        annonce.date
-                                    )}
-                                </div>
-
-                                <div
-                                    class="announcement-content"
-                                >
-                                    ${escapeHTML(
-                                        annonce.contenu
-                                    )}
-                                </div>
-
-                            </article>
-                        `;
-                    })
+                                </article>
+                            `;
+                        }
+                    )
                     .join("");
 
         } catch (error) {
@@ -1264,6 +1361,10 @@
             `;
         }
     }
+
+    /* ==================================================
+       DÉMARRAGE
+    ================================================== */
 
     loadAnnonces();
 
