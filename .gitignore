@@ -1,0 +1,4 @@
+serveur/.env
+serveur/node_modules/
+serveur/data/*.json
+serveur/vies.json

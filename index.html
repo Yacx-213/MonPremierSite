@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Business.</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+
+      background:
+        radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.25), transparent 35%),
+        radial-gradient(circle at 80% 80%, rgba(192, 38, 211, 0.18), transparent 35%),
+        linear-gradient(135deg, #05030a, #12071f, #07040d);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Lumières */
+
+    .glow {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+
+      border-radius: 50%;
+
+      filter: blur(100px);
+
+      opacity: 0.25;
+
+      pointer-events: none;
+    }
+
+    .glow.one {
+      top: -150px;
+      left: -100px;
+      background: #9333ea;
+    }
+
+    .glow.two {
+      bottom: -150px;
+      right: -100px;
+      background: #c026d3;
+    }
+
+    /* Texte de fond */
+
+    .background-text {
+      position: fixed;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      font-size: clamp(90px, 18vw, 260px);
+
+      font-weight: 900;
+
+      color: rgba(255, 255, 255, 0.018);
+
+      letter-spacing: 15px;
+
+      user-select: none;
+
+      pointer-events: none;
+
+      white-space: nowrap;
+    }
+
+    /* Carte principale */
+
+    .container {
+      position: relative;
+      z-index: 2;
+
+      width: min(90%, 850px);
+
+      padding: 70px 50px;
+
+      text-align: center;
+
+      background: rgba(255, 255, 255, 0.055);
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+
+      border-radius: 30px;
+
+      backdrop-filter: blur(20px);
+
+      box-shadow:
+        0 30px 100px rgba(0, 0, 0, 0.55),
+        0 0 60px rgba(147, 51, 234, 0.12);
+    }
+
+    /* Logo */
+
+    .logo {
+      display: inline-block;
+
+      margin-bottom: 35px;
+
+      font-size: 18px;
+
+      font-weight: 800;
+
+      letter-spacing: 5px;
+
+      color: #ddd;
+    }
+
+    .logo span {
+      color: #a855f7;
+    }
+
+    /* Petit texte */
+
+    .small-title {
+      margin-bottom: 18px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      letter-spacing: 4px;
+
+      color: #a855f7;
+
+      text-transform: uppercase;
+    }
+
+    /* Titre */
+
+    h1 {
+      font-size: clamp(55px, 10vw, 100px);
+
+      line-height: 0.95;
+
+      font-weight: 900;
+
+      letter-spacing: -5px;
+
+      background: linear-gradient(
+        135deg,
+        #ffffff,
+        #d8b4fe,
+        #c026d3
+      );
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      background-clip: text;
+
+      margin-bottom: 25px;
+    }
+
+    /* Sous-titre */
+
+    .subtitle {
+      max-width: 600px;
+
+      margin: 0 auto 40px;
+
+      color: #aaa;
+
+      font-size: 17px;
+
+      line-height: 1.7;
+    }
+
+    /* Bouton */
+
+    .next-button {
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 12px;
+
+      padding: 16px 30px;
+
+      border: 1px solid rgba(255, 255, 255, 0.15);
+
+      border-radius: 14px;
+
+      background: linear-gradient(
+        135deg,
+        #9333ea,
+        #c026d3
+      );
+
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      box-shadow:
+        0 10px 30px rgba(147, 51, 234, 0.25);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .next-button:hover {
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 15px 40px rgba(147, 51, 234, 0.4);
+    }
+
+    .next-button:active {
+      transform: translateY(0);
+    }
+
+    /* Petite mention */
+
+    .bottom-text {
+      margin-top: 35px;
+
+      color: #666;
+
+      font-size: 12px;
+
+      letter-spacing: 1px;
+    }
+
+    /* Animation d'apparition */
+
+    .container {
+      animation: appear 0.8s ease forwards;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Transition */
+
+    .transition {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 999;
+
+      background: #080611;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: opacity 0.4s ease;
+    }
+
+    .transition.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Téléphone */
+
+    @media (max-width: 600px) {
+
+      .container {
+        padding: 50px 25px;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+      }
+
+      .background-text {
+        font-size: 70px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Lumières décoratives -->
+
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <!-- Texte géant en arrière-plan -->
+
+  <div class="background-text">
+    BUSINESS
+  </div>
+
+  <!-- Transition -->
+
+  <div class="transition" id="transition"></div>
+
+  <!-- Contenu -->
+
+  <main class="container">
+
+    <div class="logo">
+      BUSINESS<span>.</span>
+    </div>
+
+    <div class="small-title">
+      Bienvenue
+    </div>
+
+    <h1>
+      BUSINESS.
+    </h1>
+
+    <p class="subtitle">
+      Un espace pensé pour construire, créer et développer
+      de nouvelles idées.
+    </p>
+
+    <a
+      href="page2.html"
+      class="next-button"
+      id="nextButton"
+    >
+      Découvrir
+      <span>→</span>
+    </a>
+
+    <p class="bottom-text">
+      BUSINESS IS BUSINESS
+    </p>
+
+  </main>
+
+  <script>
+
+    const button = document.getElementById("nextButton");
+    const transition = document.getElementById("transition");
+
+    button.addEventListener("click", function(event) {
+
+      event.preventDefault();
+
+      transition.classList.add("active");
+
+      setTimeout(function() {
+
+        window.location.href = "page2.html";
+
+      }, 400);
+
+    });
+
+  </script>
+
+</body>
+</html>

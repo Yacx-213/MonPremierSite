@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BUSINESS. — Accueil</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            background:
+                radial-gradient(circle at 10% 0%, #29104d, transparent 35%),
+                radial-gradient(circle at 90% 30%, #35105c, transparent 35%),
+                #07050d;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            background: rgba(7, 5, 13, 0.75);
+            backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #a855f7;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav-links a {
+            color: #aaa2b5;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-staff {
+            padding: 9px 15px;
+            border-radius: 10px;
+
+            background: rgba(168,85,247,0.12);
+            border: 1px solid rgba(168,85,247,0.2);
+
+            color: #c084fc !important;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 85vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 80px 7%;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .tag {
+            display: inline-block;
+
+            padding: 8px 15px;
+
+            border-radius: 999px;
+
+            background: rgba(168,85,247,0.12);
+            border: 1px solid rgba(168,85,247,0.25);
+
+            color: #c084fc;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 90px);
+            line-height: 0.95;
+            letter-spacing: -4px;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #c084fc,
+                    #a855f7
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+
+            color: #aaa2b5;
+
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+
+            margin-top: 35px;
+
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 15px 23px;
+
+            border-radius: 13px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .button-primary {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #a855f7
+                );
+
+            box-shadow:
+                0 15px 35px rgba(124,58,237,0.25);
+        }
+
+        .button-primary:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 20px 45px rgba(168,85,247,0.35);
+        }
+
+        .button-secondary {
+            color: #ddd6e5;
+
+            background: rgba(255,255,255,0.05);
+
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .button-secondary:hover {
+            background: rgba(255,255,255,0.09);
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        section {
+            width: min(1100px, 90%);
+            margin: 0 auto;
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(32px, 5vw, 50px);
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            color: #8f8799;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .card {
+            padding: 30px;
+
+            border-radius: 22px;
+
+            background:
+                rgba(255,255,255,0.045);
+
+            border:
+                1px solid rgba(255,255,255,0.08);
+
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+
+            border-color:
+                rgba(168,85,247,0.3);
+
+            background:
+                rgba(168,85,247,0.06);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #918a9a;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .service {
+            padding: 32px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(168,85,247,0.09),
+                    rgba(255,255,255,0.035)
+                );
+
+            border:
+                1px solid rgba(255,255,255,0.09);
+        }
+
+        .service-icon {
+            font-size: 35px;
+            margin-bottom: 18px;
+        }
+
+        .service h3 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .service p {
+            color: #98909f;
+            line-height: 1.7;
+            margin-bottom: 22px;
+        }
+
+        .service a {
+            display: inline-block;
+
+            color: #c084fc;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .service a:hover {
+            color: white;
+        }
+
+        /* =========================
+           TICKETS
+        ========================= */
+
+        .ticket-box {
+            padding: 45px;
+
+            border-radius: 26px;
+
+            text-align: center;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(168,85,247,0.14),
+                    transparent 55%
+                ),
+                rgba(255,255,255,0.04);
+
+            border:
+                1px solid rgba(255,255,255,0.09);
+        }
+
+        .ticket-box h2 {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .ticket-box p {
+            max-width: 600px;
+            margin: 0 auto 28px;
+
+            color: #97909f;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 35px 7%;
+
+            text-align: center;
+
+            color: #625b6c;
+
+            font-size: 13px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.06);
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            nav {
+                padding: 0 5%;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .nav-staff {
+                display: none;
+            }
+
+            .hero {
+                min-height: 75vh;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .cards,
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .ticket-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <nav>
+
+        <div class="logo">
+            BUSINESS<span>.</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#accueil">
+                Accueil
+            </a>
+
+            <a href="#apropos">
+                À propos
+            </a>
+
+            <a href="#services">
+                Services
+            </a>
+
+            <a href="#tickets">
+                Tickets
+            </a>
+
+            <a
+                href="staff.html"
+                class="nav-staff"
+            >
+                🛡️ Staff
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         ACCUEIL
+    ========================= -->
+
+    <header
+        class="hero"
+        id="accueil"
+    >
+
+        <div class="hero-content">
+
+            <div class="tag">
+                BUSINESS. — Bienvenue
+            </div>
+
+            <h1>
+                Construisons quelque chose de
+                <span>grand.</span>
+            </h1>
+
+            <p>
+                Bienvenue sur BUSINESS., votre espace central
+                pour découvrir notre univers, envoyer une demande
+                au Staff et présenter votre personnage.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="#services"
+                    class="button button-primary"
+                >
+                    Découvrir →
+                </a>
+
+                <a
+                    href="#tickets"
+                    class="button button-secondary"
+                >
+                    🎫 Ouvrir une demande
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         À PROPOS
+    ========================= -->
+
+    <section id="apropos">
+
+        <div class="section-header">
+
+            <h2>
+                Notre univers
+            </h2>
+
+            <p>
+                Un espace pensé pour rassembler
+                la communauté et ses différents systèmes.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🚀
+                </div>
+
+                <h3>
+                    Innovation
+                </h3>
+
+                <p>
+                    Des systèmes simples et modernes
+                    pour améliorer l'expérience de la communauté.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🎨
+                </div>
+
+                <h3>
+                    Créativité
+                </h3>
+
+                <p>
+                    Créez votre personnage, développez
+                    son histoire et construisez votre propre univers.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    Ambition
+                </h3>
+
+                <p>
+                    Un objectif simple : créer une expérience
+                    communautaire toujours plus complète.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SERVICES
+    ========================= -->
+
+    <section id="services">
+
+        <div class="section-header">
+
+            <h2>
+                Les systèmes
+            </h2>
+
+            <p>
+                Retrouvez rapidement les différents espaces
+                disponibles sur le site.
+            </p>
+
+        </div>
+
+
+        <div class="services">
+
+            <!-- VIE -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    👤
+                </div>
+
+                <h3>
+                    Système de vie
+                </h3>
+
+                <p>
+                    Présentez votre personnage avec son prénom,
+                    son âge, son genre, votre Discord et son histoire.
+                    La fiche sera ensuite accessible au Staff.
+                </p>
+
+                <a href="vie.html">
+                    Créer ma présentation →
+                </a>
+
+            </div>
+
+
+            <!-- TICKETS -->
+
+            <div class="service">
+
+                <div class="service-icon">
+                    🎫
+                </div>
+
+                <h3>
+                    Formulaire de demande
+                </h3>
+
+                <p>
+                    Une demande vous a été transmise par le Staff ?
+                    Utilisez le formulaire pour envoyer toutes
+                    les informations nécessaires.
+                </p>
+
+                <a href="#tickets">
+                    Accéder aux tickets →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TICKETS
+    ========================= -->
+
+    <section id="tickets">
+
+        <div class="ticket-box">
+
+            <div class="tag">
+                Support
+            </div>
+
+            <h2>
+                Besoin de contacter le Staff ?
+            </h2>
+
+            <p>
+                Remplissez notre formulaire afin de transmettre
+                votre demande directement à l'équipe.
+                Votre demande sera ensuite consultable dans
+                l'espace Staff.
+            </p>
+
+            <a
+                href="ticket.html"
+                class="button button-primary"
+            >
+                🎫 Remplir le formulaire →
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        © 2026 BUSINESS. —
+        Tous droits réservés.
+
+    </footer>
+
+</body>
+</html>
