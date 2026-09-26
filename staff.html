@@ -1,3550 +1,1384 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Staff - Mon Premier Site</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-    <style>
-
-        body {
-            min-height: 100vh;
-        }
-
-        .staff-layout {
-            display: grid;
-
-            grid-template-columns:
-                250px minmax(0, 1fr);
-
-            min-height:
-                calc(100vh - 74px);
-        }
-
-        .sidebar {
-            padding: 22px 14px;
-
-            border-right:
-                1px solid var(--border);
-
-            background:
-                rgba(5, 7, 10, 0.42);
-
-            backdrop-filter:
-                blur(15px);
-
-            -webkit-backdrop-filter:
-                blur(15px);
-        }
-
-        .sidebar-title {
-            margin: 0 10px 12px;
-
-            color: #79818c;
-
-            font-size: 11px;
-            font-weight: 800;
-
-            letter-spacing: .12em;
-        }
-
-        .staff-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .staff-menu button {
-            width: 100%;
-
-            padding: 12px 14px;
-
-            border:
-                1px solid transparent;
-
-            border-radius: 12px;
-
-            color: #b6bdc7;
-
-            background:
-                transparent;
-
-            text-align: left;
-
-            transition: .2s ease;
-        }
-
-        .staff-menu button:hover,
-        .staff-menu button.active {
-            color: white;
-
-            background:
-                rgba(139, 92, 246, .10);
-
-            border-color:
-                rgba(139, 92, 246, .18);
-        }
-
-        .staff-content {
-            min-width: 0;
-            padding: 30px;
-        }
-
-        .staff-section {
-            display: none;
-        }
-
-        .staff-section.active {
-            display: block;
-        }
-
-        .staff-head {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-
-            margin-bottom: 24px;
-        }
-
-        .staff-head h1 {
-            margin-bottom: 7px;
-            font-size: 32px;
-        }
-
-        .staff-head p {
-            color: var(--muted);
-        }
-
-        .stats-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
-            gap: 15px;
-
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            padding: 20px;
-            border-radius: 18px;
-        }
-
-        .stat-label {
-            color: #7c8590;
-            font-size: 12px;
-        }
-
-        .stat-number {
-            margin-top: 8px;
-
-            font-size: 30px;
-            font-weight: 900;
-        }
-
-        .item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .admin-item {
-            padding: 18px;
-
-            border-radius: 18px;
-
-            position: relative;
-        }
-
-        .admin-item-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-
-            gap: 15px;
-        }
-
-        .admin-item h3 {
-            font-size: 18px;
-        }
-
-        .admin-item p {
-            margin-top: 7px;
-
-            color: var(--muted);
-
-            line-height: 1.65;
-
-            white-space: pre-wrap;
-        }
-
-        .admin-meta {
-            margin-top: 10px;
-
-            color: #79818c;
-
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        .admin-actions {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 8px;
-
-            margin-top: 13px;
-        }
-
-        .form-box {
-            margin-top: 18px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 1000px) {
-
-            .stats-grid {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-        }
-
-        @media (max-width: 760px) {
-
-            .staff-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                border-right: none;
-
-                border-bottom:
-                    1px solid var(--border);
-            }
-
-            .staff-menu {
-                display: grid;
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-            .staff-content {
-                padding: 20px;
-            }
-
-            .staff-head {
-                flex-direction: column;
-            }
-
-        }
-
-        @media (max-width: 500px) {
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .staff-menu {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Staff</title>
+  <link rel="stylesheet" href="/style.css">
+
+  <style>
+    /* =========================
+       MODALE TICKET - DESIGN
+       ========================= */
+
+    .ticket-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      overflow-y: auto;
+    }
+
+    .ticket-modal.show {
+      display: flex;
+      animation: modalFade .25s ease;
+    }
+
+    .ticket-modal::before,
+    .ticket-modal::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: .42;
+      pointer-events: none;
+    }
+
+    .ticket-modal::before {
+      background: #8b5cf6;
+      top: 4%;
+      left: 12%;
+    }
+
+    .ticket-modal::after {
+      background: #00e5ff;
+      bottom: 4%;
+      right: 12%;
+    }
+
+    .ticket-backdrop {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(139, 92, 246, .18), transparent 35%),
+        radial-gradient(circle at 25% 75%, rgba(0, 229, 255, .12), transparent 35%),
+        rgba(4, 6, 15, .72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .ticket-modal-box {
+      position: relative;
+      z-index: 2;
+      width: min(780px, 100%);
+      max-height: calc(100vh - 50px);
+      overflow-y: auto;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(24, 20, 52, .94),
+          rgba(9, 16, 31, .96)
+        );
+      box-shadow:
+        0 35px 100px rgba(0,0,0,.6),
+        0 0 60px rgba(139,92,246,.16);
+      padding: 28px;
+      animation: modalUp .28s ease;
+    }
+
+    .ticket-modal-box::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    .ticket-modal-box::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.18);
+      border-radius: 20px;
+    }
+
+    .ticket-modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .ticket-modal-title {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.1;
+    }
+
+    .ticket-modal-subtitle {
+      margin-top: 7px;
+      color: rgba(255,255,255,.58);
+      font-size: 14px;
+    }
+
+    .ticket-close {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      color: white;
+      cursor: pointer;
+      font-size: 21px;
+      transition: .2s ease;
+    }
+
+    .ticket-close:hover {
+      background: rgba(255,255,255,.12);
+      transform: rotate(4deg) scale(1.04);
+    }
+
+    .ticket-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .ticket-info-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.045);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .ticket-info-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .11em;
+      color: rgba(255,255,255,.42);
+      margin-bottom: 7px;
+    }
+
+    .ticket-info-value {
+      font-size: 15px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .ticket-section {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.035);
+    }
+
+    .ticket-section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      color: rgba(255,255,255,.55);
+      margin-bottom: 10px;
+    }
+
+    .ticket-message {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      color: rgba(255,255,255,.88);
+      overflow-wrap: anywhere;
+    }
+
+    .ticket-date-box {
+      margin-top: 18px;
+      padding: 15px 16px;
+      border-radius: 17px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(139,92,246,.13),
+          rgba(0,229,255,.08)
+        );
+      border: 1px solid rgba(139,92,246,.2);
+    }
+
+    .ticket-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .ticket-card-clickable {
+      cursor: pointer;
+      transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .ticket-card-clickable:hover {
+      transform: translateY(-3px);
+      border-color: rgba(139,92,246,.38);
+      box-shadow:
+        0 15px 40px rgba(0,0,0,.25),
+        0 0 30px rgba(139,92,246,.08);
+    }
+
+    .ticket-card-preview {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modalUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .ticket-modal {
+        padding: 14px;
+        align-items: center;
+      }
+
+      .ticket-modal-box {
+        padding: 20px;
+        border-radius: 22px;
+        max-height: calc(100vh - 28px);
+      }
+
+      .ticket-info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ticket-modal-head {
+        margin-bottom: 18px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+<header class="topbar">
+  <div class="logo">MON <span>PREMIER</span> SITE</div>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <a class="btn" href="/page2.html">Voir le site</a>
+    <button class="btn btn-danger" onclick="logout()">Déconnexion</button>
+  </div>
+</header>
 
-    <header class="topbar">
+<div style="display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 70px)">
 
-        <a
-            href="page2.html"
-            class="logo"
-        >
-            MON <span>PREMIER</span> SITE
-        </a>
+  <aside style="padding:18px;border-right:1px solid var(--border);background:rgba(0,0,0,.15)">
+    <div class="small-text" style="margin-bottom:12px">ADMINISTRATION</div>
 
+    <div id="menu" style="display:flex;flex-direction:column;gap:7px">
 
-        <div
-            style="
-                display:flex;
-                gap:9px;
-                flex-wrap:wrap;
-            "
-        >
+      <button class="btn btn-primary" data-s="dash">📊 Dashboard</button>
+      <button class="btn" data-s="tickets">🎫 Tickets</button>
+      <button class="btn" data-s="vies">❤️ Fiches</button>
+      <button class="btn" data-s="annonces">📢 Annonces</button>
+      <button class="btn" data-s="events">📅 Événements</button>
+      <button class="btn" data-s="membres">👥 Membres</button>
+      <button class="btn" data-s="ambition">🚀 Ambition</button>
 
-            <a
-                href="page2.html"
-                class="btn"
-            >
-                Voir le site
-            </a>
+    </div>
+  </aside>
 
-            <button
-                id="logoutButton"
-                class="btn btn-danger"
-            >
-                Déconnexion
-            </button>
+  <main class="container" style="padding-top:28px">
 
+    <div id="notice" class="notice"></div>
+
+    <!-- DASHBOARD -->
+    <section id="dash">
+
+      <h1 class="section-title">Tableau de bord</h1>
+
+      <div class="card-grid" style="margin-top:25px">
+
+        <div class="glass card">
+          <div class="small-text">Tickets</div>
+          <strong id="st" style="font-size:30px">0</strong>
         </div>
 
-    </header>
+        <div class="glass card">
+          <div class="small-text">Fiches</div>
+          <strong id="sv" style="font-size:30px">0</strong>
+        </div>
 
+        <div class="glass card">
+          <div class="small-text">Ambition</div>
+          <strong id="sa" style="font-size:30px">0</strong>
+        </div>
 
-    <!-- =========================
-         LAYOUT
-    ========================== -->
+      </div>
 
-    <div class="staff-layout">
+    </section>
 
+    <!-- TICKETS -->
+    <section id="tickets" style="display:none">
 
-        <!-- =========================
-             SIDEBAR
-        ========================== -->
+      <h1 class="section-title">Tickets</h1>
 
-        <aside class="sidebar">
+      <div id="tl" style="margin-top:22px"></div>
 
-            <div class="sidebar-title">
-                ADMINISTRATION
+    </section>
+
+    <!-- FICHES -->
+    <section id="vies" style="display:none">
+
+      <h1 class="section-title">Fiches de vie</h1>
+
+      <div id="vl" style="margin-top:22px"></div>
+
+    </section>
+
+    <!-- ANNONCES -->
+    <section id="annonces" style="display:none">
+
+      <h1 class="section-title">Annonces</h1>
+
+      <div class="glass form-card" style="margin:20px 0">
+
+        <form id="af">
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label>Titre</label>
+              <input id="at" class="input" required>
             </div>
 
+            <div class="field">
+              <label>Auteur</label>
+              <input id="aa" class="input" value="Staff">
+            </div>
 
-            <nav class="staff-menu">
+            <div class="field full">
+              <label>Contenu</label>
+              <textarea id="ac" class="textarea" required></textarea>
+            </div>
 
-                <button
-                    class="active"
-                    data-section="dashboard"
-                >
-                    📊 Tableau de bord
-                </button>
+          </div>
 
-                <button
-                    data-section="tickets"
-                >
-                    🎫 Tickets
-                </button>
+          <div class="form-actions">
+            <span></span>
+            <button class="btn btn-primary">Publier</button>
+          </div>
 
-                <button
-                    data-section="vies"
-                >
-                    ❤️ Fiches de vie
-                </button>
+        </form>
 
-                <button
-                    data-section="annonces"
-                >
-                    📢 Annonces
-                </button>
+      </div>
 
-                <button
-                    data-section="evenements"
-                >
-                    📅 Événements
-                </button>
+      <div id="al"></div>
 
-                <button
-                    data-section="membres"
-                >
-                    👥 Membres
-                </button>
+    </section>
 
-                <button
-                    data-section="ambition"
-                >
-                    🚀 Ambition
-                </button>
+    <!-- EVENTS -->
+    <section id="events" style="display:none">
 
-                <button
-                    data-section="parametres"
-                >
-                    ⚙️ Paramètres
-                </button>
+      <h1 class="section-title">Événements</h1>
 
-            </nav>
+      <div id="el" style="margin-top:22px"></div>
 
-        </aside>
+    </section>
 
+    <!-- MEMBRES -->
+    <section id="membres" style="display:none">
 
-        <!-- =========================
-             CONTENU
-        ========================== -->
+      <h1 class="section-title">Membres</h1>
 
-        <main class="staff-content">
+      <div id="ml" style="margin-top:22px"></div>
 
-            <div
-                id="notice"
-                class="notice"
-            ></div>
+    </section>
 
+    <!-- AMBITION -->
+    <section id="ambition" style="display:none">
 
-            <!-- DASHBOARD -->
+      <h1 class="section-title">Ambition</h1>
 
-            <section
-                id="section-dashboard"
-                class="staff-section active"
-            >
+      <div class="glass form-card" style="margin:20px 0">
 
-                <div class="staff-head">
+        <form id="ambf">
 
-                    <div>
+          <div class="form-grid">
 
-                        <h1>
-                            Tableau de bord
-                        </h1>
+            <div class="field">
+              <label>Titre</label>
+              <input id="pt" class="input" required>
+            </div>
 
-                        <p>
-                            Vue d'ensemble de ton espace Staff.
-                        </p>
+            <div class="field">
+              <label>Responsable</label>
+              <input id="pr" class="input" required>
+            </div>
 
-                    </div>
+            <div class="field">
+              <label>Date de fin</label>
+              <input id="pd" class="input" type="date">
+            </div>
 
-                </div>
+            <div class="field">
+              <label>Statut</label>
 
+              <select id="ps" class="select">
+                <option>En préparation</option>
+                <option>En cours</option>
+                <option>Terminé</option>
+                <option>En pause</option>
+              </select>
 
-                <div class="stats-grid">
+            </div>
 
-                    <div class="glass stat-card">
+            <div class="field">
+              <label>Progression</label>
+              <input id="pp" class="input" type="number" min="0" max="100" value="0">
+            </div>
 
-                        <div class="stat-label">
-                            Tickets
-                        </div>
+            <div class="field full">
+              <label>Description</label>
+              <textarea id="pc" class="textarea" required></textarea>
+            </div>
 
-                        <div
-                            id="statTickets"
-                            class="stat-number"
-                        >
-                            0
-                        </div>
+          </div>
 
-                    </div>
+          <div class="form-actions">
+            <span></span>
+            <button class="btn btn-green">Créer le projet</button>
+          </div>
 
+        </form>
 
-                    <div class="glass stat-card">
+      </div>
 
-                        <div class="stat-label">
-                            Fiches de vie
-                        </div>
+      <div id="pl"></div>
 
-                        <div
-                            id="statVies"
-                            class="stat-number"
-                        >
-                            0
-                        </div>
+    </section>
 
-                    </div>
+  </main>
+</div>
 
+<footer>
+  © 2026 Mon Premier Site — Staff
+</footer>
 
-                    <div class="glass stat-card">
 
-                        <div class="stat-label">
-                            Membres
-                        </div>
+<!-- =========================
+     MODALE TICKET
+     ========================= -->
 
-                        <div
-                            id="statMembres"
-                            class="stat-number"
-                        >
-                            0
-                        </div>
+<div id="ticketModal" class="ticket-modal" onclick="closeTicketModal(event)">
 
-                    </div>
+  <div class="ticket-backdrop"></div>
 
+  <div class="ticket-modal-box">
 
-                    <div class="glass stat-card">
+    <div class="ticket-modal-head">
 
-                        <div class="stat-label">
-                            Projets Ambition
-                        </div>
+      <div>
+        <h2 id="modalTicketTitle" class="ticket-modal-title">
+          Ticket
+        </h2>
 
-                        <div
-                            id="statAmbition"
-                            class="stat-number"
-                        >
-                            0
-                        </div>
+        <div class="ticket-modal-subtitle">
+          Détails complets du ticket
+        </div>
+      </div>
 
-                    </div>
-
-                </div>
-
-
-                <div class="glass card">
-
-                    <div class="badge">
-                        ✦ STAFF
-                    </div>
-
-                    <h2
-                        style="margin-top:17px;"
-                    >
-                        Bienvenue dans l'administration
-                    </h2>
-
-                    <p
-                        style="
-                            margin-top:10px;
-                            color:var(--muted);
-                        "
-                    >
-                        Utilise le menu pour gérer les différents
-                        espaces du site.
-                    </p>
-
-                </div>
-
-            </section>
-
-
-            <!-- TICKETS -->
-
-            <section
-                id="section-tickets"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Tickets
-                        </h1>
-
-                        <p>
-                            Consulte et gère les demandes reçues.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="ticketsList"
-                    class="item-list"
-                ></div>
-
-            </section>
-
-
-            <!-- VIES -->
-
-            <section
-                id="section-vies"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Fiches de vie
-                        </h1>
-
-                        <p>
-                            Consulte les fiches envoyées.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="viesList"
-                    class="item-list"
-                ></div>
-
-            </section>
-
-
-            <!-- ANNONCES -->
-
-            <section
-                id="section-annonces"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Annonces
-                        </h1>
-
-                        <p>
-                            Publie les informations du site.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="newAnnonce()"
-                    >
-                        + Nouvelle annonce
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="annoncesList"
-                    class="item-list"
-                ></div>
-
-                <div
-                    id="annonceFormBox"
-                    class="form-box"
-                ></div>
-
-            </section>
-
-
-            <!-- EVENEMENTS -->
-
-            <section
-                id="section-evenements"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Événements
-                        </h1>
-
-                        <p>
-                            Gère les événements du site.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="newEvenement()"
-                    >
-                        + Nouvel événement
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="evenementsList"
-                    class="item-list"
-                ></div>
-
-                <div
-                    id="evenementFormBox"
-                    class="form-box"
-                ></div>
-
-            </section>
-
-
-            <!-- MEMBRES -->
-
-            <section
-                id="section-membres"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Membres
-                        </h1>
-
-                        <p>
-                            Gère les membres et leurs rôles.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-primary"
-                        onclick="newMembre()"
-                    >
-                        + Nouveau membre
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="membresList"
-                    class="item-list"
-                ></div>
-
-                <div
-                    id="membreFormBox"
-                    class="form-box"
-                ></div>
-
-            </section>
-
-
-            <!-- AMBITION -->
-
-            <section
-                id="section-ambition"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Ambition
-                        </h1>
-
-                        <p>
-                            Suis et modifie les projets de la communauté.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="btn btn-green"
-                        onclick="newAmbition()"
-                    >
-                        + Nouveau projet
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="ambitionList"
-                    class="item-list"
-                ></div>
-
-                <div
-                    id="ambitionFormBox"
-                    class="form-box"
-                ></div>
-
-            </section>
-
-
-            <!-- PARAMETRES -->
-
-            <section
-                id="section-parametres"
-                class="staff-section"
-            >
-
-                <div class="staff-head">
-
-                    <div>
-
-                        <h1>
-                            Paramètres
-                        </h1>
-
-                        <p>
-                            Configuration générale du site.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="glass form-card">
-
-                    <form
-                        id="settingsForm"
-                    >
-
-                        <div class="form-grid">
-
-                            <div class="field">
-
-                                <label for="siteNom">
-                                    Nom du site
-                                </label>
-
-                                <input
-                                    id="siteNom"
-                                    class="input"
-                                    type="text"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label for="siteDescription">
-                                    Description
-                                </label>
-
-                                <input
-                                    id="siteDescription"
-                                    class="input"
-                                    type="text"
-                                >
-
-                            </div>
-
-
-                            <div class="field full">
-
-                                <label for="messageAccueil">
-                                    Message d'accueil
-                                </label>
-
-                                <textarea
-                                    id="messageAccueil"
-                                    class="textarea"
-                                ></textarea>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            style="margin-top:18px;"
-                        >
-
-                            <button
-                                class="btn btn-primary"
-                                type="submit"
-                            >
-                                Enregistrer
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </section>
-
-        </main>
+      <button
+        class="ticket-close"
+        onclick="closeTicketModal()"
+        aria-label="Fermer"
+      >
+        ✕
+      </button>
 
     </div>
 
 
-    <script src="background.js"></script>
+    <div class="ticket-info-grid">
+
+      <div class="ticket-info-card">
+        <div class="ticket-info-label">Statut</div>
+        <div id="modalStatus" class="ticket-info-value">-</div>
+      </div>
+
+      <div class="ticket-info-card">
+        <div class="ticket-info-label">Type</div>
+        <div id="modalType" class="ticket-info-value">-</div>
+      </div>
+
+      <div class="ticket-info-card">
+        <div class="ticket-info-label">Nom / pseudo</div>
+        <div id="modalName" class="ticket-info-value">-</div>
+      </div>
+
+      <div class="ticket-info-card">
+        <div class="ticket-info-label">Discord</div>
+        <div id="modalDiscord" class="ticket-info-value">-</div>
+      </div>
+
+    </div>
 
 
-    <script>
+    <div class="ticket-section">
 
-        let tickets = [];
-        let vies = [];
-        let annonces = [];
-        let evenements = [];
-        let membres = [];
-        let ambition = [];
+      <div class="ticket-section-title">
+        Sujet
+      </div>
 
+      <div id="modalSubject" class="ticket-info-value">
+        -
+      </div>
 
-        function escapeHTML(
-            value
-        ) {
-
-            return String(
-                value ?? ""
-            )
-                .replaceAll("&", "&amp;")
-                .replaceAll("<", "&lt;")
-                .replaceAll(">", "&gt;")
-                .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
-
-        }
+    </div>
 
 
-        function showNotice(
-            message,
-            type = "success"
-        ) {
+    <div class="ticket-section">
 
-            const notice =
-                document.getElementById(
-                    "notice"
-                );
+      <div class="ticket-section-title">
+        Message
+      </div>
 
-            notice.textContent =
-                message;
+      <div id="modalMessage" class="ticket-message">
+        -
+      </div>
 
-            notice.className =
-                "notice show " +
-                type;
-
-            clearTimeout(
-                window.noticeTimer
-            );
-
-            window.noticeTimer =
-                setTimeout(
-                    () => {
-
-                        notice.className =
-                            "notice";
-
-                    },
-                    3500
-                );
-
-        }
+    </div>
 
 
-        async function api(
-            url,
-            options = {}
-        ) {
+    <div id="modalResponseSection" class="ticket-section" style="display:none">
 
-            const response =
-                await fetch(
-                    url,
-                    {
-                        credentials:
-                            "same-origin",
+      <div class="ticket-section-title">
+        Réponse
+      </div>
 
-                        ...options
-                    }
-                );
+      <div id="modalResponse" class="ticket-message">
+        -
+      </div>
+
+    </div>
 
 
-            const data =
-                await response
-                    .json()
-                    .catch(
-                        () => ({})
-                    );
+    <div class="ticket-date-box">
+
+      <div class="ticket-info-label">
+        Date et heure de création
+      </div>
+
+      <div id="modalDate" class="ticket-info-value">
+        -
+      </div>
+
+    </div>
 
 
-            if (
-                response.status === 401
-            ) {
+    <div class="ticket-actions">
 
-                location.href =
-                    "staff-login.html";
+      <button
+        class="btn"
+        onclick="closeTicketModal()"
+      >
+        Fermer
+      </button>
 
-                throw new Error(
-                    "Session expirée."
-                );
+    </div>
 
-            }
+  </div>
 
-
-            if (
-                !response.ok ||
-                data.success === false
-            ) {
-
-                throw new Error(
-                    data.message ||
-                    "Une erreur est survenue."
-                );
-
-            }
+</div>
 
 
-            return data;
+<script src="/background.js"></script>
 
-        }
+<script>
+  let D = {
+    tickets: [],
+    vies: [],
+    annonces: [],
+    evenements: [],
+    membres: [],
+    ambition: []
+  };
 
-
-        /* MENU */
-
-        document
-            .querySelectorAll(
-                ".staff-menu button"
-            )
-            .forEach(
-                button => {
-
-                    button.addEventListener(
-                        "click",
-                        () => {
-
-                            document
-                                .querySelectorAll(
-                                    ".staff-menu button"
-                                )
-                                .forEach(
-                                    item =>
-                                        item.classList.remove(
-                                            "active"
-                                        )
-                                );
+  const notice = document.getElementById("notice");
 
 
-                            button.classList.add(
-                                "active"
-                            );
+  function esc(v) {
+    return String(v ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
 
-                            document
-                                .querySelectorAll(
-                                    ".staff-section"
-                                )
-                                .forEach(
-                                    section =>
-                                        section.classList.remove(
-                                            "active"
-                                        )
-                                );
+  function show(m, t = "success") {
+
+    notice.textContent = m;
+    notice.className = "notice show " + t;
+
+    setTimeout(() => {
+      notice.className = "notice";
+    }, 3500);
+
+  }
 
 
-                            document
-                                .getElementById(
-                                    "section-" +
-                                    button.dataset.section
-                                )
-                                .classList.add(
-                                    "active"
-                                );
+  async function api(u, o = {}) {
 
-                        }
-                    );
+    const r = await fetch(u, {
+      credentials: "same-origin",
+      ...o
+    });
 
-                }
-            );
+    const d = await r.json().catch(() => ({}));
+
+    if (r.status === 401) {
+      location.href = "/staff-login.html";
+      throw new Error("Session expirée.");
+    }
+
+    if (!r.ok || d.success === false) {
+      throw new Error(d.message || "Erreur");
+    }
+
+    return d;
+
+  }
 
 
-        /* LOGOUT */
+  async function logout() {
+
+    try {
+      await api("/api/logout", {
+        method: "POST"
+      });
+    } catch {}
+
+    location.href = "/staff-login.html";
+  }
+
+
+  /* =========================
+     MENU
+     ========================= */
+
+  document
+    .querySelectorAll("#menu [data-s]")
+    .forEach(btn => {
+
+      btn.onclick = () => {
 
         document
-            .getElementById(
-                "logoutButton"
-            )
-            .addEventListener(
-                "click",
-                async () => {
-
-                    try {
-
-                        await api(
-                            "/api/logout",
-                            {
-                                method:
-                                    "POST"
-                            }
-                        );
-
-                    }
-                    catch (error) {
-
-                        console.error(
-                            error
-                        );
-
-                    }
-
-
-                    location.href =
-                        "staff-login.html";
-
-                }
-            );
-
-
-        /* CHARGEMENT */
-
-        async function loadAll() {
-
-            try {
-
-                const results =
-                    await Promise.all(
-                        [
-
-                            api(
-                                "/api/tickets"
-                            ),
-
-                            api(
-                                "/api/vies"
-                            ),
-
-                            api(
-                                "/api/annonces"
-                            ),
-
-                            api(
-                                "/api/evenements"
-                            ),
-
-                            api(
-                                "/api/membres"
-                            ),
-
-                            api(
-                                "/api/ambition"
-                            )
-
-                        ]
-                    );
-
-
-                tickets =
-                    results[0].tickets ||
-                    [];
-
-                vies =
-                    results[1].vies ||
-                    [];
-
-                annonces =
-                    results[2].annonces ||
-                    [];
-
-                evenements =
-                    results[3].evenements ||
-                    [];
-
-                membres =
-                    results[4].membres ||
-                    [];
-
-                ambition =
-                    results[5].projects ||
-                    [];
-
-
-                document.getElementById(
-                    "statTickets"
-                ).textContent =
-                    tickets.length;
-
-
-                document.getElementById(
-                    "statVies"
-                ).textContent =
-                    vies.length;
-
-
-                document.getElementById(
-                    "statMembres"
-                ).textContent =
-                    membres.length;
-
-
-                document.getElementById(
-                    "statAmbition"
-                ).textContent =
-                    ambition.length;
-
-
-                renderTickets();
-                renderVies();
-                renderAnnonces();
-                renderEvenements();
-                renderMembres();
-                renderAmbition();
-
-
-                await loadSettings();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* TICKETS */
-
-        function renderTickets() {
-
-            const box =
-                document.getElementById(
-                    "ticketsList"
-                );
-
-
-            if (
-                tickets.length === 0
-            ) {
-
-                box.innerHTML =
-                    '<div class="empty">Aucun ticket.</div>';
-
-                return;
-
-            }
-
-
-            box.innerHTML =
-                tickets
-                    .slice()
-                    .reverse()
-                    .map(
-                        ticket => {
-
-                            return `
-
-                                <article
-                                    class="glass admin-item"
-                                >
-
-                                    <div
-                                        class="admin-item-top"
-                                    >
-
-                                        <div>
-
-                                            <h3>
-                                                ${escapeHTML(
-                                                    ticket.sujet
-                                                )}
-                                            </h3>
-
-                                            <p>
-                                                ${escapeHTML(
-                                                    ticket.message
-                                                )}
-                                            </p>
-
-                                        </div>
-
-                                        <span
-                                            class="badge"
-                                        >
-                                            ${escapeHTML(
-                                                ticket.statut ||
-                                                "Nouveau"
-                                            )}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="admin-meta">
-
-                                        👤
-                                        ${escapeHTML(
-                                            ticket.nom
-                                        )}
-
-                                        · Discord :
-                                        ${escapeHTML(
-                                            ticket.discord
-                                        )}
-
-                                        ·
-                                        ${escapeHTML(
-                                            ticket.type
-                                        )}
-
-                                    </div>
-
-
-                                    <div class="admin-actions">
-
-                                        <select
-                                            class="select"
-                                            style="max-width:190px;"
-                                            onchange="
-                                                changeTicketStatus(
-                                                    '${ticket.id}',
-                                                    this.value
-                                                )
-                                            "
-                                        >
-
-                                            ${
-                                                [
-                                                    "Nouveau",
-                                                    "En cours",
-                                                    "Résolu",
-                                                    "Fermé"
-                                                ]
-                                                    .map(
-                                                        status =>
-                                                            `
-                                                                <option
-                                                                    value="${status}"
-                                                                    ${
-                                                                        ticket.statut === status
-                                                                            ? "selected"
-                                                                            : ""
-                                                                    }
-                                                                >
-                                                                    ${status}
-                                                                </option>
-                                                            `
-                                                    )
-                                                    .join("")
-                                            }
-
-                                        </select>
-
-
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="
-                                                deleteTicket(
-                                                    '${ticket.id}'
-                                                )
-                                            "
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        /* VIES */
-
-        function renderVies() {
-
-            const box =
-                document.getElementById(
-                    "viesList"
-                );
-
-
-            if (
-                vies.length === 0
-            ) {
-
-                box.innerHTML =
-                    '<div class="empty">Aucune fiche de vie.</div>';
-
-                return;
-
-            }
-
-
-            box.innerHTML =
-                vies
-                    .slice()
-                    .reverse()
-                    .map(
-                        vie => {
-
-                            return `
-
-                                <article
-                                    class="glass admin-item"
-                                >
-
-                                    <div
-                                        class="admin-item-top"
-                                    >
-
-                                        <div>
-
-                                            <h3>
-                                                ${escapeHTML(
-                                                    vie.prenom
-                                                )}
-                                            </h3>
-
-                                            <p>
-                                                ${escapeHTML(
-                                                    vie.histoire
-                                                )}
-                                            </p>
-
-                                        </div>
-
-                                        <span
-                                            class="badge"
-                                        >
-                                            ${escapeHTML(
-                                                vie.genre
-                                            )}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="admin-meta">
-
-                                        Âge :
-                                        ${escapeHTML(
-                                            vie.age
-                                        )}
-
-                                        · Discord :
-                                        ${escapeHTML(
-                                            vie.discord
-                                        )}
-
-                                    </div>
-
-
-                                    <div class="admin-actions">
-
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="
-                                                deleteVie(
-                                                    '${vie.id}'
-                                                )
-                                            "
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        /* ANNONCES */
-
-        function renderAnnonces() {
-
-            const box =
-                document.getElementById(
-                    "annoncesList"
-                );
-
-
-            if (
-                annonces.length === 0
-            ) {
-
-                box.innerHTML =
-                    '<div class="empty">Aucune annonce.</div>';
-
-                return;
-
-            }
-
-
-            box.innerHTML =
-                annonces
-                    .slice()
-                    .reverse()
-                    .map(
-                        annonce => {
-
-                            return `
-
-                                <article
-                                    class="glass admin-item"
-                                >
-
-                                    <h3>
-                                        ${escapeHTML(
-                                            annonce.titre
-                                        )}
-                                    </h3>
-
-                                    <p>
-                                        ${escapeHTML(
-                                            annonce.contenu
-                                        )}
-                                    </p>
-
-
-                                    <div class="admin-meta">
-
-                                        ${escapeHTML(
-                                            annonce.auteur ||
-                                            "Staff"
-                                        )}
-
-                                    </div>
-
-
-                                    <div class="admin-actions">
-
-                                        <button
-                                            class="btn"
-                                            onclick="
-                                                editAnnonce(
-                                                    '${annonce.id}'
-                                                )
-                                            "
-                                        >
-                                            Modifier
-                                        </button>
-
-
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="
-                                                deleteAnnonce(
-                                                    '${annonce.id}'
-                                                )
-                                            "
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        function newAnnonce() {
-
-            document.getElementById(
-                "annonceFormBox"
-            ).innerHTML =
-                annonceForm();
-
-        }
-
-
-        function annonceForm(
-            annonce = {}
-        ) {
-
-            return `
-
-                <div
-                    class="glass form-card"
-                >
-
-                    <form
-                        onsubmit="saveAnnonce(event)"
-                    >
-
-                        <input
-                            type="hidden"
-                            id="annonceId"
-                            value="${escapeHTML(
-                                annonce.id || ""
-                            )}"
-                        >
-
-
-                        <div class="form-grid">
-
-                            <div class="field">
-
-                                <label>
-                                    Titre
-                                </label>
-
-                                <input
-                                    id="annonceTitre"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        annonce.titre || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Auteur
-                                </label>
-
-                                <input
-                                    id="annonceAuteur"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        annonce.auteur ||
-                                        "Staff"
-                                    )}"
-                                >
-
-                            </div>
-
-
-                            <div class="field full">
-
-                                <label>
-                                    Contenu
-                                </label>
-
-                                <textarea
-                                    id="annonceContenu"
-                                    class="textarea"
-                                    required
-                                >${escapeHTML(
-                                    annonce.contenu || ""
-                                )}</textarea>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="admin-actions"
-                        >
-
-                            <button
-                                class="btn btn-primary"
-                            >
-                                Enregistrer
-                            </button>
-
-                            <button
-                                type="button"
-                                class="btn"
-                                onclick="
-                                    document.getElementById(
-                                        'annonceFormBox'
-                                    ).innerHTML = ''
-                                "
-                            >
-                                Annuler
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            `;
-
-        }
-
-
-        function editAnnonce(
-            id
-        ) {
-
-            const annonce =
-                annonces.find(
-                    item =>
-                        item.id === id
-                );
-
-
-            if (
-                !annonce
-            ) return;
-
-
-            document.getElementById(
-                "annonceFormBox"
-            ).innerHTML =
-                annonceForm(
-                    annonce
-                );
-
-        }
-
-
-        async function saveAnnonce(
-            event
-        ) {
-
-            event.preventDefault();
-
-
-            const id =
-                document.getElementById(
-                    "annonceId"
-                ).value;
-
-
-            const payload = {
-
-                titre:
-                    document.getElementById(
-                        "annonceTitre"
-                    ).value,
-
-                auteur:
-                    document.getElementById(
-                        "annonceAuteur"
-                    ).value,
-
-                contenu:
-                    document.getElementById(
-                        "annonceContenu"
-                    ).value
-
-            };
-
-
-            try {
-
-                await api(
-                    id
-                        ? "/api/annonces/" +
-                          encodeURIComponent(id)
-                        : "/api/annonces",
-                    {
-                        method:
-                            id
-                                ? "PATCH"
-                                : "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
-                    }
-                );
-
-
-                document.getElementById(
-                    "annonceFormBox"
-                ).innerHTML = "";
-
-
-                showNotice(
-                    "Annonce enregistrée."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* EVENEMENTS */
-
-        function renderEvenements() {
-
-            const box =
-                document.getElementById(
-                    "evenementsList"
-                );
-
-
-            if (
-                evenements.length === 0
-            ) {
-
-                box.innerHTML =
-                    '<div class="empty">Aucun événement.</div>';
-
-                return;
-
-            }
-
-
-            box.innerHTML =
-                evenements
-                    .slice()
-                    .reverse()
-                    .map(
-                        evenement => {
-
-                            return `
-
-                                <article
-                                    class="glass admin-item"
-                                >
-
-                                    <h3>
-                                        ${escapeHTML(
-                                            evenement.titre
-                                        )}
-                                    </h3>
-
-                                    <p>
-                                        ${escapeHTML(
-                                            evenement.description
-                                        )}
-                                    </p>
-
-                                    <div class="admin-meta">
-
-                                        📅
-                                        ${escapeHTML(
-                                            evenement.date
-                                        )}
-
-                                        ${
-                                            evenement.heure
-                                                ? " · 🕒 " +
-                                                  escapeHTML(
-                                                      evenement.heure
-                                                  )
-                                                : ""
-                                        }
-
-                                        ${
-                                            evenement.lieu
-                                                ? " · 📍 " +
-                                                  escapeHTML(
-                                                      evenement.lieu
-                                                  )
-                                                : ""
-                                        }
-
-                                    </div>
-
-
-                                    <div class="admin-actions">
-
-                                        <button
-                                            class="btn"
-                                            onclick="
-                                                editEvenement(
-                                                    '${evenement.id}'
-                                                )
-                                            "
-                                        >
-                                            Modifier
-                                        </button>
-
-
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="
-                                                deleteEvenement(
-                                                    '${evenement.id}'
-                                                )
-                                            "
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        function newEvenement() {
-
-            document.getElementById(
-                "evenementFormBox"
-            ).innerHTML =
-                evenementForm();
-
-        }
-
-
-        function evenementForm(
-            evenement = {}
-        ) {
-
-            return `
-
-                <div
-                    class="glass form-card"
-                >
-
-                    <form
-                        onsubmit="saveEvenement(event)"
-                    >
-
-                        <input
-                            type="hidden"
-                            id="evenementId"
-                            value="${escapeHTML(
-                                evenement.id || ""
-                            )}"
-                        >
-
-
-                        <div class="form-grid">
-
-                            <div class="field full">
-
-                                <label>
-                                    Titre
-                                </label>
-
-                                <input
-                                    id="evenementTitre"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        evenement.titre || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Date
-                                </label>
-
-                                <input
-                                    id="evenementDate"
-                                    class="input"
-                                    type="date"
-                                    value="${escapeHTML(
-                                        evenement.date || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Heure
-                                </label>
-
-                                <input
-                                    id="evenementHeure"
-                                    class="input"
-                                    type="time"
-                                    value="${escapeHTML(
-                                        evenement.heure || ""
-                                    )}"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Lieu
-                                </label>
-
-                                <input
-                                    id="evenementLieu"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        evenement.lieu || ""
-                                    )}"
-                                >
-
-                            </div>
-
-
-                            <div class="field full">
-
-                                <label>
-                                    Description
-                                </label>
-
-                                <textarea
-                                    id="evenementDescription"
-                                    class="textarea"
-                                    required
-                                >${escapeHTML(
-                                    evenement.description || ""
-                                )}</textarea>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="admin-actions"
-                        >
-
-                            <button
-                                class="btn btn-primary"
-                            >
-                                Enregistrer
-                            </button>
-
-                            <button
-                                type="button"
-                                class="btn"
-                                onclick="
-                                    document.getElementById(
-                                        'evenementFormBox'
-                                    ).innerHTML = ''
-                                "
-                            >
-                                Annuler
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            `;
-
-        }
-
-
-        function editEvenement(
-            id
-        ) {
-
-            const evenement =
-                evenements.find(
-                    item =>
-                        item.id === id
-                );
-
-
-            if (!evenement) return;
-
-
-            document.getElementById(
-                "evenementFormBox"
-            ).innerHTML =
-                evenementForm(
-                    evenement
-                );
-
-        }
-
-
-        async function saveEvenement(
-            event
-        ) {
-
-            event.preventDefault();
-
-
-            const id =
-                document.getElementById(
-                    "evenementId"
-                ).value;
-
-
-            const payload = {
-
-                titre:
-                    document.getElementById(
-                        "evenementTitre"
-                    ).value,
-
-                date:
-                    document.getElementById(
-                        "evenementDate"
-                    ).value,
-
-                heure:
-                    document.getElementById(
-                        "evenementHeure"
-                    ).value,
-
-                lieu:
-                    document.getElementById(
-                        "evenementLieu"
-                    ).value,
-
-                description:
-                    document.getElementById(
-                        "evenementDescription"
-                    ).value
-
-            };
-
-
-            try {
-
-                await api(
-                    id
-                        ? "/api/evenements/" +
-                          encodeURIComponent(id)
-                        : "/api/evenements",
-                    {
-                        method:
-                            id
-                                ? "PATCH"
-                                : "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
-                    }
-                );
-
-
-                document.getElementById(
-                    "evenementFormBox"
-                ).innerHTML = "";
-
-
-                showNotice(
-                    "Événement enregistré."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* MEMBRES */
-
-        function renderMembres() {
-
-            const box =
-                document.getElementById(
-                    "membresList"
-                );
-
-
-            if (
-                membres.length === 0
-            ) {
-
-                box.innerHTML =
-                    '<div class="empty">Aucun membre.</div>';
-
-                return;
-
-            }
-
-
-            box.innerHTML =
-                membres
-                    .slice()
-                    .reverse()
-                    .map(
-                        membre => {
-
-                            return `
-
-                                <article
-                                    class="glass admin-item"
-                                >
-
-                                    <div
-                                        class="admin-item-top"
-                                    >
-
-                                        <div>
-
-                                            <h3>
-                                                ${escapeHTML(
-                                                    membre.pseudo
-                                                )}
-                                            </h3>
-
-                                            <p>
-                                                Discord :
-                                                ${escapeHTML(
-                                                    membre.discord
-                                                )}
-                                            </p>
-
-                                        </div>
-
-                                        <span
-                                            class="badge"
-                                        >
-                                            ${escapeHTML(
-                                                membre.role ||
-                                                "Membre"
-                                            )}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="admin-meta">
-
-                                        Statut :
-                                        ${escapeHTML(
-                                            membre.statut ||
-                                            "Actif"
-                                        )}
-
-                                    </div>
-
-
-                                    <div
-                                        class="admin-actions"
-                                    >
-
-                                        <button
-                                            class="btn"
-                                            onclick="
-                                                editMembre(
-                                                    '${membre.id}'
-                                                )
-                                            "
-                                        >
-                                            Modifier
-                                        </button>
-
-
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="
-                                                deleteMembre(
-                                                    '${membre.id}'
-                                                )
-                                            "
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        function newMembre() {
-
-            document.getElementById(
-                "membreFormBox"
-            ).innerHTML =
-                membreForm();
-
-        }
-
-
-        function membreForm(
-            membre = {}
-        ) {
-
-            return `
-
-                <div
-                    class="glass form-card"
-                >
-
-                    <form
-                        onsubmit="saveMembre(event)"
-                    >
-
-                        <input
-                            type="hidden"
-                            id="membreId"
-                            value="${escapeHTML(
-                                membre.id || ""
-                            )}"
-                        >
-
-
-                        <div class="form-grid">
-
-                            <div class="field">
-
-                                <label>
-                                    Pseudo
-                                </label>
-
-                                <input
-                                    id="membrePseudo"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        membre.pseudo || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Discord
-                                </label>
-
-                                <input
-                                    id="membreDiscord"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        membre.discord || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Rôle
-                                </label>
-
-                                <input
-                                    id="membreRole"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        membre.role || ""
-                                    )}"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Statut
-                                </label>
-
-                                <select
-                                    id="membreStatut"
-                                    class="select"
-                                >
-
-                                    <option
-                                        value="Actif"
-                                        ${
-                                            membre.statut ===
-                                            "Actif"
-                                                ? "selected"
-                                                : ""
-                                        }
-                                    >
-                                        Actif
-                                    </option>
-
-                                    <option
-                                        value="Inactif"
-                                        ${
-                                            membre.statut ===
-                                            "Inactif"
-                                                ? "selected"
-                                                : ""
-                                        }
-                                    >
-                                        Inactif
-                                    </option>
-
-                                    <option
-                                        value="Suspendu"
-                                        ${
-                                            membre.statut ===
-                                            "Suspendu"
-                                                ? "selected"
-                                                : ""
-                                        }
-                                    >
-                                        Suspendu
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="admin-actions"
-                        >
-
-                            <button
-                                class="btn btn-primary"
-                            >
-                                Enregistrer
-                            </button>
-
-                            <button
-                                type="button"
-                                class="btn"
-                                onclick="
-                                    document.getElementById(
-                                        'membreFormBox'
-                                    ).innerHTML = ''
-                                "
-                            >
-                                Annuler
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            `;
-
-        }
-
-
-        function editMembre(
-            id
-        ) {
-
-            const membre =
-                membres.find(
-                    item =>
-                        item.id === id
-                );
-
-
-            if (!membre) return;
-
-
-            document.getElementById(
-                "membreFormBox"
-            ).innerHTML =
-                membreForm(
-                    membre
-                );
-
-        }
-
-
-        async function saveMembre(
-            event
-        ) {
-
-            event.preventDefault();
-
-
-            const id =
-                document.getElementById(
-                    "membreId"
-                ).value;
-
-
-            const payload = {
-
-                pseudo:
-                    document.getElementById(
-                        "membrePseudo"
-                    ).value,
-
-                discord:
-                    document.getElementById(
-                        "membreDiscord"
-                    ).value,
-
-                role:
-                    document.getElementById(
-                        "membreRole"
-                    ).value,
-
-                statut:
-                    document.getElementById(
-                        "membreStatut"
-                    ).value
-
-            };
-
-
-            try {
-
-                await api(
-                    id
-                        ? "/api/membres/" +
-                          encodeURIComponent(id)
-                        : "/api/membres",
-                    {
-                        method:
-                            id
-                                ? "PATCH"
-                                : "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
-                    }
-                );
-
-
-                document.getElementById(
-                    "membreFormBox"
-                ).innerHTML = "";
-
-
-                showNotice(
-                    "Membre enregistré."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* AMBITION */
-
-        function renderAmbition() {
-
-            const box =
-                document.getElementById(
-                    "ambitionList"
-                );
-
-
-            if (
-                ambition.length === 0
-            ) {
-
-                box.innerHTML =
-                    '<div class="empty">Aucun projet Ambition.</div>';
-
-                return;
-
-            }
-
-
-            box.innerHTML =
-                ambition
-                    .slice()
-                    .reverse()
-                    .map(
-                        project => {
-
-                            const progress =
-                                Math.max(
-                                    0,
-                                    Math.min(
-                                        100,
-                                        Number(
-                                            project.progress ||
-                                            0
-                                        )
-                                    )
-                                );
-
-
-                            return `
-
-                                <article
-                                    class="glass admin-item"
-                                >
-
-                                    <div
-                                        class="admin-item-top"
-                                    >
-
-                                        <div>
-
-                                            <h3>
-                                                ${escapeHTML(
-                                                    project.titre
-                                                )}
-                                            </h3>
-
-                                            <p>
-                                                ${escapeHTML(
-                                                    project.description
-                                                )}
-                                            </p>
-
-                                        </div>
-
-                                        <span
-                                            class="badge"
-                                            style="
-                                                color:#baf2c8;
-                                                background:rgba(34,197,94,.08);
-                                                border-color:rgba(34,197,94,.20);
-                                            "
-                                        >
-                                            ${escapeHTML(
-                                                project.status ||
-                                                "En préparation"
-                                            )}
-                                        </span>
-
-                                    </div>
-
-
-                                    <div
-                                        style="
-                                            margin-top:17px;
-                                        "
-                                    >
-
-                                        <div
-                                            style="
-                                                display:flex;
-                                                justify-content:space-between;
-                                                margin-bottom:7px;
-                                                color:#818a84;
-                                                font-size:12px;
-                                            "
-                                        >
-
-                                            <span>
-                                                Progression
-                                            </span>
-
-                                            <strong>
-                                                ${progress}%
-                                            </strong>
-
-                                        </div>
-
-
-                                        <div
-                                            class="progress-line"
-                                        >
-
-                                            <div
-                                                class="progress-bar"
-                                                style="
-                                                    width:${progress}%;
-                                                "
-                                            ></div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="admin-meta">
-
-                                        👤
-                                        ${escapeHTML(
-                                            project.responsable
-                                        )}
-
-                                        ${
-                                            project.dateFin
-                                                ? " · 📅 " +
-                                                  escapeHTML(
-                                                      project.dateFin
-                                                  )
-                                                : ""
-                                        }
-
-                                    </div>
-
-
-                                    <div
-                                        class="admin-actions"
-                                    >
-
-                                        <button
-                                            class="btn btn-green"
-                                            onclick="
-                                                editAmbition(
-                                                    '${project.id}'
-                                                )
-                                            "
-                                        >
-                                            Modifier
-                                        </button>
-
-
-                                        <button
-                                            class="btn btn-danger"
-                                            onclick="
-                                                deleteAmbition(
-                                                    '${project.id}'
-                                                )
-                                            "
-                                        >
-                                            Supprimer
-                                        </button>
-
-                                    </div>
-
-                                </article>
-
-                            `;
-
-                        }
-                    )
-                    .join("");
-
-        }
-
-
-        function newAmbition() {
-
-            document.getElementById(
-                "ambitionFormBox"
-            ).innerHTML =
-                ambitionForm();
-
-        }
-
-
-        function ambitionForm(
-            project = {}
-        ) {
-
-            const progress =
-                Number(
-                    project.progress ||
-                    0
-                );
-
-
-            return `
-
-                <div
-                    class="glass form-card"
-                >
-
-                    <form
-                        onsubmit="saveAmbition(event)"
-                    >
-
-                        <input
-                            type="hidden"
-                            id="ambitionId"
-                            value="${escapeHTML(
-                                project.id || ""
-                            )}"
-                        >
-
-
-                        <div class="form-grid">
-
-                            <div class="field full">
-
-                                <label>
-                                    Titre
-                                </label>
-
-                                <input
-                                    id="ambitionTitre"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        project.titre || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Responsable
-                                </label>
-
-                                <input
-                                    id="ambitionResponsable"
-                                    class="input"
-                                    value="${escapeHTML(
-                                        project.responsable || ""
-                                    )}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Date de fin
-                                </label>
-
-                                <input
-                                    id="ambitionDateFin"
-                                    class="input"
-                                    type="date"
-                                    value="${escapeHTML(
-                                        project.dateFin || ""
-                                    )}"
-                                >
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Statut
-                                </label>
-
-                                <select
-                                    id="ambitionStatus"
-                                    class="select"
-                                >
-
-                                    ${
-                                        [
-                                            "En préparation",
-                                            "En cours",
-                                            "Terminé",
-                                            "En pause"
-                                        ]
-                                            .map(
-                                                status =>
-                                                    `
-                                                        <option
-                                                            value="${status}"
-                                                            ${
-                                                                project.status ===
-                                                                status
-                                                                    ? "selected"
-                                                                    : ""
-                                                            }
-                                                        >
-                                                            ${status}
-                                                        </option>
-                                                    `
-                                            )
-                                            .join("")
-                                    }
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="field">
-
-                                <label>
-                                    Progression (%)
-                                </label>
-
-                                <input
-                                    id="ambitionProgress"
-                                    class="input"
-                                    type="number"
-                                    min="0"
-                                    max="100"
-                                    value="${progress}"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="field full">
-
-                                <label>
-                                    Description
-                                </label>
-
-                                <textarea
-                                    id="ambitionDescription"
-                                    class="textarea"
-                                    required
-                                >${escapeHTML(
-                                    project.description || ""
-                                )}</textarea>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="admin-actions"
-                        >
-
-                            <button
-                                class="btn btn-green"
-                            >
-                                Enregistrer
-                            </button>
-
-                            <button
-                                type="button"
-                                class="btn"
-                                onclick="
-                                    document.getElementById(
-                                        'ambitionFormBox'
-                                    ).innerHTML = ''
-                                "
-                            >
-                                Annuler
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            `;
-
-        }
-
-
-        function editAmbition(
-            id
-        ) {
-
-            const project =
-                ambition.find(
-                    item =>
-                        item.id === id
-                );
-
-
-            if (!project) return;
-
-
-            document.getElementById(
-                "ambitionFormBox"
-            ).innerHTML =
-                ambitionForm(
-                    project
-                );
-
-        }
-
-
-        async function saveAmbition(
-            event
-        ) {
-
-            event.preventDefault();
-
-
-            const id =
-                document.getElementById(
-                    "ambitionId"
-                ).value;
-
-
-            const payload = {
-
-                titre:
-                    document.getElementById(
-                        "ambitionTitre"
-                    ).value,
-
-                responsable:
-                    document.getElementById(
-                        "ambitionResponsable"
-                    ).value,
-
-                dateFin:
-                    document.getElementById(
-                        "ambitionDateFin"
-                    ).value,
-
-                status:
-                    document.getElementById(
-                        "ambitionStatus"
-                    ).value,
-
-                progress:
-                    Number(
-                        document.getElementById(
-                            "ambitionProgress"
-                        ).value
-                    ),
-
-                description:
-                    document.getElementById(
-                        "ambitionDescription"
-                    ).value
-
-            };
-
-
-            try {
-
-                await api(
-                    id
-                        ? "/api/ambition/" +
-                          encodeURIComponent(id)
-                        : "/api/ambition",
-                    {
-                        method:
-                            id
-                                ? "PATCH"
-                                : "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
-                    }
-                );
-
-
-                document.getElementById(
-                    "ambitionFormBox"
-                ).innerHTML = "";
-
-
-                showNotice(
-                    "Projet Ambition enregistré 🚀"
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* ACTIONS */
-
-        async function changeTicketStatus(
-            id,
-            statut
-        ) {
-
-            try {
-
-                await api(
-                    "/api/tickets/" +
-                    encodeURIComponent(id),
-                    {
-                        method: "PATCH",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify({
-                                statut
-                            })
-                    }
-                );
-
-
-                showNotice(
-                    "Ticket modifié."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        async function deleteTicket(
-            id
-        ) {
-
-            if (
-                !confirm(
-                    "Supprimer ce ticket ?"
-                )
-            ) {
-                return;
-            }
-
-
-            try {
-
-                await api(
-                    "/api/tickets/" +
-                    encodeURIComponent(id),
-                    {
-                        method:
-                            "DELETE"
-                    }
-                );
-
-
-                showNotice(
-                    "Ticket supprimé."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        async function deleteVie(
-            id
-        ) {
-
-            if (
-                !confirm(
-                    "Supprimer cette fiche ?"
-                )
-            ) {
-                return;
-            }
-
-
-            try {
-
-                await api(
-                    "/api/vies/" +
-                    encodeURIComponent(id),
-                    {
-                        method:
-                            "DELETE"
-                    }
-                );
-
-
-                showNotice(
-                    "Fiche supprimée."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        async function deleteAnnonce(
-            id
-        ) {
-
-            if (
-                !confirm(
-                    "Supprimer cette annonce ?"
-                )
-            ) {
-                return;
-            }
-
-
-            try {
-
-                await api(
-                    "/api/annonces/" +
-                    encodeURIComponent(id),
-                    {
-                        method:
-                            "DELETE"
-                    }
-                );
-
-
-                showNotice(
-                    "Annonce supprimée."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        async function deleteEvenement(
-            id
-        ) {
-
-            if (
-                !confirm(
-                    "Supprimer cet événement ?"
-                )
-            ) {
-                return;
-            }
-
-
-            try {
-
-                await api(
-                    "/api/evenements/" +
-                    encodeURIComponent(id),
-                    {
-                        method:
-                            "DELETE"
-                    }
-                );
-
-
-                showNotice(
-                    "Événement supprimé."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        async function deleteMembre(
-            id
-        ) {
-
-            if (
-                !confirm(
-                    "Supprimer ce membre ?"
-                )
-            ) {
-                return;
-            }
-
-
-            try {
-
-                await api(
-                    "/api/membres/" +
-                    encodeURIComponent(id),
-                    {
-                        method:
-                            "DELETE"
-                    }
-                );
-
-
-                showNotice(
-                    "Membre supprimé."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        async function deleteAmbition(
-            id
-        ) {
-
-            if (
-                !confirm(
-                    "Supprimer ce projet Ambition ?"
-                )
-            ) {
-                return;
-            }
-
-
-            try {
-
-                await api(
-                    "/api/ambition/" +
-                    encodeURIComponent(id),
-                    {
-                        method:
-                            "DELETE"
-                    }
-                );
-
-
-                showNotice(
-                    "Projet Ambition supprimé."
-                );
-
-
-                await loadAll();
-
-            }
-            catch (error) {
-
-                showNotice(
-                    error.message,
-                    "error"
-                );
-
-            }
-
-        }
-
-
-        /* PARAMETRES */
-
-        async function loadSettings() {
-
-            try {
-
-                const data =
-                    await api(
-                        "/api/parametres"
-                    );
-
-
-                const settings =
-                    data.parametres ||
-                    {};
-
-
-                document.getElementById(
-                    "siteNom"
-                ).value =
-                    settings.siteNom ||
-                    "";
-
-
-                document.getElementById(
-                    "siteDescription"
-                ).value =
-                    settings.siteDescription ||
-                    "";
-
-
-                document.getElementById(
-                    "messageAccueil"
-                ).value =
-                    settings.messageAccueil ||
-                    "";
-
-            }
-            catch (error) {
-
-                console.error(
-                    error
-                );
-
-            }
-
-        }
-
+          .querySelectorAll("main section")
+          .forEach(s => s.style.display = "none");
 
         document
-            .getElementById(
-                "settingsForm"
-            )
-            .addEventListener(
-                "submit",
-                async event => {
+          .getElementById(btn.dataset.s)
+          .style.display = "block";
 
-                    event.preventDefault();
+        document
+          .querySelectorAll("#menu .btn")
+          .forEach(b => b.classList.remove("btn-primary"));
 
+        btn.classList.add("btn-primary");
 
-                    try {
+      };
 
-                        await api(
-                            "/api/parametres",
-                            {
-                                method:
-                                    "PATCH",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body:
-                                    JSON.stringify({
-
-                                        siteNom:
-                                            document
-                                                .getElementById(
-                                                    "siteNom"
-                                                )
-                                                .value,
-
-                                        siteDescription:
-                                            document
-                                                .getElementById(
-                                                    "siteDescription"
-                                                )
-                                                .value,
-
-                                        messageAccueil:
-                                            document
-                                                .getElementById(
-                                                    "messageAccueil"
-                                                )
-                                                .value
-
-                                    })
-                            }
-                        );
+    });
 
 
-                        showNotice(
-                            "Paramètres enregistrés."
-                        );
+  /* =========================
+     DATE
+     ========================= */
 
-                    }
-                    catch (error) {
+  function formatDate(dateValue) {
 
-                        showNotice(
-                            error.message,
-                            "error"
-                        );
+    if (!dateValue) {
+      return "Date inconnue";
+    }
 
-                    }
+    const date = new Date(dateValue);
 
-                }
-            );
+    if (Number.isNaN(date.getTime())) {
+      return "Date inconnue";
+    }
+
+    return date.toLocaleString("fr-FR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+  }
 
 
-        /* DÉMARRAGE */
+  /* =========================
+     OUVRIR UN TICKET
+     ========================= */
 
-        loadAll();
+  function openTicketModal(id) {
+
+    const ticket = D.tickets.find(
+      t => String(t.id) === String(id)
+    );
+
+    if (!ticket) {
+      return;
+    }
+
+    document.getElementById("modalTicketTitle").textContent =
+      ticket.sujet || "Ticket sans sujet";
+
+    document.getElementById("modalStatus").textContent =
+      ticket.statut || "Nouveau";
+
+    document.getElementById("modalType").textContent =
+      ticket.type || "Non précisé";
+
+    document.getElementById("modalName").textContent =
+      ticket.nom || "Non précisé";
+
+    document.getElementById("modalDiscord").textContent =
+      ticket.discord || "Non précisé";
+
+    document.getElementById("modalSubject").textContent =
+      ticket.sujet || "Aucun sujet";
+
+    document.getElementById("modalMessage").textContent =
+      ticket.message || "Aucun message";
+
+    document.getElementById("modalDate").textContent =
+      formatDate(ticket.date);
+
+    const responseSection =
+      document.getElementById("modalResponseSection");
+
+    const response =
+      ticket.reponse ||
+      ticket.response ||
+      "";
+
+    if (response.trim()) {
+
+      document.getElementById("modalResponse").textContent =
+        response;
+
+      responseSection.style.display = "block";
+
+    } else {
+
+      responseSection.style.display = "none";
+
+    }
+
+    document
+      .getElementById("ticketModal")
+      .classList.add("show");
+
+    document.body.style.overflow = "hidden";
+
+  }
 
 
-        setInterval(
-            loadAll,
-            15000
-        );
+  /* =========================
+     FERMER MODALE
+     ========================= */
 
-    </script>
+  function closeTicketModal(event) {
+
+    if (
+      event &&
+      event.target &&
+      event.target.id !== "ticketModal"
+    ) {
+      return;
+    }
+
+    document
+      .getElementById("ticketModal")
+      .classList.remove("show");
+
+    document.body.style.overflow = "";
+
+  }
+
+
+  document.addEventListener("keydown", event => {
+
+    if (event.key === "Escape") {
+      closeTicketModal();
+    }
+
+  });
+
+
+  /* =========================
+     RENDU
+     ========================= */
+
+  function render() {
+
+    document.getElementById("st").textContent =
+      D.tickets.length;
+
+    document.getElementById("sv").textContent =
+      D.vies.length;
+
+    document.getElementById("sa").textContent =
+      D.ambition.length;
+
+
+    /* ===== TICKETS ===== */
+
+    document.getElementById("tl").innerHTML =
+      D.tickets.length
+
+      ? D.tickets
+          .slice()
+          .reverse()
+          .map(t => `
+
+            <div
+              class="glass card ticket-card-clickable"
+              style="margin-bottom:12px"
+              onclick="openTicketModal('${esc(t.id)}')"
+            >
+
+              <div
+                style="
+                  display:flex;
+                  align-items:flex-start;
+                  justify-content:space-between;
+                  gap:14px;
+                "
+              >
+
+                <div style="min-width:0">
+
+                  <strong style="font-size:18px">
+                    ${esc(t.sujet || "Ticket sans sujet")}
+                  </strong>
+
+                  <div
+                    class="small-text"
+                    style="margin-top:7px"
+                  >
+                    ${esc(t.nom || "Inconnu")}
+                    ·
+                    ${esc(t.discord || "Discord inconnu")}
+                  </div>
+
+                </div>
+
+                <span class="badge">
+                  ${esc(t.statut || "Nouveau")}
+                </span>
+
+              </div>
+
+              <p
+                class="ticket-card-preview"
+                style="
+                  margin-top:12px;
+                  color:rgba(255,255,255,.72);
+                  line-height:1.55;
+                "
+              >
+                ${esc(t.message || "Aucun message")}
+              </p>
+
+              <div
+                class="small-text"
+                style="
+                  margin-top:12px;
+                  display:flex;
+                  justify-content:space-between;
+                  gap:12px;
+                  flex-wrap:wrap;
+                "
+              >
+
+                <span>
+                  📅 ${esc(formatDate(t.date))}
+                </span>
+
+                <span>
+                  Cliquer pour ouvrir →
+                </span>
+
+              </div>
+
+              <button
+                class="btn btn-danger"
+                style="margin-top:14px"
+                onclick="
+                  event.stopPropagation();
+                  del('/api/tickets/${esc(t.id)}');
+                "
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          `)
+          .join("")
+
+      : '<div class="empty">Aucun ticket.</div>';
+
+
+    /* ===== FICHES ===== */
+
+    document.getElementById("vl").innerHTML =
+      D.vies.length
+
+      ? D.vies
+          .slice()
+          .reverse()
+          .map(v => `
+
+            <div
+              class="glass card"
+              style="margin-bottom:10px"
+            >
+
+              <strong>
+                ${esc(v.prenom)}
+              </strong>
+
+              <p style="margin-top:6px">
+                ${esc(v.histoire)}
+              </p>
+
+              <button
+                class="btn btn-danger"
+                style="margin-top:10px"
+                onclick="del('/api/vies/${esc(v.id)}')"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          `)
+          .join("")
+
+      : '<div class="empty">Aucune fiche.</div>';
+
+
+    /* ===== ANNONCES ===== */
+
+    document.getElementById("al").innerHTML =
+      D.annonces.length
+
+      ? D.annonces
+          .slice()
+          .reverse()
+          .map(a => `
+
+            <div
+              class="glass card"
+              style="margin-bottom:10px"
+            >
+
+              <strong>
+                ${esc(a.titre)}
+              </strong>
+
+              <p style="margin-top:6px">
+                ${esc(a.contenu)}
+              </p>
+
+              <button
+                class="btn btn-danger"
+                style="margin-top:10px"
+                onclick="del('/api/annonces/${esc(a.id)}')"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          `)
+          .join("")
+
+      : '<div class="empty">Aucune annonce.</div>';
+
+
+    /* ===== EVENTS ===== */
+
+    document.getElementById("el").innerHTML =
+      D.evenements.length
+
+      ? D.evenements
+          .slice()
+          .reverse()
+          .map(e => `
+
+            <div
+              class="glass card"
+              style="margin-bottom:10px"
+            >
+
+              <strong>
+                ${esc(e.titre)}
+              </strong>
+
+              <p style="margin-top:6px">
+                ${esc(e.description)}
+              </p>
+
+              <button
+                class="btn btn-danger"
+                style="margin-top:10px"
+                onclick="del('/api/evenements/${esc(e.id)}')"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          `)
+          .join("")
+
+      : '<div class="empty">Aucun événement.</div>';
+
+
+    /* ===== MEMBRES ===== */
+
+    document.getElementById("ml").innerHTML =
+      D.membres.length
+
+      ? D.membres
+          .slice()
+          .reverse()
+          .map(m => `
+
+            <div
+              class="glass card"
+              style="margin-bottom:10px"
+            >
+
+              <strong>
+                ${esc(m.pseudo)}
+              </strong>
+
+              <div class="small-text">
+                ${esc(m.discord)}
+                ·
+                ${esc(m.role || "Membre")}
+              </div>
+
+              <button
+                class="btn btn-danger"
+                style="margin-top:10px"
+                onclick="del('/api/membres/${esc(m.id)}')"
+              >
+                Supprimer
+              </button>
+
+            </div>
+
+          `)
+          .join("")
+
+      : '<div class="empty">Aucun membre.</div>';
+
+
+    /* ===== AMBITION ===== */
+
+    document.getElementById("pl").innerHTML =
+      D.ambition.length
+
+      ? D.ambition
+          .slice()
+          .reverse()
+          .map(p => {
+
+            const q =
+              Math.max(
+                0,
+                Math.min(
+                  100,
+                  Number(p.progress || 0)
+                )
+              );
+
+            return `
+
+              <div
+                class="glass card"
+                style="margin-bottom:10px"
+              >
+
+                <div
+                  style="
+                    display:flex;
+                    justify-content:space-between;
+                    gap:10px;
+                  "
+                >
+
+                  <div>
+
+                    <strong>
+                      ${esc(p.titre)}
+                    </strong>
+
+                    <p style="margin-top:6px">
+                      ${esc(p.description)}
+                    </p>
+
+                  </div>
+
+                  <span class="badge">
+                    ${esc(p.status || "En préparation")}
+                  </span>
+
+                </div>
+
+                <div style="margin-top:14px">
+
+                  <div
+                    class="small-text"
+                    style="
+                      display:flex;
+                      justify-content:space-between;
+                    "
+                  >
+
+                    <span>
+                      Progression
+                    </span>
+
+                    <b>
+                      ${q}%
+                    </b>
+
+                  </div>
+
+                  <div
+                    class="progress-line"
+                    style="margin-top:6px"
+                  >
+
+                    <div
+                      class="progress-bar"
+                      style="width:${q}%"
+                    ></div>
+
+                  </div>
+
+                </div>
+
+                <button
+                  class="btn btn-danger"
+                  style="margin-top:10px"
+                  onclick="del('/api/ambition/${esc(p.id)}')"
+                >
+                  Supprimer
+                </button>
+
+              </div>
+
+            `;
+
+          })
+          .join("")
+
+      : '<div class="empty">Aucun projet.</div>';
+
+  }
+
+
+  /* =========================
+     CHARGEMENT
+     ========================= */
+
+  async function load() {
+
+    try {
+
+      const [
+        t,
+        v,
+        a,
+        e,
+        m,
+        p
+      ] = await Promise.all([
+
+        api("/api/tickets"),
+        api("/api/vies"),
+        api("/api/annonces"),
+        api("/api/evenements"),
+        api("/api/membres"),
+        api("/api/ambition")
+
+      ]);
+
+
+      D = {
+
+        tickets: t.tickets || [],
+        vies: v.vies || [],
+        annonces: a.annonces || [],
+        evenements: e.evenements || [],
+        membres: m.membres || [],
+        ambition: p.projects || []
+
+      };
+
+
+      render();
+
+    } catch (e) {
+
+      show(e.message, "error");
+
+    }
+
+  }
+
+
+  /* =========================
+     SUPPRESSION
+     ========================= */
+
+  async function del(url) {
+
+    if (!confirm("Supprimer cet élément ?")) {
+      return;
+    }
+
+    try {
+
+      await api(url, {
+        method: "DELETE"
+      });
+
+      show("Supprimé.");
+
+      load();
+
+    } catch (e) {
+
+      show(e.message, "error");
+
+    }
+
+  }
+
+
+  /* =========================
+     ANNONCE
+     ========================= */
+
+  document.getElementById("af").onsubmit =
+    async e => {
+
+      e.preventDefault();
+
+      try {
+
+        await api("/api/annonces", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+
+            titre: document.getElementById("at").value,
+            contenu: document.getElementById("ac").value,
+            auteur: document.getElementById("aa").value
+
+          })
+        });
+
+        e.target.reset();
+
+        show("Annonce publiée.");
+
+        load();
+
+      } catch (e) {
+
+        show(e.message, "error");
+
+      }
+
+    };
+
+
+  /* =========================
+     AMBITION
+     ========================= */
+
+  document.getElementById("ambf").onsubmit =
+    async e => {
+
+      e.preventDefault();
+
+      try {
+
+        await api("/api/ambition", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+
+            titre: document.getElementById("pt").value,
+            responsable: document.getElementById("pr").value,
+            dateFin: document.getElementById("pd").value,
+            status: document.getElementById("ps").value,
+            progress: Number(
+              document.getElementById("pp").value
+            ),
+            description: document.getElementById("pc").value
+
+          })
+        });
+
+        e.target.reset();
+
+        show("Projet créé.");
+
+        load();
+
+      } catch (e) {
+
+        show(e.message, "error");
+
+      }
+
+    };
+
+
+  /* =========================
+     INITIALISATION
+     ========================= */
+
+  load();
+
+  setInterval(load, 15000);
+
+</script>
 
 </body>
-
 </html>
