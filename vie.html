@@ -1,588 +1,378 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Présentation — BUSINESS.</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Système de vie - Mon Premier Site</title>
 
-        body {
-            min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            color: white;
-            background:
-                radial-gradient(circle at top left, #241044, transparent 40%),
-                radial-gradient(circle at bottom right, #35105f, transparent 40%),
-                #07050d;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            background:
-                linear-gradient(
-                    120deg,
-                    transparent,
-                    rgba(255,255,255,0.025),
-                    transparent
-                );
-        }
-
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-
-            height: 76px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 7%;
-
-            background: rgba(7, 5, 13, 0.72);
-            backdrop-filter: blur(18px);
-
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .logo span {
-            color: #a855f7;
-        }
-
-        .back {
-            color: #cfc7dc;
-            text-decoration: none;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        .back:hover {
-            color: white;
-        }
-
-        .container {
-            width: min(850px, 90%);
-            margin: 70px auto;
-        }
-
-        .intro {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 8px 14px;
-            border-radius: 999px;
-
-            background: rgba(168, 85, 247, 0.12);
-            border: 1px solid rgba(168, 85, 247, 0.25);
-
-            color: #c084fc;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-
-            margin-bottom: 18px;
-        }
-
-        h1 {
-            font-size: clamp(40px, 7vw, 68px);
-            line-height: 1;
-            margin-bottom: 18px;
-        }
-
-        h1 span {
-            background: linear-gradient(
-                90deg,
-                #ffffff,
-                #c084fc,
-                #a855f7
-            );
-
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .intro p {
-            max-width: 600px;
-            margin: auto;
-
-            color: #aaa2b5;
-            line-height: 1.7;
-        }
-
-        .form-card {
-            padding: 35px;
-
-            border-radius: 26px;
-
-            background: rgba(255,255,255,0.045);
-            border: 1px solid rgba(255,255,255,0.09);
-
-            box-shadow:
-                0 30px 80px rgba(0,0,0,0.35),
-                inset 0 1px 0 rgba(255,255,255,0.04);
-
-            backdrop-filter: blur(20px);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-        }
-
-        .field.full {
-            grid-column: 1 / -1;
-        }
-
-        label {
-            color: #ddd6e5;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-
-            padding: 15px 16px;
-
-            border-radius: 13px;
-
-            border: 1px solid rgba(255,255,255,0.1);
-
-            outline: none;
-
-            background: rgba(0,0,0,0.25);
-
-            color: white;
-
-            font-size: 14px;
-
-            transition: 0.25s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: rgba(168, 85, 247, 0.7);
-
-            box-shadow:
-                0 0 0 3px rgba(168, 85, 247, 0.1);
-        }
-
-        select option {
-            background: #15101d;
-            color: white;
-        }
-
-        textarea {
-            min-height: 180px;
-            resize: vertical;
-            line-height: 1.6;
-        }
-
-        .submit {
-            width: 100%;
-            margin-top: 25px;
-
-            padding: 16px;
-
-            border: none;
-            border-radius: 14px;
-
-            cursor: pointer;
-
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #7c3aed,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 12px 30px rgba(124,58,237,0.25);
-
-            transition: 0.3s;
-        }
-
-        .submit:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 18px 40px rgba(168,85,247,0.35);
-        }
-
-        .submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .error {
-            display: none;
-
-            margin-top: 18px;
-            padding: 14px;
-
-            border-radius: 12px;
-
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.25);
-
-            color: #fca5a5;
-            font-size: 14px;
-        }
-
-        .success {
-            display: none;
-            text-align: center;
-            padding: 65px 20px;
-        }
-
-        .success-icon {
-            width: 85px;
-            height: 85px;
-
-            margin: 0 auto 25px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: rgba(34,197,94,0.12);
-            border: 1px solid rgba(34,197,94,0.3);
-
-            font-size: 40px;
-
-            animation: pop 0.5s ease;
-        }
-
-        @keyframes pop {
-            0% {
-                transform: scale(0.4);
-                opacity: 0;
-            }
-
-            70% {
-                transform: scale(1.1);
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .success h2 {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .success p {
-            color: #aaa2b5;
-            line-height: 1.6;
-            max-width: 500px;
-            margin: auto;
-        }
-
-        .again {
-            margin-top: 25px;
-
-            padding: 13px 20px;
-
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-
-            background: rgba(255,255,255,0.05);
-
-            color: white;
-
-            cursor: pointer;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-
-            color: #665f70;
-            font-size: 13px;
-        }
-
-        @media (max-width: 650px) {
-
-            nav {
-                padding: 0 5%;
-            }
-
-            .container {
-                margin: 45px auto;
-            }
-
-            .form-card {
-                padding: 22px;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .field.full {
-                grid-column: auto;
-            }
-        }
-    </style>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
-    <nav>
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
 
-        <div class="logo">
-            BUSINESS<span>.</span>
-        </div>
+    <header class="navbar">
 
-        <a href="page2.html" class="back">
-            ← Retour au site
+        <a
+            href="page2.html"
+            class="logo"
+        >
+            MON <span>PREMIER</span> SITE
         </a>
 
-    </nav>
+        <nav class="nav-links">
+
+            <a href="page2.html">
+                Accueil
+            </a>
+
+            <a href="innovation.html">
+                Innovation
+            </a>
+
+            <a href="creativite.html">
+                Créativité
+            </a>
+
+            <a href="ambition.html">
+                Ambition
+            </a>
+
+            <a href="staff-login.html">
+                Staff
+            </a>
+
+        </nav>
+
+    </header>
 
 
-    <main class="container">
+    <!-- =========================
+         HERO
+    ========================== -->
 
-        <div class="intro">
+    <section class="hero">
 
-            <div class="tag">
-                Système de vie
+        <div class="hero-content">
+
+            <div
+                class="badge"
+            >
+                ❤️ SYSTÈME DE VIE
             </div>
 
             <h1>
-                Présentez votre <span>personnage.</span>
+                Ta <span>fiche</span> de vie
             </h1>
 
             <p>
-                Complétez votre fiche afin de présenter votre personnage
-                et son histoire. Votre présentation sera ensuite accessible
-                au Staff.
+                Présente ton personnage, son histoire
+                et les informations importantes de ta fiche.
             </p>
 
         </div>
 
-
-        <div class="form-card">
-
-            <form id="vieForm">
-
-                <div class="grid">
-
-                    <div class="field">
-
-                        <label for="prenom">
-                            Prénom
-                        </label>
-
-                        <input
-                            type="text"
-                            id="prenom"
-                            name="prenom"
-                            placeholder="Ex : Yacine"
-                            required
-                        >
-
-                    </div>
+    </section>
 
 
-                    <div class="field">
+    <!-- =========================
+         FORMULAIRE
+    ========================== -->
 
-                        <label for="genre">
-                            Genre
-                        </label>
+    <main class="container">
 
-                        <select
-                            id="genre"
-                            name="genre"
-                            required
-                        >
+        <section class="section">
 
-                            <option value="">
-                                Sélectionner
-                            </option>
-
-                            <option value="Garçon">
-                                🚹 Garçon
-                            </option>
-
-                            <option value="Fille">
-                                🚺 Fille
-                            </option>
-
-                            <option value="Autre">
-                                ⚪ Autre
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="age">
-                            Âge
-                        </label>
-
-                        <input
-                            type="number"
-                            id="age"
-                            name="age"
-                            min="1"
-                            max="120"
-                            placeholder="Ex : 18"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="discord">
-                            Pseudo Discord
-                        </label>
-
-                        <input
-                            type="text"
-                            id="discord"
-                            name="discord"
-                            placeholder="Ex : Yacine"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field full">
-
-                        <label for="histoire">
-                            Présentation / histoire
-                        </label>
-
-                        <textarea
-                            id="histoire"
-                            name="histoire"
-                            placeholder="Racontez l'histoire de votre personnage..."
-                            required
-                        ></textarea>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="error"
-                    id="error"
-                ></div>
-
-
-                <button
-                    type="submit"
-                    class="submit"
-                    id="submitButton"
-                >
-                    Envoyer ma présentation →
-                </button>
-
-            </form>
+            <div
+                id="notice"
+                class="notice"
+            ></div>
 
 
             <div
-                class="success"
-                id="success"
+                class="glass form-card"
             >
 
-                <div class="success-icon">
-                    ✓
-                </div>
-
-                <h2>
-                    Présentation envoyée !
-                </h2>
-
-                <p>
-                    Votre fiche de vie a bien été enregistrée.
-                    Le Staff pourra maintenant la consulter.
-                </p>
-
-                <button
-                    class="again"
-                    id="againButton"
+                <form
+                    id="vieForm"
                 >
-                    Créer une autre présentation
-                </button>
+
+                    <div class="form-grid">
+
+
+                        <!-- PRÉNOM -->
+
+                        <div class="field">
+
+                            <label
+                                for="prenom"
+                            >
+                                Prénom
+                            </label>
+
+                            <input
+                                id="prenom"
+                                class="input"
+                                type="text"
+                                maxlength="60"
+                                placeholder="Prénom du personnage"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- GENRE -->
+
+                        <div class="field">
+
+                            <label
+                                for="genre"
+                            >
+                                Genre
+                            </label>
+
+                            <select
+                                id="genre"
+                                class="select"
+                                required
+                            >
+
+                                <option value="">
+                                    Sélectionner
+                                </option>
+
+                                <option value="Homme">
+                                    Homme
+                                </option>
+
+                                <option value="Femme">
+                                    Femme
+                                </option>
+
+                                <option value="Autre">
+                                    Autre
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- AGE -->
+
+                        <div class="field">
+
+                            <label
+                                for="age"
+                            >
+                                Âge
+                            </label>
+
+                            <input
+                                id="age"
+                                class="input"
+                                type="number"
+                                min="0"
+                                max="120"
+                                placeholder="Âge"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- DISCORD -->
+
+                        <div class="field">
+
+                            <label
+                                for="discord"
+                            >
+                                Discord
+                            </label>
+
+                            <input
+                                id="discord"
+                                class="input"
+                                type="text"
+                                maxlength="100"
+                                placeholder="Ton identifiant Discord"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- HISTOIRE -->
+
+                        <div class="field full">
+
+                            <label
+                                for="histoire"
+                            >
+                                Histoire
+                            </label>
+
+                            <textarea
+                                id="histoire"
+                                class="textarea"
+                                maxlength="5000"
+                                placeholder="Raconte l'histoire de ton personnage..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOUTON -->
+
+                    <div class="form-actions">
+
+                        <div class="small-text">
+
+                            Prends le temps de remplir
+                            correctement ta fiche.
+
+                        </div>
+
+                        <button
+                            id="submitButton"
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            Envoyer la fiche →
+                        </button>
+
+                    </div>
+
+                </form>
 
             </div>
 
-        </div>
+        </section>
+
+
+        <!-- =========================
+             INFORMATIONS
+        ========================== -->
+
+        <section class="section">
+
+            <div
+                class="glass card"
+            >
+
+                <div class="badge">
+                    ℹ️ INFORMATIONS
+                </div>
+
+                <h2
+                    style="margin-top:18px;"
+                >
+                    À propos de la fiche
+                </h2>
+
+                <p
+                    style="
+                        margin-top:12px;
+                        color:var(--muted);
+                    "
+                >
+                    Ta fiche permet de présenter ton personnage
+                    et son histoire à la communauté. Une fois
+                    envoyée, elle peut être consultée par le Staff.
+                </p>
+
+            </div>
+
+        </section>
 
     </main>
 
 
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
     <footer>
-        © 2026 BUSINESS. — Système de vie
+
+        © 2026 Mon Premier Site
+        — Système de vie
+
     </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script
+        src="background.js"
+    ></script>
 
 
     <script>
 
         const form =
-            document.getElementById("vieForm");
+            document.getElementById(
+                "vieForm"
+            );
 
-        const success =
-            document.getElementById("success");
 
-        const error =
-            document.getElementById("error");
+        const notice =
+            document.getElementById(
+                "notice"
+            );
+
 
         const submitButton =
-            document.getElementById("submitButton");
+            document.getElementById(
+                "submitButton"
+            );
 
-        const againButton =
-            document.getElementById("againButton");
+
+        function showNotice(
+            message,
+            type = "success"
+        ) {
+
+            notice.textContent =
+                message;
+
+            notice.className =
+                "notice show " + type;
+
+            clearTimeout(
+                window.vieNoticeTimer
+            );
+
+            window.vieNoticeTimer =
+                setTimeout(
+                    () => {
+
+                        notice.className =
+                            "notice";
+
+                    },
+                    4000
+                );
+
+        }
 
 
         form.addEventListener(
@@ -592,10 +382,6 @@
                 event.preventDefault();
 
 
-                error.style.display =
-                    "none";
-
-
                 submitButton.disabled =
                     true;
 
@@ -603,32 +389,47 @@
                     "Envoi en cours...";
 
 
-                const data = {
+                const payload = {
 
                     prenom:
-                        document.getElementById(
-                            "prenom"
-                        ).value,
+                        document
+                            .getElementById(
+                                "prenom"
+                            )
+                            .value
+                            .trim(),
 
                     genre:
-                        document.getElementById(
-                            "genre"
-                        ).value,
+                        document
+                            .getElementById(
+                                "genre"
+                            )
+                            .value
+                            .trim(),
 
                     age:
-                        document.getElementById(
-                            "age"
-                        ).value,
+                        document
+                            .getElementById(
+                                "age"
+                            )
+                            .value
+                            .trim(),
 
                     discord:
-                        document.getElementById(
-                            "discord"
-                        ).value,
+                        document
+                            .getElementById(
+                                "discord"
+                            )
+                            .value
+                            .trim(),
 
                     histoire:
-                        document.getElementById(
-                            "histoire"
-                        ).value
+                        document
+                            .getElementById(
+                                "histoire"
+                            )
+                            .value
+                            .trim()
 
                 };
 
@@ -639,7 +440,6 @@
                         await fetch(
                             "/api/vies",
                             {
-
                                 method: "POST",
 
                                 headers: {
@@ -648,68 +448,63 @@
                                 },
 
                                 body:
-                                    JSON.stringify(data)
-
+                                    JSON.stringify(
+                                        payload
+                                    )
                             }
                         );
 
 
-                    const result =
+                    const data =
                         await response.json();
 
 
-                    if (!response.ok) {
+                    if (
+                        !response.ok ||
+                        data.success === false
+                    ) {
 
                         throw new Error(
-                            result.message ||
-                            "Une erreur est survenue."
+                            data.message ||
+                            "Impossible d'envoyer la fiche."
                         );
+
                     }
 
 
-                    form.style.display =
-                        "none";
-
-                    success.style.display =
-                        "block";
+                    form.reset();
 
 
-                } catch (err) {
+                    showNotice(
+                        "Ta fiche de vie a bien été envoyée ❤️",
+                        "success"
+                    );
 
-                    error.textContent =
-                        err.message;
 
-                    error.style.display =
-                        "block";
+                }
+                catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+
+                    showNotice(
+                        error.message ||
+                        "Une erreur est survenue.",
+                        "error"
+                    );
+
+                }
+                finally {
 
                     submitButton.disabled =
                         false;
 
                     submitButton.textContent =
-                        "Envoyer ma présentation →";
+                        "Envoyer la fiche →";
+
                 }
-
-            }
-        );
-
-
-        againButton.addEventListener(
-            "click",
-            () => {
-
-                form.reset();
-
-                success.style.display =
-                    "none";
-
-                form.style.display =
-                    "block";
-
-                submitButton.disabled =
-                    false;
-
-                submitButton.textContent =
-                    "Envoyer ma présentation →";
 
             }
         );
@@ -717,4 +512,5 @@
     </script>
 
 </body>
+
 </html>

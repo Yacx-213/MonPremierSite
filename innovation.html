@@ -1,1140 +1,654 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BUSINESS. — Innovation</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    <title>Innovation - Mon Premier Site</title>
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at 12% 10%,
-                    rgba(80, 150, 255, 0.15),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 88% 18%,
-                    rgba(125, 95, 255, 0.10),
-                    transparent 28%
-                ),
-                #07070b;
-
-            color: #f7f4ff;
-
-            min-height: 100vh;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button,
-        input,
-        textarea,
-        select {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        /* =========================
-           NAV
-        ========================== */
-
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 17px 6%;
-
-            background:
-                rgba(7, 7, 11, 0.80);
-
-            border-bottom:
-                1px solid
-                rgba(255, 255, 255, 0.07);
-
-            backdrop-filter: blur(20px);
-        }
-
-        .logo {
-            font-size: 19px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-        }
-
-        .back {
-            color: #aaa6b6;
-            font-size: 12px;
-            transition: 0.2s ease;
-        }
-
-        .back:hover {
-            color: white;
-        }
-
-        /* =========================
-           HERO
-        ========================== */
-
-        .hero {
-            width: min(1100px, 88%);
-            margin: 0 auto;
-
-            padding:
-                85px
-                0
-                55px;
-        }
-
-        .eyebrow {
-            display: inline-block;
-
-            padding:
-                7px
-                11px;
-
-            border-radius: 999px;
-
-            background:
-                rgba(91, 159, 255, 0.08);
-
-            border:
-                1px solid
-                rgba(91, 159, 255, 0.17);
-
-            color: #9bc6ff;
-
-            font-size: 9px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.14em;
-        }
-
-        .hero h1 {
-            margin-top: 17px;
-
-            font-size:
-                clamp(
-                    42px,
-                    7vw,
-                    72px
-                );
-
-            line-height: 1;
-
-            letter-spacing:
-                -0.05em;
-        }
-
-        .gradient {
-            background:
-                linear-gradient(
-                    135deg,
-                    #ffffff,
-                    #a8c9ff,
-                    #775fff
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-        }
-
-        .hero p {
-            max-width: 670px;
-
-            margin-top: 20px;
-
-            color: #9793a4;
-
-            font-size: 13px;
-
-            line-height: 1.75;
-        }
-
-        /* =========================
-           LAYOUT
-        ========================== */
-
-        .layout {
-            width: min(1100px, 88%);
-            margin: 0 auto;
-
-            display: grid;
-
-            grid-template-columns:
-                1fr
-                0.52fr;
-
-            gap: 18px;
-
-            padding-bottom:
-                90px;
-        }
-
-        .panel {
-            overflow: hidden;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius: 20px;
-
-            background:
-                rgba(255,255,255,0.025);
-
-            backdrop-filter:
-                blur(18px);
-
-            box-shadow:
-                0 25px 75px
-                rgba(0,0,0,0.30);
-        }
-
-        .panel-head {
-            padding: 20px;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,0.06);
-        }
-
-        .panel-head h2 {
-            font-size: 17px;
-        }
-
-        .panel-head p {
-            margin-top: 5px;
-
-            color: #858190;
-
-            font-size: 11px;
-        }
-
-        .panel-body {
-            padding: 18px;
-        }
-
-        /* =========================
-           FORM
-        ========================== */
-
-        .field {
-            display: flex;
-            flex-direction: column;
-
-            gap: 7px;
-
-            margin-bottom:
-                13px;
-        }
-
-        .label {
-            color: #858190;
-
-            font-size: 10px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.07em;
-        }
-
-        .input,
-        .textarea {
-            width: 100%;
-
-            padding:
-                11px
-                12px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius: 11px;
-
-            background:
-                rgba(255,255,255,0.03);
-
-            color: white;
-
-            outline: none;
-
-            font-size: 12px;
-
-            transition:
-                0.2s ease;
-        }
-
-        .textarea {
-            min-height: 120px;
-
-            resize: vertical;
-        }
-
-        .input:focus,
-        .textarea:focus {
-            border-color:
-                rgba(98, 164, 255, 0.45);
-
-            background:
-                rgba(98,164,255,0.03);
-        }
-
-        .submit-btn {
-            width: 100%;
-
-            border: 0;
-
-            border-radius: 11px;
-
-            padding: 12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #669fff,
-                    #7054ff
-                );
-
-            color: white;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            box-shadow:
-                0 12px 30px
-                rgba(82,111,255,0.20);
-
-            transition:
-                0.2s ease;
-        }
-
-        .submit-btn:hover {
-            transform:
-                translateY(-1px);
-
-            filter:
-                brightness(1.08);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
-
-        .form-message {
-            display: none;
-
-            margin-top: 10px;
-
-            padding:
-                10px
-                11px;
-
-            border-radius:
-                10px;
-
-            font-size: 10px;
-        }
-
-        .form-message.show {
-            display: block;
-        }
-
-        .success {
-            color: #7ce5a2;
-
-            background:
-                rgba(66,209,123,0.08);
-
-            border:
-                1px solid
-                rgba(66,209,123,0.15);
-        }
-
-        .error {
-            color: #ff9da9;
-
-            background:
-                rgba(255,102,125,0.08);
-
-            border:
-                1px solid
-                rgba(255,102,125,0.15);
-        }
-
-        /* =========================
-           IDEAS
-        ========================== */
-
-        .ideas {
-            display: grid;
-
-            gap: 11px;
-        }
-
-        .idea {
-            padding: 16px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius: 15px;
-
-            background:
-                rgba(255,255,255,0.02);
-
-            transition:
-                0.2s ease;
-        }
-
-        .idea:hover {
-            transform:
-                translateY(-2px);
-
-            border-color:
-                rgba(98,164,255,0.22);
-
-            background:
-                rgba(98,164,255,0.035);
-        }
-
-        .idea-top {
-            display: flex;
-
-            align-items: flex-start;
-
-            justify-content: space-between;
-
-            gap: 15px;
-        }
-
-        .idea-title {
-            font-size: 14px;
-
-            font-weight: 800;
-        }
-
-        .idea-author {
-            margin-top: 5px;
-
-            color: #8db9ff;
-
-            font-size: 10px;
-        }
-
-        .idea-date {
-            margin-top: 4px;
-
-            color: #64616d;
-
-            font-size: 9px;
-        }
-
-        .vote-btn {
-            flex-shrink: 0;
-
-            min-width: 58px;
-
-            border:
-                1px solid
-                rgba(98,164,255,0.18);
-
-            border-radius: 11px;
-
-            padding:
-                8px
-                9px;
-
-            background:
-                rgba(98,164,255,0.06);
-
-            color: #a7c9ff;
-
-            font-size: 10px;
-
-            font-weight: 700;
-
-            transition:
-                0.2s ease;
-        }
-
-        .vote-btn:hover {
-            background:
-                rgba(98,164,255,0.12);
-        }
-
-        .idea-description {
-            margin-top: 13px;
-
-            color: #9692a2;
-
-            font-size: 11px;
-
-            line-height: 1.7;
-
-            white-space:
-                pre-wrap;
-        }
-
-        .idea-status {
-            display: inline-flex;
-
-            margin-top: 13px;
-
-            padding:
-                6px
-                9px;
-
-            border-radius: 999px;
-
-            background:
-                rgba(255,255,255,0.05);
-
-            color: #aaa6b5;
-
-            font-size: 9px;
-        }
-
-        .status-nouvelle {
-            color: #ffc983;
-
-            background:
-                rgba(255,184,98,0.10);
-        }
-
-        .status-etude {
-            color: #a9c9ff;
-
-            background:
-                rgba(98,164,255,0.10);
-        }
-
-        .status-acceptee {
-            color: #7ce5a2;
-
-            background:
-                rgba(66,209,123,0.10);
-        }
-
-        .status-refusee {
-            color: #ff9daa;
-
-            background:
-                rgba(255,102,125,0.10);
-        }
-
-        .ideas-loading,
-        .ideas-empty,
-        .ideas-error {
-            padding:
-                45px
-                20px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius:
-                15px;
-
-            text-align:
-                center;
-
-            color:
-                #777381;
-
-            font-size:
-                11px;
-        }
-
-        /* =========================
-           INFO
-        ========================== */
-
-        .info-box {
-            padding:
-                14px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius:
-                14px;
-
-            background:
-                rgba(255,255,255,0.02);
-
-            color:
-                #85818f;
-
-            font-size:
-                10px;
-
-            line-height:
-                1.65;
-
-            margin-top:
-                13px;
-        }
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        footer {
-            padding:
-                35px 5%
-                45px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            text-align:
-                center;
-
-            color:
-                #65626f;
-
-            font-size:
-                9px;
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================== */
-
-        @media (max-width: 850px) {
-
-            .layout {
-                grid-template-columns:
-                    1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .hero {
-                padding-top:
-                    65px;
-            }
-
-            .layout {
-                width: 90%;
-            }
-
-            .idea-top {
-                flex-direction:
-                    column;
-            }
-
-            .vote-btn {
-                width:
-                    100%;
-            }
-        }
-    </style>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
-<nav>
-
-    <a
-        href="/page2.html"
-        class="logo"
-    >
-        BUSINESS.
-    </a>
-
-    <a
-        href="/page2.html#apropos"
-        class="back"
-    >
-        ← Retour au site
-    </a>
-
-</nav>
-
-<section class="hero">
-
-    <span class="eyebrow">
-        Communauté · Innovation
-    </span>
-
-    <h1>
-        Une idée peut
-        <span class="gradient">
-            tout changer.
-        </span>
-    </h1>
-
-    <p>
-        Propose tes idées, découvre celles des autres
-        membres et aide la communauté à choisir
-        les projets qui pourraient voir le jour.
-    </p>
-
-</section>
-
-<main class="layout">
-
     <!-- =========================
-         IDEES
+         NAVIGATION
     ========================== -->
 
-    <section class="panel">
+    <header class="navbar">
 
-        <div class="panel-head">
+        <a
+            href="page2.html"
+            class="logo"
+        >
+            MON <span>PREMIER</span> SITE
+        </a>
 
-            <h2>
-                💡 Idées de la communauté
-            </h2>
+        <nav class="nav-links">
+
+            <a href="page2.html">
+                Accueil
+            </a>
+
+            <a href="vie.html">
+                Vie
+            </a>
+
+            <a href="ticket.html">
+                Tickets
+            </a>
+
+            <a href="creativite.html">
+                Créativité
+            </a>
+
+            <a href="ambition.html">
+                Ambition
+            </a>
+
+            <a href="staff-login.html">
+                Staff
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                💡 INNOVATION
+            </div>
+
+            <h1>
+                Les idées
+                <span>prennent vie.</span>
+            </h1>
 
             <p>
-                Découvre les dernières propositions.
+                Propose une idée, découvre celles de la communauté
+                et soutiens-les avec des votes.
             </p>
 
         </div>
 
-        <div class="panel-body">
+    </section>
+
+
+    <!-- =========================
+         CONTENU
+    ========================== -->
+
+    <main class="container">
+
+
+        <!-- =========================
+             PROPOSER UNE IDÉE
+        ========================== -->
+
+        <section class="section">
+
+            <h2 class="section-title">
+                Proposer une idée
+            </h2>
+
+            <p class="section-subtitle">
+                Partage une idée qui pourrait améliorer
+                ou enrichir le projet.
+            </p>
+
+            <div
+                id="notice"
+                class="notice"
+            ></div>
+
+
+            <div
+                class="glass form-card"
+            >
+
+                <form
+                    id="ideaForm"
+                >
+
+                    <div class="form-grid">
+
+
+                        <!-- TITRE -->
+
+                        <div class="field">
+
+                            <label
+                                for="titre"
+                            >
+                                Titre
+                            </label>
+
+                            <input
+                                id="titre"
+                                class="input"
+                                type="text"
+                                maxlength="100"
+                                placeholder="Titre de ton idée"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- AUTEUR -->
+
+                        <div class="field">
+
+                            <label
+                                for="auteur"
+                            >
+                                Auteur
+                            </label>
+
+                            <input
+                                id="auteur"
+                                class="input"
+                                type="text"
+                                maxlength="60"
+                                placeholder="Ton pseudo"
+                            >
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="field full">
+
+                            <label
+                                for="description"
+                            >
+                                Description
+                            </label>
+
+                            <textarea
+                                id="description"
+                                class="textarea"
+                                maxlength="2000"
+                                placeholder="Explique ton idée..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <div class="small-text">
+
+                            Une nouvelle idée commence
+                            avec le statut « Nouvelle ».
+
+                        </div>
+
+                        <button
+                            id="submitButton"
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            💡 Proposer l'idée
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             LISTE DES IDÉES
+        ========================== -->
+
+        <section class="section">
+
+            <h2 class="section-title">
+                Idées de la communauté
+            </h2>
+
+            <p class="section-subtitle">
+                Découvre les propositions et donne ton avis.
+            </p>
 
             <div
                 id="ideas"
-                class="ideas"
-            >
+                class="card-grid"
+                style="margin-top:30px;"
+            ></div>
 
-                <div class="ideas-loading">
-                    Chargement des idées...
-                </div>
+        </section>
 
-            </div>
+    </main>
 
-        </div>
-
-    </section>
 
     <!-- =========================
-         PROPOSER
+         FOOTER
     ========================== -->
 
-    <section class="panel">
+    <footer>
 
-        <div class="panel-head">
+        © 2026 Mon Premier Site
+        — Espace Innovation
 
-            <h2>
-                🚀 Proposer une idée
-            </h2>
+    </footer>
 
-            <p>
-                Partage ton projet avec la communauté.
-            </p>
 
-        </div>
+    <!-- =========================
+         JAVASCRIPT GLOBAL
+    ========================== -->
 
-        <div class="panel-body">
+    <script
+        src="background.js"
+    ></script>
 
-            <form
-                id="ideaForm"
-            >
 
-                <div class="field">
+    <!-- =========================
+         JAVASCRIPT INNOVATION
+    ========================== -->
 
-                    <label
-                        class="label"
-                        for="pseudo"
-                    >
-                        Pseudo
-                    </label>
+    <script>
 
-                    <input
-                        id="pseudo"
-                        name="pseudo"
-                        class="input"
-                        type="text"
-                        maxlength="40"
-                        placeholder="Ton pseudo"
-                        required
-                    >
+        const ideaForm =
+            document.getElementById(
+                "ideaForm"
+            );
 
-                </div>
+        const notice =
+            document.getElementById(
+                "notice"
+            );
 
-                <div class="field">
-
-                    <label
-                        class="label"
-                        for="titre"
-                    >
-                        Titre de l'idée
-                    </label>
-
-                    <input
-                        id="titre"
-                        name="titre"
-                        class="input"
-                        type="text"
-                        maxlength="100"
-                        placeholder="Ex : Ajouter un classement..."
-                        required
-                    >
-
-                </div>
-
-                <div class="field">
-
-                    <label
-                        class="label"
-                        for="description"
-                    >
-                        Description
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        class="textarea"
-                        maxlength="1500"
-                        placeholder="Explique ton idée..."
-                        required
-                    ></textarea>
-
-                </div>
-
-                <button
-                    id="submitBtn"
-                    class="submit-btn"
-                    type="submit"
-                >
-                    💡 Publier mon idée
-                </button>
-
-                <div
-                    id="formMessage"
-                    class="form-message"
-                ></div>
-
-            </form>
-
-            <div class="info-box">
-                💡 Les idées sont visibles par toute la
-                communauté. Le Staff peut ensuite les étudier
-                et modifier leur statut.
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-<footer>
-
-    © 2026 BUSINESS. — Espace Innovation
-
-</footer>
-
-<script>
-
-    function escapeHTML(value) {
-
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    function formatDate(value) {
-
-        if (!value) {
-            return "";
-        }
-
-        const date =
-            new Date(value);
-
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-            return "";
-        }
-
-        return date.toLocaleString(
-            "fr-FR",
-            {
-                dateStyle: "medium",
-                timeStyle: "short"
-            }
-        );
-    }
-
-    function statusClass(status) {
-
-        switch (status) {
-
-            case "Nouvelle":
-                return "status-nouvelle";
-
-            case "En étude":
-                return "status-etude";
-
-            case "Acceptée":
-                return "status-acceptee";
-
-            case "Refusée":
-                return "status-refusee";
-
-            default:
-                return "";
-        }
-    }
-
-    async function loadIdeas() {
-
-        const container =
+        const ideasBox =
             document.getElementById(
                 "ideas"
             );
 
-        try {
+        const submitButton =
+            document.getElementById(
+                "submitButton"
+            );
 
-            const response =
-                await fetch(
-                    "/api/innovation"
+
+        function escapeHTML(
+            value
+        ) {
+
+            return String(
+                value ?? ""
+            )
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
                 );
 
-            const data =
-                await response.json();
+        }
 
-            if (
-                !response.ok ||
-                !data.success
-            ) {
 
-                throw new Error(
-                    data.message ||
-                    "Erreur."
+        function showNotice(
+            message,
+            type = "success"
+        ) {
+
+            notice.textContent =
+                message;
+
+            notice.className =
+                "notice show " +
+                type;
+
+            clearTimeout(
+                window.ideaNoticeTimer
+            );
+
+            window.ideaNoticeTimer =
+                setTimeout(
+                    () => {
+
+                        notice.className =
+                            "notice";
+
+                    },
+                    4000
                 );
+
+        }
+
+
+        function getStatusText(
+            status
+        ) {
+
+            return (
+                status ||
+                "Nouvelle"
+            );
+
+        }
+
+
+        async function loadIdeas() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/innovation"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    data.success === false
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Impossible de charger les idées."
+                    );
+
+                }
+
+
+                const ideas =
+                    data.ideas || [];
+
+
+                if (
+                    ideas.length === 0
+                ) {
+
+                    ideasBox.innerHTML = `
+                        <div
+                            class="empty"
+                            style="grid-column:1/-1;"
+                        >
+                            Aucune idée pour le moment.<br>
+                            Sois le premier à proposer une idée 💡
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                ideasBox.innerHTML =
+                    ideas
+                        .map(
+                            idea => {
+
+                                return `
+
+                                    <article
+                                        class="glass card"
+                                    >
+
+                                        <div
+                                            style="
+                                                display:flex;
+                                                justify-content:space-between;
+                                                align-items:flex-start;
+                                                gap:15px;
+                                            "
+                                        >
+
+                                            <div>
+
+                                                <h3>
+                                                    ${escapeHTML(
+                                                        idea.titre
+                                                    )}
+                                                </h3>
+
+                                                <p
+                                                    style="
+                                                        margin-top:7px;
+                                                        white-space:pre-wrap;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        idea.description
+                                                    )}
+                                                </p>
+
+                                            </div>
+
+
+                                            <span
+                                                class="badge"
+                                            >
+                                                ${escapeHTML(
+                                                    getStatusText(
+                                                        idea.status
+                                                    )
+                                                )}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div
+                                            class="small-text"
+                                            style="
+                                                margin-top:14px;
+                                            "
+                                        >
+
+                                            👤
+                                            ${escapeHTML(
+                                                idea.auteur ||
+                                                "Anonyme"
+                                            )}
+
+                                        </div>
+
+
+                                        <div
+                                            style="
+                                                display:flex;
+                                                justify-content:space-between;
+                                                align-items:center;
+                                                gap:12px;
+                                                margin-top:20px;
+                                            "
+                                        >
+
+                                            <strong>
+                                                👍
+                                                ${Number(
+                                                    idea.votes || 0
+                                                )}
+                                                vote(s)
+                                            </strong>
+
+
+                                            <button
+                                                class="btn btn-primary"
+                                                onclick="voteIdea('${idea.id}')"
+                                            >
+                                                Voter
+                                            </button>
+
+                                        </div>
+
+                                    </article>
+
+                                `;
+
+                            }
+                        )
+                        .join("");
+
             }
 
-            const ideas =
-                Array.isArray(
-                    data.ideas
-                )
-                    ? data.ideas
-                    : [];
+            catch (error) {
 
-            if (
-                ideas.length === 0
-            ) {
+                console.error(
+                    error
+                );
 
-                container.innerHTML = `
-                    <div class="ideas-empty">
-
-                        💡
-
-                        <br><br>
-
-                        Aucune idée pour le moment.
-                        <br>
-                        Sois le premier à proposer quelque chose !
-
+                ideasBox.innerHTML = `
+                    <div
+                        class="empty"
+                        style="grid-column:1/-1;"
+                    >
+                        Impossible de charger les idées.
                     </div>
                 `;
 
-                return;
             }
 
-            container.innerHTML =
-                ideas
-                    .map(
-                        idea => `
-                            <article
-                                class="idea"
-                            >
-
-                                <div
-                                    class="idea-top"
-                                >
-
-                                    <div>
-
-                                        <div
-                                            class="idea-title"
-                                        >
-                                            ${escapeHTML(
-                                                idea.titre
-                                            )}
-                                        </div>
-
-                                        <div
-                                            class="idea-author"
-                                        >
-                                            Par ${escapeHTML(
-                                                idea.pseudo
-                                            )}
-                                        </div>
-
-                                        <div
-                                            class="idea-date"
-                                        >
-                                            ${formatDate(
-                                                idea.date
-                                            )}
-                                        </div>
-
-                                    </div>
-
-                                    <button
-                                        class="vote-btn"
-                                        onclick="voteIdea(${idea.id})"
-                                    >
-                                        👍 ${idea.votes || 0}
-                                    </button>
-
-                                </div>
-
-                                <div
-                                    class="idea-description"
-                                >
-                                    ${escapeHTML(
-                                        idea.description
-                                    )}
-                                </div>
-
-                                <span
-                                    class="idea-status ${statusClass(
-                                        idea.status
-                                    )}"
-                                >
-                                    ${escapeHTML(
-                                        idea.status
-                                    )}
-                                </span>
-
-                            </article>
-                        `
-                    )
-                    .join("");
-
-        } catch (error) {
-
-            console.error(
-                error
-            );
-
-            container.innerHTML = `
-                <div class="ideas-error">
-
-                    ⚠️
-
-                    <br><br>
-
-                    Impossible de charger les idées.
-
-                </div>
-            `;
         }
-    }
 
-    async function voteIdea(id) {
 
-        try {
+        async function voteIdea(
+            id
+        ) {
 
-            const response =
-                await fetch(
-                    `/api/innovation/${id}/vote`,
-                    {
-                        method: "POST"
-                    }
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/innovation/" +
+                        encodeURIComponent(id) +
+                        "/vote",
+                        {
+                            method: "POST"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok ||
+                    data.success === false
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Impossible d'enregistrer le vote."
+                    );
+
+                }
+
+
+                await loadIdeas();
+
+
+                showNotice(
+                    "Vote enregistré 👍",
+                    "success"
                 );
 
-            const data =
-                await response.json();
-
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-
-                throw new Error(
-                    data.message ||
-                    "Impossible de voter."
-                );
             }
 
-            loadIdeas();
+            catch (error) {
 
-        } catch (error) {
+                console.error(
+                    error
+                );
 
-            alert(
-                error.message
-            );
+                showNotice(
+                    error.message ||
+                    "Une erreur est survenue.",
+                    "error"
+                );
+
+            }
+
         }
-    }
 
-    document
-        .getElementById(
-            "ideaForm"
-        )
-        .addEventListener(
+
+        ideaForm.addEventListener(
             "submit",
-            async event => {
+            async (event) => {
 
                 event.preventDefault();
 
-                const form =
-                    event.target;
 
-                const button =
-                    document.getElementById(
-                        "submitBtn"
-                    );
-
-                const message =
-                    document.getElementById(
-                        "formMessage"
-                    );
-
-                button.disabled =
+                submitButton.disabled =
                     true;
 
-                button.textContent =
-                    "Publication...";
+                submitButton.textContent =
+                    "Envoi en cours...";
+
+
+                const payload = {
+
+                    titre:
+                        document
+                            .getElementById(
+                                "titre"
+                            )
+                            .value
+                            .trim(),
+
+                    auteur:
+                        document
+                            .getElementById(
+                                "auteur"
+                            )
+                            .value
+                            .trim(),
+
+                    description:
+                        document
+                            .getElementById(
+                                "description"
+                            )
+                            .value
+                            .trim()
+
+                };
+
 
                 try {
 
@@ -1150,70 +664,82 @@
                                 },
 
                                 body:
-                                    JSON.stringify({
-                                        pseudo:
-                                            document.getElementById("pseudo").value,
-
-                                        titre:
-                                            document.getElementById("titre").value,
-
-                                        description:
-                                            document.getElementById("description").value
-                                    })
+                                    JSON.stringify(
+                                        payload
+                                    )
                             }
                         );
+
 
                     const data =
                         await response.json();
 
+
                     if (
                         !response.ok ||
-                        !data.success
+                        data.success === false
                     ) {
 
                         throw new Error(
                             data.message ||
-                            "Impossible de publier."
+                            "Impossible d'envoyer l'idée."
                         );
+
                     }
 
-                    form.reset();
 
-                    message.textContent =
-                        "🎉 Ton idée a bien été publiée !";
+                    ideaForm.reset();
 
-                    message.className =
-                        "form-message show success";
 
-                    loadIdeas();
+                    showNotice(
+                        "Ton idée a bien été proposée 💡",
+                        "success"
+                    );
 
-                } catch (error) {
 
-                    message.textContent =
-                        error.message;
+                    await loadIdeas();
 
-                    message.className =
-                        "form-message show error";
+                }
 
-                } finally {
+                catch (error) {
 
-                    button.disabled =
+                    console.error(
+                        error
+                    );
+
+
+                    showNotice(
+                        error.message ||
+                        "Une erreur est survenue.",
+                        "error"
+                    );
+
+                }
+
+                finally {
+
+                    submitButton.disabled =
                         false;
 
-                    button.textContent =
-                        "💡 Publier mon idée";
+                    submitButton.textContent =
+                        "💡 Proposer l'idée";
+
                 }
+
             }
         );
 
-    loadIdeas();
 
-    setInterval(
-        loadIdeas,
-        5000
-    );
+        loadIdeas();
 
-</script>
+
+        setInterval(
+            loadIdeas,
+            10000
+        );
+
+    </script>
 
 </body>
+
 </html>

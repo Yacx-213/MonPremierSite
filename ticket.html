@@ -1,608 +1,336 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tickets — BUSINESS.</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Tickets - Mon Premier Site</title>
 
-        body {
-            min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            color: white;
-
-            background:
-                radial-gradient(
-                    circle at top left,
-                    #29104d,
-                    transparent 40%
-                ),
-                radial-gradient(
-                    circle at bottom right,
-                    #35105c,
-                    transparent 40%
-                ),
-                #07050d;
-        }
-
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-
-            height: 76px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 7%;
-
-            background: rgba(7,5,13,0.75);
-            backdrop-filter: blur(18px);
-
-            border-bottom:
-                1px solid rgba(255,255,255,0.08);
-        }
-
-        .logo {
-            font-size: 25px;
-            font-weight: 900;
-        }
-
-        .logo span {
-            color: #a855f7;
-        }
-
-        .back {
-            color: #aaa2b5;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .back:hover {
-            color: white;
-        }
-
-        .container {
-            width: min(850px, 90%);
-            margin: 70px auto;
-        }
-
-        .intro {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .tag {
-            display: inline-block;
-
-            padding: 8px 14px;
-
-            border-radius: 999px;
-
-            background:
-                rgba(168,85,247,0.12);
-
-            border:
-                1px solid rgba(168,85,247,0.25);
-
-            color: #c084fc;
-
-            font-size: 12px;
-            font-weight: bold;
-
-            letter-spacing: 1px;
-            text-transform: uppercase;
-
-            margin-bottom: 18px;
-        }
-
-        h1 {
-            font-size: clamp(40px, 7vw, 65px);
-            margin-bottom: 18px;
-        }
-
-        h1 span {
-            background:
-                linear-gradient(
-                    90deg,
-                    #ffffff,
-                    #c084fc,
-                    #a855f7
-                );
-
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .intro p {
-            max-width: 620px;
-            margin: auto;
-
-            color: #aaa2b5;
-            line-height: 1.7;
-        }
-
-        .form-card {
-            padding: 35px;
-
-            border-radius: 26px;
-
-            background:
-                rgba(255,255,255,0.045);
-
-            border:
-                1px solid rgba(255,255,255,0.09);
-
-            box-shadow:
-                0 30px 80px rgba(0,0,0,0.35);
-
-            backdrop-filter: blur(20px);
-        }
-
-        .grid {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 20px;
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-        }
-
-        .full {
-            grid-column: 1 / -1;
-        }
-
-        label {
-            color: #ddd6e5;
-
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-
-            padding: 15px 16px;
-
-            border-radius: 13px;
-
-            border:
-                1px solid rgba(255,255,255,0.1);
-
-            outline: none;
-
-            background:
-                rgba(0,0,0,0.25);
-
-            color: white;
-
-            font-size: 14px;
-
-            transition: 0.25s;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color:
-                rgba(168,85,247,0.7);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(168,85,247,0.1);
-        }
-
-        select option {
-            background: #15101d;
-            color: white;
-        }
-
-        textarea {
-            min-height: 190px;
-            resize: vertical;
-            line-height: 1.6;
-        }
-
-        .submit {
-            width: 100%;
-
-            margin-top: 25px;
-
-            padding: 16px;
-
-            border: none;
-            border-radius: 14px;
-
-            cursor: pointer;
-
-            color: white;
-
-            font-size: 15px;
-            font-weight: bold;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #7c3aed,
-                    #a855f7
-                );
-
-            box-shadow:
-                0 12px 30px
-                rgba(124,58,237,0.25);
-
-            transition: 0.3s;
-        }
-
-        .submit:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 18px 40px
-                rgba(168,85,247,0.35);
-        }
-
-        .submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .error {
-            display: none;
-
-            margin-top: 18px;
-            padding: 14px;
-
-            border-radius: 12px;
-
-            background:
-                rgba(239,68,68,0.1);
-
-            border:
-                1px solid rgba(239,68,68,0.25);
-
-            color: #fca5a5;
-
-            font-size: 14px;
-        }
-
-        .success {
-            display: none;
-
-            text-align: center;
-
-            padding: 65px 20px;
-        }
-
-        .success-icon {
-            width: 85px;
-            height: 85px;
-
-            margin: 0 auto 25px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background:
-                rgba(34,197,94,0.12);
-
-            border:
-                1px solid rgba(34,197,94,0.3);
-
-            font-size: 40px;
-
-            animation:
-                pop 0.5s ease;
-        }
-
-        @keyframes pop {
-
-            0% {
-                transform: scale(0.4);
-                opacity: 0;
-            }
-
-            70% {
-                transform: scale(1.1);
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .success h2 {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .success p {
-            color: #aaa2b5;
-            line-height: 1.6;
-            max-width: 500px;
-            margin: auto;
-        }
-
-        .again {
-            margin-top: 25px;
-
-            padding: 13px 20px;
-
-            border:
-                1px solid rgba(255,255,255,0.1);
-
-            border-radius: 12px;
-
-            background:
-                rgba(255,255,255,0.05);
-
-            color: white;
-
-            cursor: pointer;
-        }
-
-        footer {
-            text-align: center;
-
-            padding: 30px;
-
-            color: #625b6c;
-
-            font-size: 13px;
-        }
-
-        @media (max-width: 650px) {
-
-            nav {
-                padding: 0 5%;
-            }
-
-            .container {
-                margin: 45px auto;
-            }
-
-            .form-card {
-                padding: 22px;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .full {
-                grid-column: auto;
-            }
-        }
-    </style>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
-    <nav>
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
 
-        <div class="logo">
-            BUSINESS<span>.</span>
-        </div>
+    <header class="navbar">
 
         <a
             href="page2.html"
-            class="back"
+            class="logo"
         >
-            ← Retour au site
+            MON <span>PREMIER</span> SITE
         </a>
 
-    </nav>
+        <nav class="nav-links">
+
+            <a href="page2.html">
+                Accueil
+            </a>
+
+            <a href="vie.html">
+                Système de vie
+            </a>
+
+            <a href="innovation.html">
+                Innovation
+            </a>
+
+            <a href="creativite.html">
+                Créativité
+            </a>
+
+            <a href="ambition.html">
+                Ambition
+            </a>
+
+            <a href="staff-login.html">
+                Staff
+            </a>
+
+        </nav>
+
+    </header>
 
 
-    <main class="container">
+    <!-- =========================
+         HERO
+    ========================== -->
 
-        <div class="intro">
+    <section class="hero">
 
-            <div class="tag">
-                Support
+        <div class="hero-content">
+
+            <div class="badge">
+                🎫 SUPPORT
             </div>
 
             <h1>
-                Votre <span>demande.</span>
+                Créer un <span>ticket</span>
             </h1>
 
             <p>
-                Remplissez ce formulaire avec les informations
-                nécessaires. Votre demande sera transmise
-                directement au Staff.
+                Une question, un problème ou une demande ?
+                Envoie ton message au Staff.
             </p>
 
         </div>
 
-
-        <div class="form-card">
-
-            <form id="ticketForm">
-
-                <div class="grid">
-
-                    <div class="field">
-
-                        <label for="type">
-                            Type de demande
-                        </label>
-
-                        <select
-                            id="type"
-                            name="type"
-                            required
-                        >
-
-                            <option value="">
-                                Sélectionner
-                            </option>
-
-                            <option value="Support">
-                                🛠️ Support
-                            </option>
-
-                            <option value="Commande">
-                                📦 Commande
-                            </option>
-
-                            <option value="Partenariat">
-                                🤝 Partenariat
-                            </option>
-
-                            <option value="Autre">
-                                💬 Autre
-                            </option>
-
-                        </select>
-
-                    </div>
+    </section>
 
 
-                    <div class="field">
+    <!-- =========================
+         FORMULAIRE
+    ========================== -->
 
-                        <label for="nom">
-                            Nom
-                        </label>
+    <main class="container">
 
-                        <input
-                            type="text"
-                            id="nom"
-                            name="nom"
-                            placeholder="Votre nom"
-                            required
-                        >
+        <section class="section">
 
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="discord">
-                            Pseudo Discord
-                        </label>
-
-                        <input
-                            type="text"
-                            id="discord"
-                            name="discord"
-                            placeholder="Ex : Yacine"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="sujet">
-                            Sujet
-                        </label>
-
-                        <input
-                            type="text"
-                            id="sujet"
-                            name="sujet"
-                            placeholder="Sujet de votre demande"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field full">
-
-                        <label for="message">
-                            Message
-                        </label>
-
-                        <textarea
-                            id="message"
-                            name="message"
-                            placeholder="Expliquez votre demande..."
-                            required
-                        ></textarea>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="error"
-                    id="error"
-                ></div>
-
-
-                <button
-                    type="submit"
-                    class="submit"
-                    id="submitButton"
-                >
-                    Envoyer ma demande →
-                </button>
-
-            </form>
+            <div
+                id="notice"
+                class="notice"
+            ></div>
 
 
             <div
-                class="success"
-                id="success"
+                class="glass form-card"
             >
 
-                <div class="success-icon">
-                    ✓
-                </div>
-
-                <h2>
-                    Demande envoyée !
-                </h2>
-
-                <p>
-                    Votre demande a bien été enregistrée.
-                    Le Staff pourra maintenant la consulter
-                    depuis son espace.
-                </p>
-
-                <button
-                    class="again"
-                    id="againButton"
+                <form
+                    id="ticketForm"
                 >
-                    Envoyer une autre demande
-                </button>
+
+                    <div class="form-grid">
+
+
+                        <!-- TYPE -->
+
+                        <div class="field">
+
+                            <label
+                                for="type"
+                            >
+                                Type de demande
+                            </label>
+
+                            <select
+                                id="type"
+                                class="select"
+                                required
+                            >
+
+                                <option value="">
+                                    Sélectionner
+                                </option>
+
+                                <option value="Question">
+                                    Question
+                                </option>
+
+                                <option value="Problème">
+                                    Problème
+                                </option>
+
+                                <option value="Suggestion">
+                                    Suggestion
+                                </option>
+
+                                <option value="Autre">
+                                    Autre
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- NOM -->
+
+                        <div class="field">
+
+                            <label
+                                for="nom"
+                            >
+                                Nom / pseudo
+                            </label>
+
+                            <input
+                                id="nom"
+                                class="input"
+                                type="text"
+                                maxlength="80"
+                                placeholder="Ton pseudo"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- DISCORD -->
+
+                        <div class="field">
+
+                            <label
+                                for="discord"
+                            >
+                                Discord
+                            </label>
+
+                            <input
+                                id="discord"
+                                class="input"
+                                type="text"
+                                maxlength="100"
+                                placeholder="Ton identifiant Discord"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- SUJET -->
+
+                        <div class="field">
+
+                            <label
+                                for="sujet"
+                            >
+                                Sujet
+                            </label>
+
+                            <input
+                                id="sujet"
+                                class="input"
+                                type="text"
+                                maxlength="120"
+                                placeholder="Sujet de ta demande"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- MESSAGE -->
+
+                        <div class="field full">
+
+                            <label
+                                for="message"
+                            >
+                                Message
+                            </label>
+
+                            <textarea
+                                id="message"
+                                class="textarea"
+                                maxlength="4000"
+                                placeholder="Explique ta demande le plus clairement possible..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTION -->
+
+                    <div class="form-actions">
+
+                        <div class="small-text">
+
+                            Un membre du Staff pourra
+                            ensuite consulter et traiter
+                            ton ticket.
+
+                        </div>
+
+                        <button
+                            id="submitButton"
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            Envoyer le ticket →
+                        </button>
+
+                    </div>
+
+                </form>
 
             </div>
 
-        </div>
+        </section>
+
+
+        <!-- =========================
+             INFORMATIONS
+        ========================== -->
+
+        <section class="section">
+
+            <div
+                class="glass card"
+            >
+
+                <div class="badge">
+                    ℹ️ À SAVOIR
+                </div>
+
+                <h2
+                    style="margin-top:18px;"
+                >
+                    Avant d'envoyer
+                </h2>
+
+                <p
+                    style="
+                        margin-top:12px;
+                        color:var(--muted);
+                    "
+                >
+                    Décris clairement ta demande et indique
+                    les informations utiles. Cela permettra
+                    au Staff de comprendre plus facilement
+                    ton problème ou ta question.
+                </p>
+
+            </div>
+
+        </section>
 
     </main>
 
 
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
     <footer>
-        © 2026 BUSINESS. — Système de tickets
+
+        © 2026 Mon Premier Site
+        — Support
+
     </footer>
 
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script
+        src="background.js"
+    ></script>
 
     <script>
 
@@ -611,14 +339,9 @@
                 "ticketForm"
             );
 
-        const success =
+        const notice =
             document.getElementById(
-                "success"
-            );
-
-        const error =
-            document.getElementById(
-                "error"
+                "notice"
             );
 
         const submitButton =
@@ -626,10 +349,34 @@
                 "submitButton"
             );
 
-        const againButton =
-            document.getElementById(
-                "againButton"
+
+        function showNotice(
+            message,
+            type = "success"
+        ) {
+
+            notice.textContent =
+                message;
+
+            notice.className =
+                "notice show " + type;
+
+            clearTimeout(
+                window.ticketNoticeTimer
             );
+
+            window.ticketNoticeTimer =
+                setTimeout(
+                    () => {
+
+                        notice.className =
+                            "notice";
+
+                    },
+                    4000
+                );
+
+        }
 
 
         form.addEventListener(
@@ -638,8 +385,6 @@
 
                 event.preventDefault();
 
-                error.style.display =
-                    "none";
 
                 submitButton.disabled =
                     true;
@@ -648,32 +393,48 @@
                     "Envoi en cours...";
 
 
-                const data = {
+                const payload = {
 
                     type:
-                        document.getElementById(
-                            "type"
-                        ).value,
+                        document
+                            .getElementById(
+                                "type"
+                            )
+                            .value
+                            .trim(),
 
                     nom:
-                        document.getElementById(
-                            "nom"
-                        ).value,
+                        document
+                            .getElementById(
+                                "nom"
+                            )
+                            .value
+                            .trim(),
 
                     discord:
-                        document.getElementById(
-                            "discord"
-                        ).value,
+                        document
+                            .getElementById(
+                                "discord"
+                            )
+                            .value
+                            .trim(),
 
                     sujet:
-                        document.getElementById(
-                            "sujet"
-                        ).value,
+                        document
+                            .getElementById(
+                                "sujet"
+                            )
+                            .value
+                            .trim(),
 
                     message:
-                        document.getElementById(
-                            "message"
-                        ).value
+                        document
+                            .getElementById(
+                                "message"
+                            )
+                            .value
+                            .trim()
+
                 };
 
 
@@ -683,7 +444,6 @@
                         await fetch(
                             "/api/tickets",
                             {
-
                                 method: "POST",
 
                                 headers: {
@@ -692,67 +452,63 @@
                                 },
 
                                 body:
-                                    JSON.stringify(data)
+                                    JSON.stringify(
+                                        payload
+                                    )
                             }
                         );
 
 
-                    const result =
+                    const data =
                         await response.json();
 
 
-                    if (!response.ok) {
+                    if (
+                        !response.ok ||
+                        data.success === false
+                    ) {
 
                         throw new Error(
-                            result.message ||
-                            "Une erreur est survenue."
+                            data.message ||
+                            "Impossible d'envoyer le ticket."
                         );
+
                     }
 
 
-                    form.style.display =
-                        "none";
-
-                    success.style.display =
-                        "block";
+                    form.reset();
 
 
-                } catch (err) {
+                    showNotice(
+                        "Ton ticket a bien été envoyé 🎫",
+                        "success"
+                    );
 
-                    error.textContent =
-                        err.message;
+                }
 
-                    error.style.display =
-                        "block";
+                catch (error) {
+
+                    console.error(
+                        error
+                    );
+
+                    showNotice(
+                        error.message ||
+                        "Une erreur est survenue.",
+                        "error"
+                    );
+
+                }
+
+                finally {
 
                     submitButton.disabled =
                         false;
 
                     submitButton.textContent =
-                        "Envoyer ma demande →";
+                        "Envoyer le ticket →";
+
                 }
-
-            }
-        );
-
-
-        againButton.addEventListener(
-            "click",
-            () => {
-
-                form.reset();
-
-                success.style.display =
-                    "none";
-
-                form.style.display =
-                    "block";
-
-                submitButton.disabled =
-                    false;
-
-                submitButton.textContent =
-                    "Envoyer ma demande →";
 
             }
         );
@@ -760,4 +516,5 @@
     </script>
 
 </body>
+
 </html>

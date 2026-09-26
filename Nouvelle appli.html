@@ -1,421 +1,66 @@
-```html
-```html
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Bienvenue</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Application - Mon Premier Site</title>
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-            background: #0b0612;
-        }
-
-        .accueil {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(10, 3, 20, .82),
-                    rgba(48, 5, 65, .55)
-                ),
-                url("fond.png");
-
-            background-size: cover;
-            background-position: center;
-
-            transition: transform .8s ease, filter .8s ease;
-        }
-
-        /* Lueurs */
-
-        .lueur {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            pointer-events: none;
-        }
-
-        .lueur-1 {
-            width: 300px;
-            height: 300px;
-            top: -100px;
-            left: -80px;
-            background: rgba(190, 0, 255, .35);
-        }
-
-        .lueur-2 {
-            width: 350px;
-            height: 350px;
-            right: -120px;
-            bottom: -130px;
-            background: rgba(255, 60, 200, .30);
-        }
-
-        /* Texte décoratif */
-
-        .texte-fond {
-            position: absolute;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            font-size: clamp(70px, 12vw, 180px);
-            font-weight: 900;
-
-            white-space: nowrap;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .haut {
-            top: 30px;
-            color: rgba(255, 255, 255, .045);
-        }
-
-        .milieu {
-            bottom: 20px;
-            color: rgba(214, 70, 255, .07);
-        }
-
-        /* Carte centrale */
-
-        .contenu {
-            position: relative;
-            z-index: 2;
-
-            width: min(850px, 90%);
-            padding: 55px 40px;
-
-            text-align: center;
-
-            background: rgba(255, 255, 255, .08);
-
-            border: 1px solid rgba(255, 255, 255, .16);
-            border-radius: 30px;
-
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-
-            box-shadow:
-                0 25px 80px rgba(0, 0, 0, .35),
-                inset 0 1px 1px rgba(255, 255, 255, .15);
-
-            animation: apparition 1s ease forwards;
-        }
-
-        .label {
-            display: inline-block;
-
-            margin-bottom: 18px;
-            padding: 8px 18px;
-
-            border: 1px solid rgba(255, 255, 255, .2);
-            border-radius: 50px;
-
-            background: rgba(255, 255, 255, .07);
-
-            color: #f0caff;
-
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .contenu h1 {
-            font-size: clamp(55px, 8vw, 100px);
-            line-height: 1;
-
-            font-weight: 900;
-
-            background: linear-gradient(
-                90deg,
-                #ffffff,
-                #e89aff,
-                #ffb5ec
-            );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-
-            margin-bottom: 20px;
-        }
-
-        .contenu p {
-            color: rgba(255, 255, 255, .78);
-
-            font-size: clamp(14px, 2vw, 19px);
-            letter-spacing: 6px;
-
-            margin-bottom: 35px;
-        }
-
-        .ligne {
-            width: 80px;
-            height: 3px;
-
-            margin: auto;
-
-            border-radius: 10px;
-
-            background: linear-gradient(
-                90deg,
-                #b52cff,
-                #ff8bdd
-            );
-        }
-
-        /* Bouton */
-
-        .suivant {
-            position: absolute;
-
-            right: 35px;
-            bottom: 30px;
-
-            z-index: 5;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-
-            width: 190px;
-            padding: 15px 22px;
-
-            border: 1px solid rgba(255, 255, 255, .25);
-            border-radius: 50px;
-
-            background: linear-gradient(
-                135deg,
-                #b82cff,
-                #ff75d8
-            );
-
-            color: white;
-
-            font-size: 15px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 10px 30px rgba(202, 43, 234, .35);
-
-            transition: .25s;
-        }
-
-        .suivant span {
-            font-size: 20px;
-            transition: .25s;
-        }
-
-        .suivant:hover {
-            transform: translateY(-4px);
-            box-shadow:
-                0 15px 40px rgba(202, 43, 234, .55);
-        }
-
-        .suivant:hover span {
-            transform: translateX(5px);
-        }
-
-        /* Transition */
-
-        .transition-page {
-            position: fixed;
-
-            inset: 0;
-
-            z-index: 9999;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background:
-                radial-gradient(
-                    circle,
-                    #d946ef,
-                    #8b00ff 45%,
-                    #160021
-                );
-
-            transform: translateY(100%);
-
-            pointer-events: none;
-
-            transition:
-                transform .8s cubic-bezier(.77, 0, .18, 1);
-        }
-
-        .transition-logo {
-            color: white;
-
-            font-size: clamp(40px, 8vw, 100px);
-            font-weight: 900;
-
-            letter-spacing: 8px;
-
-            opacity: 0;
-            transform: scale(.8);
-
-            transition:
-                opacity .4s ease .3s,
-                transform .6s ease .3s;
-        }
-
-        .transition-active .transition-page {
-            transform: translateY(0);
-        }
-
-        .transition-active .transition-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .transition-active .accueil {
-            transform: scale(1.04);
-            filter: blur(4px);
-        }
-
-        @keyframes apparition {
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .contenu {
-                padding: 45px 20px;
-            }
-
-            .contenu p {
-                letter-spacing: 3px;
-            }
-
-            .suivant {
-                right: 50%;
-                transform: translateX(50%);
-                bottom: 20px;
-            }
-
-            .suivant:hover {
-                transform: translateX(50%) translateY(-4px);
-            }
-        }
-    </style>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
-
 
 <body>
 
-    <div class="accueil">
+    <main class="hero">
 
-        <div class="lueur lueur-1"></div>
-        <div class="lueur lueur-2"></div>
+        <div class="hero-content">
 
-        <div class="texte-fond haut">
-            BIENVENUE
-        </div>
-
-        <div class="texte-fond milieu">
-            BUSINESS
-        </div>
-
-        <main class="contenu">
-
-            <div class="label">
-                Bienvenue
+            <div class="badge">
+                ✦ MON PREMIER SITE
             </div>
 
             <h1>
-                Bienvenue
+                Bienvenue sur
+                <span>l'application.</span>
             </h1>
 
             <p>
-                BUSINESS IS BUSINESS
+                Découvre ton espace communautaire,
+                ses projets, ses services et ses différentes
+                fonctionnalités.
             </p>
 
-            <div class="ligne"></div>
+            <div class="hero-actions">
 
-        </main>
+                <a
+                    href="page2.html"
+                    class="btn btn-primary"
+                >
+                    Ouvrir l'application →
+                </a>
 
-        <button
-            class="suivant"
-            onclick="suivant()">
+            </div>
 
-            Continuer
-
-            <span>→</span>
-
-        </button>
-
-    </div>
-
-
-    <!-- Écran de transition -->
-
-    <div class="transition-page">
-
-        <div class="transition-logo">
-            BUSINESS
         </div>
 
-    </div>
+    </main>
 
 
-    <script>
+    <footer>
+        © 2026 Mon Premier Site
+    </footer>
 
-        function suivant() {
 
-            document.body.classList.add("transition-active");
-
-            setTimeout(() => {
-
-                window.location.href = "page2.html";
-
-            }, 900);
-
-        }
-
-    </script>
+    <script src="background.js"></script>
 
 </body>
 
 </html>
-```

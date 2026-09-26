@@ -1,1586 +1,677 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BUSINESS. — Créativité</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    <title>Créativité - Mon Premier Site</title>
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(
-                    circle at 12% 10%,
-                    rgba(126, 79, 255, 0.16),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 88% 18%,
-                    rgba(180, 102, 255, 0.10),
-                    transparent 28%
-                ),
-                #07070b;
-            color: #f7f4ff;
-            min-height: 100vh;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button,
-        input,
-        textarea {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        /* ==================================
-           NAV
-        ================================== */
-
-        nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 17px 6%;
-
-            background:
-                rgba(7, 7, 11, 0.80);
-
-            border-bottom:
-                1px solid
-                rgba(255, 255, 255, 0.07);
-
-            backdrop-filter: blur(20px);
-        }
-
-        .logo {
-            font-size: 19px;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-        }
-
-        .back {
-            color: #aaa6b6;
-            font-size: 12px;
-            transition: 0.2s ease;
-        }
-
-        .back:hover {
-            color: white;
-        }
-
-        /* ==================================
-           HERO
-        ================================== */
-
-        .hero {
-            width: min(1100px, 88%);
-            margin: 0 auto;
-
-            padding:
-                90px
-                0
-                55px;
-        }
-
-        .eyebrow {
-            display: inline-block;
-
-            padding:
-                7px
-                11px;
-
-            border-radius: 999px;
-
-            background:
-                rgba(155,108,255,0.08);
-
-            border:
-                1px solid
-                rgba(155,108,255,0.18);
-
-            color: #bda7ff;
-
-            font-size: 9px;
-
-            letter-spacing:
-                0.14em;
-
-            text-transform:
-                uppercase;
-        }
-
-        .hero h1 {
-            margin-top: 17px;
-
-            font-size:
-                clamp(
-                    42px,
-                    7vw,
-                    72px
-                );
-
-            line-height: 1;
-
-            letter-spacing:
-                -0.05em;
-        }
-
-        .gradient {
-            background:
-                linear-gradient(
-                    135deg,
-                    white,
-                    #bda5ff,
-                    #8058ff
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-
-            color: transparent;
-        }
-
-        .hero p {
-            max-width: 650px;
-
-            margin-top: 20px;
-
-            color: #9793a4;
-
-            line-height: 1.75;
-
-            font-size: 13px;
-        }
-
-        /* ==================================
-           LAYOUT
-        ================================== */
-
-        .layout {
-            width: min(1100px, 88%);
-            margin: 0 auto;
-
-            display: grid;
-
-            grid-template-columns:
-                1.5fr
-                0.9fr;
-
-            gap: 18px;
-
-            padding-bottom: 90px;
-        }
-
-        .panel {
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius: 20px;
-
-            background:
-                rgba(255,255,255,0.025);
-
-            backdrop-filter:
-                blur(18px);
-
-            box-shadow:
-                0 25px 75px
-                rgba(0,0,0,0.30);
-
-            overflow:
-                hidden;
-        }
-
-        .panel-head {
-            padding:
-                20px;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,0.06);
-        }
-
-        .panel-head h2 {
-            font-size: 17px;
-        }
-
-        .panel-head p {
-            margin-top: 5px;
-
-            color: #858190;
-
-            font-size: 11px;
-        }
-
-        .panel-body {
-            padding: 18px;
-        }
-
-        /* ==================================
-           FORMULAIRE
-        ================================== */
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-
-            margin-bottom: 13px;
-        }
-
-        .label {
-            color: #858190;
-
-            font-size: 10px;
-
-            text-transform:
-                uppercase;
-
-            letter-spacing:
-                0.07em;
-        }
-
-        .input,
-        .textarea {
-            width: 100%;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.07);
-
-            border-radius: 11px;
-
-            background:
-                rgba(255,255,255,0.03);
-
-            color: white;
-
-            outline: none;
-
-            padding:
-                11px
-                12px;
-
-            font-size: 12px;
-
-            transition:
-                0.2s ease;
-        }
-
-        .textarea {
-            min-height: 105px;
-            resize: vertical;
-        }
-
-        .input:focus,
-        .textarea:focus {
-            border-color:
-                rgba(155,108,255,0.45);
-
-            background:
-                rgba(155,108,255,0.04);
-        }
-
-        /* ==================================
-           NOUVEAU BOUTON IMAGE
-        ================================== */
-
-        .upload-zone {
-            position: relative;
-
-            display: flex;
-            flex-direction: column;
-
-            align-items: center;
-            justify-content: center;
-
-            min-height: 185px;
-
-            padding: 25px;
-
-            border:
-                1px dashed
-                rgba(160, 116, 255, 0.35);
-
-            border-radius: 16px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(155,108,255,0.06),
-                    rgba(255,255,255,0.015)
-                );
-
-            text-align: center;
-
-            cursor: pointer;
-
-            transition:
-                0.25s ease;
-        }
-
-        .upload-zone:hover {
-            transform:
-                translateY(-2px);
-
-            border-color:
-                rgba(180,140,255,0.65);
-
-            background:
-                linear-gradient(
-                    180deg,
-                    rgba(155,108,255,0.11),
-                    rgba(255,255,255,0.025)
-                );
-
-            box-shadow:
-                0 15px 40px
-                rgba(100,70,180,0.14);
-        }
-
-        .upload-zone.dragover {
-            border-color:
-                #b79aff;
-
-            background:
-                rgba(155,108,255,0.14);
-
-            transform:
-                scale(1.01);
-        }
-
-        .upload-icon {
-            width: 58px;
-            height: 58px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 17px;
-
-            background:
-                rgba(155,108,255,0.12);
-
-            border:
-                1px solid
-                rgba(155,108,255,0.18);
-
-            font-size: 26px;
-
-            margin-bottom: 13px;
-        }
-
-        .upload-title {
-            font-size: 13px;
-            font-weight: 800;
-
-            color: #f0ecf9;
-        }
-
-        .upload-subtitle {
-            margin-top: 6px;
-
-            color: #888494;
-
-            font-size: 10px;
-
-            line-height: 1.5;
-        }
-
-        .upload-file-name {
-            display: none;
-
-            max-width: 100%;
-
-            margin-top: 12px;
-
-            padding:
-                8px
-                11px;
-
-            border-radius: 10px;
-
-            background:
-                rgba(155,108,255,0.10);
-
-            border:
-                1px solid
-                rgba(155,108,255,0.18);
-
-            color: #c7b5ff;
-
-            font-size: 10px;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .upload-file-name.show {
-            display: block;
-        }
-
-        .upload-preview {
-            display: none;
-
-            width: 100%;
-
-            margin-top: 14px;
-
-            border-radius: 12px;
-
-            overflow: hidden;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-        }
-
-        .upload-preview.show {
-            display: block;
-        }
-
-        .upload-preview img {
-            display: block;
-
-            width: 100%;
-
-            max-height: 190px;
-
-            object-fit: cover;
-        }
-
-        #image {
-            display: none;
-        }
-
-        .publish-btn {
-            width: 100%;
-
-            border: 0;
-
-            border-radius: 11px;
-
-            padding:
-                12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #9a6cff,
-                    #7045ff
-                );
-
-            color: white;
-
-            font-size: 11px;
-
-            font-weight: 700;
-
-            box-shadow:
-                0 12px 30px
-                rgba(112,69,255,0.20);
-
-            transition: 0.2s ease;
-        }
-
-        .publish-btn:hover {
-            transform:
-                translateY(-1px);
-
-            filter:
-                brightness(1.08);
-        }
-
-        .publish-btn:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
-
-        .form-message {
-            display: none;
-
-            margin-top: 10px;
-
-            padding:
-                10px
-                11px;
-
-            border-radius: 10px;
-
-            font-size: 10px;
-        }
-
-        .form-message.show {
-            display: block;
-        }
-
-        .form-success {
-            background:
-                rgba(66,209,123,0.08);
-
-            border:
-                1px solid
-                rgba(66,209,123,0.15);
-
-            color: #7ce5a2;
-        }
-
-        .form-error {
-            background:
-                rgba(255,102,125,0.08);
-
-            border:
-                1px solid
-                rgba(255,102,125,0.15);
-
-            color: #ff9da9;
-        }
-
-        /* ==================================
-           GALERIE
-        ================================== */
-
-        .gallery {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 12px;
-        }
-
-        .creation {
-            overflow: hidden;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius: 16px;
-
-            background:
-                rgba(255,255,255,0.02);
-
-            transition: 0.22s ease;
-        }
-
-        .creation:hover {
-            transform:
-                translateY(-3px);
-
-            border-color:
-                rgba(155,108,255,0.25);
-        }
-
-        .creation-image-wrap {
-            width: 100%;
-            aspect-ratio: 16 / 11;
-
-            background:
-                #0d0d13;
-
-            overflow: hidden;
-        }
-
-        .creation-image {
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-
-            display: block;
-
-            transition:
-                transform
-                0.35s
-                ease;
-        }
-
-        .creation:hover .creation-image {
-            transform:
-                scale(1.035);
-        }
-
-        .creation-info {
-            padding: 13px;
-        }
-
-        .creation-title {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .creation-author {
-            margin-top: 5px;
-
-            color: #a88aff;
-
-            font-size: 10px;
-        }
-
-        .creation-description {
-            margin-top: 9px;
-
-            color: #8f8b9b;
-
-            font-size: 10px;
-
-            line-height: 1.6;
-
-            white-space:
-                pre-wrap;
-        }
-
-        .creation-date {
-            margin-top: 9px;
-
-            color: #5f5c69;
-
-            font-size: 9px;
-        }
-
-        .creation-loading,
-        .creation-empty,
-        .creation-error {
-            grid-column:
-                1 / -1;
-
-            padding:
-                45px
-                20px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius: 15px;
-
-            text-align: center;
-
-            color: #777381;
-
-            font-size: 11px;
-        }
-
-        /* ==================================
-           CHAT
-        ================================== */
-
-        .chat-panel {
-            display: flex;
-            flex-direction: column;
-
-            min-height:
-                620px;
-        }
-
-        .chat-messages {
-            flex: 1;
-
-            min-height: 400px;
-            max-height: 540px;
-
-            overflow-y: auto;
-
-            padding: 17px;
-
-            display: flex;
-            flex-direction: column;
-
-            gap: 9px;
-        }
-
-        .chat-message {
-            padding:
-                10px
-                11px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            border-radius: 13px;
-
-            background:
-                rgba(255,255,255,0.025);
-        }
-
-        .chat-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 10px;
-        }
-
-        .chat-user {
-            color: #c2adff;
-
-            font-size: 10px;
-
-            font-weight: 700;
-        }
-
-        .chat-date {
-            color: #5d5967;
-
-            font-size: 8px;
-        }
-
-        .chat-text {
-            margin-top: 6px;
-
-            color: #aaa6b5;
-
-            font-size: 10px;
-
-            line-height: 1.55;
-
-            white-space:
-                pre-wrap;
-
-            word-break:
-                break-word;
-        }
-
-        .chat-empty {
-            display: flex;
-            flex: 1;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-
-            color: #686573;
-
-            font-size: 11px;
-        }
-
-        .chat-form {
-            padding:
-                13px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.06);
-        }
-
-        .chat-form-row {
-            display: grid;
-
-            grid-template-columns:
-                0.55fr
-                1fr
-                auto;
-
-            gap: 7px;
-        }
-
-        .chat-send {
-            border: 0;
-
-            border-radius: 10px;
-
-            padding:
-                0
-                13px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #9a6cff,
-                    #7045ff
-                );
-
-            color: white;
-
-            font-size: 10px;
-
-            font-weight: 700;
-        }
-
-        /* ==================================
-           FOOTER
-        ================================== */
-
-        footer {
-            padding:
-                35px
-                5%;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.06);
-
-            text-align: center;
-
-            color: #65626f;
-
-            font-size: 9px;
-        }
-
-        /* ==================================
-           RESPONSIVE
-        ================================== */
-
-        @media (max-width: 900px) {
-
-            .layout {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .chat-panel {
-                min-height:
-                    500px;
-            }
-
-            .chat-messages {
-                max-height:
-                    450px;
-            }
-        }
-
-        @media (max-width: 620px) {
-
-            .hero {
-                padding-top:
-                    65px;
-            }
-
-            .gallery {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .chat-form-row {
-                grid-template-columns:
-                    1fr;
-            }
-
-            .chat-send {
-                min-height: 40px;
-            }
-        }
-    </style>
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
-<nav>
+    <header class="navbar">
 
-    <a
-        href="/page2.html"
-        class="logo"
-    >
-        BUSINESS.
-    </a>
+        <a
+            href="page2.html"
+            class="logo"
+        >
+            MON <span>PREMIER</span> SITE
+        </a>
 
-    <a
-        href="/page2.html#services"
-        class="back"
-    >
-        ← Retour au site
-    </a>
+        <nav class="nav-links">
 
-</nav>
+            <a href="page2.html">
+                Accueil
+            </a>
 
-<section class="hero">
+            <a href="innovation.html">
+                Innovation
+            </a>
 
-    <span class="eyebrow">
-        Communauté · Créativité
-    </span>
+            <a href="ambition.html">
+                Ambition
+            </a>
 
-    <h1>
-        Montre ce que tu
-        <span class="gradient">
-            crées.
-        </span>
-    </h1>
+            <a href="ticket.html">
+                Tickets
+            </a>
 
-    <p>
-        Partage tes créations avec les autres membres,
-        découvre leurs projets et discute directement
-        avec la communauté.
-    </p>
+            <a href="staff-login.html">
+                Staff
+            </a>
 
-</section>
+        </nav>
 
-<main class="layout">
+    </header>
 
-    <!-- GALERIE -->
 
-    <section class="panel">
+    <section class="hero">
 
-        <div class="panel-head">
+        <div class="hero-content">
 
-            <h2>
-                🖼️ Créations de la communauté
-            </h2>
+            <div class="badge">
+                🎨 CRÉATIVITÉ
+            </div>
+
+            <h1>
+                Crée.
+                <span>Partage.</span>
+            </h1>
 
             <p>
+                Publie tes créations et découvre
+                celles de la communauté.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <main class="container">
+
+
+        <section class="section">
+
+            <h2 class="section-title">
+                Publier une création
+            </h2>
+
+            <p class="section-subtitle">
+                Partage ton travail avec la communauté.
+            </p>
+
+            <div
+                id="notice"
+                class="notice"
+            ></div>
+
+
+            <div class="glass form-card">
+
+                <form
+                    id="creationForm"
+                    enctype="multipart/form-data"
+                >
+
+                    <div class="form-grid">
+
+                        <div class="field">
+
+                            <label for="pseudo">
+                                Pseudo
+                            </label>
+
+                            <input
+                                id="pseudo"
+                                name="pseudo"
+                                class="input"
+                                type="text"
+                                maxlength="60"
+                                placeholder="Ton pseudo"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="titre">
+                                Titre
+                            </label>
+
+                            <input
+                                id="titre"
+                                name="titre"
+                                class="input"
+                                type="text"
+                                maxlength="100"
+                                placeholder="Titre de la création"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="field full">
+
+                            <label for="description">
+                                Description
+                            </label>
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                class="textarea"
+                                maxlength="1200"
+                                placeholder="Décris ta création..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="field full">
+
+                            <label for="image">
+                                Image
+                            </label>
+
+                            <input
+                                id="image"
+                                name="image"
+                                class="input"
+                                type="file"
+                                accept="image/png,image/jpeg,image/webp,image/gif"
+                                required
+                            >
+
+                            <div
+                                id="fileInfo"
+                                class="small-text"
+                                style="margin-top:8px;"
+                            >
+                                JPG, PNG, WEBP ou GIF — 5 Mo maximum.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <div class="small-text">
+                            Vérifie ton image avant de publier.
+                        </div>
+
+                        <button
+                            id="uploadButton"
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            🎨 Publier la création
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <section class="section">
+
+            <h2 class="section-title">
+                Galerie
+            </h2>
+
+            <p class="section-subtitle">
                 Les dernières créations publiées.
             </p>
 
-        </div>
-
-        <div class="panel-body">
 
             <div
                 id="gallery"
-                class="gallery"
-            >
+                class="card-grid"
+                style="margin-top:30px;"
+            ></div>
 
-                <div class="creation-loading">
-                    Chargement des créations...
-                </div>
+        </section>
 
-            </div>
 
-        </div>
+        <section class="section">
 
-    </section>
-
-    <!-- CHAT -->
-
-    <section class="panel chat-panel">
-
-        <div class="panel-head">
-
-            <h2>
+            <h2 class="section-title">
                 💬 Discussion
             </h2>
 
-            <p>
-                Discute avec les autres membres.
+            <p class="section-subtitle">
+                Échange avec les autres membres.
             </p>
 
-        </div>
 
-        <div
-            id="chatMessages"
-            class="chat-messages"
-        >
-
-            <div class="chat-empty">
-                Chargement de la discussion...
-            </div>
-
-        </div>
-
-        <form
-            id="chatForm"
-            class="chat-form"
-        >
-
-            <div class="chat-form-row">
-
-                <input
-                    id="chatPseudo"
-                    class="input"
-                    type="text"
-                    maxlength="40"
-                    placeholder="Ton pseudo"
-                    required
-                >
-
-                <input
-                    id="chatMessage"
-                    class="input"
-                    type="text"
-                    maxlength="500"
-                    placeholder="Écris ton message..."
-                    required
-                >
-
-                <button
-                    class="chat-send"
-                    type="submit"
-                >
-                    Envoyer
-                </button>
-
-            </div>
-
-        </form>
-
-    </section>
-
-    <!-- PUBLICATION -->
-
-    <section class="panel">
-
-        <div class="panel-head">
-
-            <h2>
-                🎨 Publier une création
-            </h2>
-
-            <p>
-                Ajoute une image et présente ton travail.
-            </p>
-
-        </div>
-
-        <div class="panel-body">
-
-            <form
-                id="creationForm"
-                enctype="multipart/form-data"
+            <div
+                class="glass form-card"
+                style="margin-top:28px;"
             >
 
-                <div class="field">
+                <form id="chatForm">
 
-                    <label
-                        class="label"
-                        for="pseudo"
-                    >
-                        Pseudo
-                    </label>
+                    <div class="form-grid">
 
-                    <input
-                        id="pseudo"
-                        name="pseudo"
-                        class="input"
-                        type="text"
-                        maxlength="40"
-                        placeholder="Ton pseudo"
-                        required
-                    >
+                        <div class="field">
 
-                </div>
+                            <label for="chatPseudo">
+                                Pseudo
+                            </label>
 
-                <div class="field">
-
-                    <label
-                        class="label"
-                        for="titre"
-                    >
-                        Titre
-                    </label>
-
-                    <input
-                        id="titre"
-                        name="titre"
-                        class="input"
-                        type="text"
-                        maxlength="100"
-                        placeholder="Nom de ta création"
-                        required
-                    >
-
-                </div>
-
-                <div class="field">
-
-                    <label
-                        class="label"
-                        for="description"
-                    >
-                        Description
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        class="textarea"
-                        maxlength="1000"
-                        placeholder="Présente ta création..."
-                        required
-                    ></textarea>
-
-                </div>
-
-                <div class="field">
-
-                    <label class="label">
-                        Image
-                    </label>
-
-                    <label
-                        for="image"
-                        class="upload-zone"
-                        id="uploadZone"
-                    >
-
-                        <div class="upload-icon">
-                            🖼️
-                        </div>
-
-                        <div class="upload-title">
-                            Ajouter une image
-                        </div>
-
-                        <div class="upload-subtitle">
-                            Clique ici ou dépose ton image
-                            <br>
-                            JPG, PNG, GIF ou WebP · maximum 5 Mo
-                        </div>
-
-                        <div
-                            class="upload-file-name"
-                            id="uploadFileName"
-                        ></div>
-
-                        <div
-                            class="upload-preview"
-                            id="uploadPreview"
-                        >
-                            <img
-                                id="previewImage"
-                                alt="Aperçu"
+                            <input
+                                id="chatPseudo"
+                                class="input"
+                                type="text"
+                                maxlength="60"
+                                placeholder="Ton pseudo"
+                                required
                             >
+
                         </div>
 
-                    </label>
 
-                    <input
-                        id="image"
-                        name="image"
-                        type="file"
-                        accept=".jpg,.jpeg,.png,.gif,.webp,image/jpeg,image/png,image/gif,image/webp"
-                        required
-                    >
+                        <div class="field full">
 
-                </div>
+                            <label for="chatMessage">
+                                Message
+                            </label>
 
-                <button
-                    class="publish-btn"
-                    id="publishBtn"
-                    type="submit"
-                >
-                    🎨 Publier ma création
-                </button>
+                            <textarea
+                                id="chatMessage"
+                                class="textarea"
+                                maxlength="500"
+                                placeholder="Écris ton message..."
+                                required
+                            ></textarea>
 
-                <div
-                    id="creationMessage"
-                    class="form-message"
-                ></div>
+                        </div>
 
-            </form>
+                    </div>
 
-        </div>
 
-    </section>
+                    <div class="form-actions">
 
-</main>
+                        <div class="small-text">
+                            Reste respectueux dans les échanges.
+                        </div>
 
-<footer>
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            Envoyer →
+                        </button>
 
-    © 2026 BUSINESS. — Espace Créativité
+                    </div>
 
-</footer>
+                </form>
 
-<script>
+            </div>
 
-    /* ==================================
-       OUTILS
-    ================================== */
 
-    function escapeHTML(value) {
+            <div
+                id="messages"
+                style="margin-top:22px;"
+            ></div>
 
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+        </section>
 
-    function formatDate(value) {
+    </main>
 
-        if (!value) {
-            return "";
-        }
 
-        const date =
-            new Date(value);
+    <footer>
+        © 2026 Mon Premier Site — Espace Créativité
+    </footer>
 
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-            return "";
-        }
 
-        return date.toLocaleString(
-            "fr-FR",
-            {
-                dateStyle: "medium",
-                timeStyle: "short"
-            }
-        );
-    }
+    <script src="background.js"></script>
 
-    /* ==================================
-       GALERIE
-    ================================== */
+    <script>
 
-    async function loadCreations() {
+        const notice =
+            document.getElementById(
+                "notice"
+            );
+
+        const creationForm =
+            document.getElementById(
+                "creationForm"
+            );
+
+        const chatForm =
+            document.getElementById(
+                "chatForm"
+            );
 
         const gallery =
             document.getElementById(
                 "gallery"
             );
 
-        try {
-
-            const response =
-                await fetch(
-                    "/api/creativite/creations"
-                );
-
-            const data =
-                await response.json();
-
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-                throw new Error(
-                    data.message ||
-                    "Erreur."
-                );
-            }
-
-            const creations =
-                Array.isArray(
-                    data.creations
-                )
-                    ? data.creations
-                    : [];
-
-            if (
-                creations.length === 0
-            ) {
-
-                gallery.innerHTML = `
-                    <div class="creation-empty">
-                        🎨
-                        <br><br>
-                        Aucune création pour le moment.
-                        <br>
-                        Sois le premier à publier !
-                    </div>
-                `;
-
-                return;
-            }
-
-            gallery.innerHTML =
-                creations
-                    .map(
-                        creation => `
-                            <article
-                                class="creation"
-                            >
-
-                                <div
-                                    class="creation-image-wrap"
-                                >
-
-                                    <img
-                                        class="creation-image"
-                                        src="${escapeHTML(
-                                            creation.image
-                                        )}"
-                                        alt="${escapeHTML(
-                                            creation.titre
-                                        )}"
-                                        loading="lazy"
-                                    >
-
-                                </div>
-
-                                <div
-                                    class="creation-info"
-                                >
-
-                                    <div
-                                        class="creation-title"
-                                    >
-                                        ${escapeHTML(
-                                            creation.titre
-                                        )}
-                                    </div>
-
-                                    <div
-                                        class="creation-author"
-                                    >
-                                        Par ${escapeHTML(
-                                            creation.pseudo
-                                        )}
-                                    </div>
-
-                                    <div
-                                        class="creation-description"
-                                    >
-                                        ${escapeHTML(
-                                            creation.description
-                                        )}
-                                    </div>
-
-                                    <div
-                                        class="creation-date"
-                                    >
-                                        ${formatDate(
-                                            creation.date
-                                        )}
-                                    </div>
-
-                                </div>
-
-                            </article>
-                        `
-                    )
-                    .join("");
-
-        } catch (error) {
-
-            console.error(
-                error
+        const messages =
+            document.getElementById(
+                "messages"
             );
 
-            gallery.innerHTML = `
-                <div class="creation-error">
-                    ⚠️
-                    <br><br>
-                    Impossible de charger les créations.
-                </div>
-            `;
-        }
-    }
+        const imageInput =
+            document.getElementById(
+                "image"
+            );
 
-    /* ==================================
-       UPLOAD IMAGE
-    ================================== */
+        const fileInfo =
+            document.getElementById(
+                "fileInfo"
+            );
 
-    const imageInput =
-        document.getElementById(
-            "image"
-        );
 
-    const uploadZone =
-        document.getElementById(
-            "uploadZone"
-        );
-
-    const fileName =
-        document.getElementById(
-            "uploadFileName"
-        );
-
-    const preview =
-        document.getElementById(
-            "uploadPreview"
-        );
-
-    const previewImage =
-        document.getElementById(
-            "previewImage"
-        );
-
-    function updateSelectedFile(
-        file
-    ) {
-
-        if (!file) {
-            return;
-        }
-
-        if (
-            file.size >
-            5 * 1024 * 1024
+        function escapeHTML(
+            value
         ) {
 
-            fileName.textContent =
-                "⚠️ Image trop lourde — maximum 5 Mo";
+            return String(
+                value ?? ""
+            )
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
 
-            fileName.classList.add(
-                "show"
-            );
-
-            preview.classList.remove(
-                "show"
-            );
-
-            return;
         }
 
-        fileName.textContent =
-            "✓ " + file.name;
 
-        fileName.classList.add(
-            "show"
-        );
+        function showNotice(
+            message,
+            type = "success"
+        ) {
 
-        const imageURL =
-            URL.createObjectURL(
-                file
+            notice.textContent =
+                message;
+
+            notice.className =
+                "notice show " + type;
+
+            clearTimeout(
+                window.creationNoticeTimer
             );
 
-        previewImage.src =
-            imageURL;
+            window.creationNoticeTimer =
+                setTimeout(
+                    () => {
 
-        preview.classList.add(
-            "show"
-        );
-    }
+                        notice.className =
+                            "notice";
 
-    imageInput.addEventListener(
-        "change",
-        () => {
+                    },
+                    4000
+                );
 
-            const file =
-                imageInput.files[0];
-
-            updateSelectedFile(
-                file
-            );
         }
-    );
 
-    /* ==================================
-       DRAG & DROP
-    ================================== */
 
-    uploadZone.addEventListener(
-        "dragover",
-        event => {
-
-            event.preventDefault();
-
-            uploadZone.classList.add(
-                "dragover"
-            );
-        }
-    );
-
-    uploadZone.addEventListener(
-        "dragleave",
-        () => {
-
-            uploadZone.classList.remove(
-                "dragover"
-            );
-        }
-    );
-
-    uploadZone.addEventListener(
-        "drop",
-        event => {
-
-            event.preventDefault();
-
-            uploadZone.classList.remove(
-                "dragover"
-            );
-
-            const file =
-                event.dataTransfer.files[0];
-
-            if (!file) {
-                return;
-            }
-
-            const dataTransfer =
-                new DataTransfer();
-
-            dataTransfer.items.add(
-                file
-            );
-
-            imageInput.files =
-                dataTransfer.files;
-
-            updateSelectedFile(
-                file
-            );
-        }
-    );
-
-    /* ==================================
-       PUBLICATION
-    ================================== */
-
-    document
-        .getElementById(
-            "creationForm"
-        )
-        .addEventListener(
-            "submit",
-            async event => {
-
-                event.preventDefault();
-
-                const form =
-                    event.target;
-
-                const button =
-                    document.getElementById(
-                        "publishBtn"
-                    );
-
-                const messageBox =
-                    document.getElementById(
-                        "creationMessage"
-                    );
+        imageInput.addEventListener(
+            "change",
+            () => {
 
                 const file =
                     imageInput.files[0];
 
                 if (!file) {
 
-                    showFormMessage(
-                        messageBox,
-                        "Sélectionne une image.",
-                        false
-                    );
+                    fileInfo.textContent =
+                        "JPG, PNG, WEBP ou GIF — 5 Mo maximum.";
 
                     return;
+
                 }
+
+
+                const size =
+                    file.size / 1024 / 1024;
+
+                fileInfo.textContent =
+                    `${file.name} — ${size.toFixed(2)} Mo`;
+
+            }
+        );
+
+
+        async function loadGallery() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/creativite/creations"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                const creations =
+                    data.creations || [];
+
 
                 if (
-                    file.size >
-                    5 * 1024 * 1024
+                    creations.length === 0
                 ) {
 
-                    showFormMessage(
-                        messageBox,
-                        "L'image dépasse 5 Mo.",
-                        false
-                    );
+                    gallery.innerHTML = `
+                        <div
+                            class="empty"
+                            style="grid-column:1/-1;"
+                        >
+                            Aucune création pour le moment.
+                        </div>
+                    `;
 
                     return;
+
                 }
+
+
+                gallery.innerHTML =
+                    creations
+                        .map(
+                            creation => {
+
+                                return `
+
+                                    <article
+                                        class="glass card"
+                                    >
+
+                                        <img
+                                            src="${escapeHTML(
+                                                creation.image
+                                            )}"
+                                            alt="${escapeHTML(
+                                                creation.titre
+                                            )}"
+                                            style="
+                                                width:100%;
+                                                aspect-ratio:16/10;
+                                                object-fit:cover;
+                                                border-radius:16px;
+                                                margin-bottom:16px;
+                                            "
+                                        >
+
+                                        <h3>
+                                            ${escapeHTML(
+                                                creation.titre
+                                            )}
+                                        </h3>
+
+                                        <p>
+                                            ${escapeHTML(
+                                                creation.description ||
+                                                ""
+                                            )}
+                                        </p>
+
+                                        <div
+                                            class="small-text"
+                                            style="margin-top:10px;"
+                                        >
+                                            👤
+                                            ${escapeHTML(
+                                                creation.pseudo ||
+                                                "Anonyme"
+                                            )}
+                                        </div>
+
+                                    </article>
+
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+            }
+            catch (error) {
+
+                console.error(
+                    error
+                );
+
+                gallery.innerHTML = `
+                    <div
+                        class="empty"
+                        style="grid-column:1/-1;"
+                    >
+                        Impossible de charger la galerie.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        async function loadMessages() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/creativite/messages"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                const list =
+                    data.messages || [];
+
+
+                if (
+                    list.length === 0
+                ) {
+
+                    messages.innerHTML = `
+                        <div class="empty">
+                            Aucun message pour le moment.
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                messages.innerHTML =
+                    list
+                        .slice()
+                        .reverse()
+                        .map(
+                            message => {
+
+                                return `
+
+                                    <div
+                                        class="glass"
+                                        style="
+                                            padding:17px;
+                                            margin-bottom:10px;
+                                        "
+                                    >
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                message.pseudo
+                                            )}
+                                        </strong>
+
+                                        <p
+                                            style="
+                                                margin-top:6px;
+                                                color:var(--muted);
+                                                white-space:pre-wrap;
+                                            "
+                                        >
+                                            ${escapeHTML(
+                                                message.message
+                                            )}
+                                        </p>
+
+                                        <div
+                                            class="small-text"
+                                            style="margin-top:8px;"
+                                        >
+                                            ${escapeHTML(
+                                                new Date(
+                                                    message.date
+                                                )
+                                                    .toLocaleString(
+                                                        "fr-FR"
+                                                    )
+                                            )}
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+            }
+            catch (error) {
+
+                console.error(
+                    error
+                );
+
+                messages.innerHTML = `
+                    <div class="empty">
+                        Impossible de charger les messages.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        creationForm.addEventListener(
+            "submit",
+            async (event) => {
+
+                event.preventDefault();
+
+
+                const button =
+                    document.getElementById(
+                        "uploadButton"
+                    );
+
 
                 button.disabled =
                     true;
@@ -1588,12 +679,14 @@
                 button.textContent =
                     "Publication...";
 
-                const formData =
-                    new FormData(
-                        form
-                    );
 
                 try {
+
+                    const formData =
+                        new FormData(
+                            creationForm
+                        );
+
 
                     const response =
                         await fetch(
@@ -1604,266 +697,89 @@
                             }
                         );
 
+
                     const data =
                         await response.json();
 
+
                     if (
                         !response.ok ||
-                        !data.success
+                        data.success === false
                     ) {
 
                         throw new Error(
                             data.message ||
                             "Impossible de publier."
                         );
+
                     }
 
-                    form.reset();
 
-                    fileName.textContent = "";
+                    creationForm.reset();
 
-                    fileName.classList.remove(
-                        "show"
+                    fileInfo.textContent =
+                        "JPG, PNG, WEBP ou GIF — 5 Mo maximum.";
+
+
+                    showNotice(
+                        "Création publiée avec succès 🎨"
                     );
 
-                    preview.classList.remove(
-                        "show"
+
+                    await loadGallery();
+
+                }
+                catch (error) {
+
+                    showNotice(
+                        error.message,
+                        "error"
                     );
 
-                    previewImage.removeAttribute(
-                        "src"
-                    );
-
-                    showFormMessage(
-                        messageBox,
-                        "🎉 Ta création est maintenant publiée !",
-                        true
-                    );
-
-                    await loadCreations();
-
-                } catch (error) {
-
-                    showFormMessage(
-                        messageBox,
-                        error.message ||
-                        "Une erreur est survenue.",
-                        false
-                    );
-
-                } finally {
+                }
+                finally {
 
                     button.disabled =
                         false;
 
                     button.textContent =
-                        "🎨 Publier ma création";
+                        "🎨 Publier la création";
+
                 }
+
             }
         );
 
-    function showFormMessage(
-        element,
-        message,
-        success
-    ) {
 
-        element.textContent =
-            message;
-
-        element.className =
-            "form-message show " +
-            (
-                success
-                    ? "form-success"
-                    : "form-error"
-            );
-    }
-
-    /* ==================================
-       CHAT
-    ================================== */
-
-    async function loadMessages(
-        keepScroll = false
-    ) {
-
-        const container =
-            document.getElementById(
-                "chatMessages"
-            );
-
-        try {
-
-            const response =
-                await fetch(
-                    "/api/creativite/messages"
-                );
-
-            const data =
-                await response.json();
-
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-                throw new Error(
-                    data.message ||
-                    "Erreur."
-                );
-            }
-
-            const messages =
-                Array.isArray(
-                    data.messages
-                )
-                    ? data.messages
-                    : [];
-
-            if (
-                messages.length === 0
-            ) {
-
-                container.innerHTML = `
-                    <div class="chat-empty">
-                        Aucun message pour le moment.
-                        <br>
-                        Lance la discussion !
-                    </div>
-                `;
-
-                return;
-            }
-
-            const previousScroll =
-                container.scrollTop;
-
-            const wasNearBottom =
-                container.scrollHeight -
-                container.scrollTop -
-                container.clientHeight <
-                80;
-
-            container.innerHTML =
-                messages
-                    .map(
-                        message => `
-                            <div
-                                class="chat-message"
-                            >
-
-                                <div
-                                    class="chat-top"
-                                >
-
-                                    <span
-                                        class="chat-user"
-                                    >
-                                        ${escapeHTML(
-                                            message.pseudo
-                                        )}
-                                    </span>
-
-                                    <span
-                                        class="chat-date"
-                                    >
-                                        ${formatDate(
-                                            message.date
-                                        )}
-                                    </span>
-
-                                </div>
-
-                                <div
-                                    class="chat-text"
-                                >
-                                    ${escapeHTML(
-                                        message.message
-                                    )}
-                                </div>
-
-                            </div>
-                        `
-                    )
-                    .join("");
-
-            if (
-                keepScroll ||
-                wasNearBottom
-            ) {
-
-                container.scrollTop =
-                    container.scrollHeight;
-
-            } else {
-
-                container.scrollTop =
-                    previousScroll;
-            }
-
-        } catch (error) {
-
-            console.error(
-                error
-            );
-
-            container.innerHTML = `
-                <div class="chat-empty">
-                    ⚠️ Impossible de charger la discussion.
-                </div>
-            `;
-        }
-    }
-
-    /* ==================================
-       ENVOI CHAT
-    ================================== */
-
-    document
-        .getElementById(
-            "chatForm"
-        )
-        .addEventListener(
+        chatForm.addEventListener(
             "submit",
-            async event => {
+            async (event) => {
 
                 event.preventDefault();
 
-                const pseudo =
-                    document.getElementById(
-                        "chatPseudo"
-                    );
-
-                const message =
-                    document.getElementById(
-                        "chatMessage"
-                    );
-
-                const button =
-                    event.target.querySelector(
-                        ".chat-send"
-                    );
-
-                const pseudoValue =
-                    pseudo.value.trim();
-
-                const messageValue =
-                    message.value.trim();
-
-                if (
-                    !pseudoValue ||
-                    !messageValue
-                ) {
-                    return;
-                }
-
-                button.disabled =
-                    true;
-
-                button.textContent =
-                    "...";
 
                 try {
+
+                    const payload = {
+
+                        pseudo:
+                            document
+                                .getElementById(
+                                    "chatPseudo"
+                                )
+                                .value
+                                .trim(),
+
+                        message:
+                            document
+                                .getElementById(
+                                    "chatMessage"
+                                )
+                                .value
+                                .trim()
+
+                    };
+
 
                     const response =
                         await fetch(
@@ -1877,75 +793,74 @@
                                 },
 
                                 body:
-                                    JSON.stringify({
-                                        pseudo:
-                                            pseudoValue,
-
-                                        message:
-                                            messageValue
-                                    })
+                                    JSON.stringify(
+                                        payload
+                                    )
                             }
                         );
+
 
                     const data =
                         await response.json();
 
+
                     if (
                         !response.ok ||
-                        !data.success
+                        data.success === false
                     ) {
 
                         throw new Error(
                             data.message ||
                             "Impossible d'envoyer le message."
                         );
+
                     }
 
-                    message.value =
-                        "";
 
-                    await loadMessages(
-                        true
+                    document.getElementById(
+                        "chatMessage"
+                    ).value = "";
+
+
+                    showNotice(
+                        "Message envoyé."
                     );
 
-                } catch (error) {
 
-                    alert(
-                        error.message ||
-                        "Impossible d'envoyer le message."
-                    );
+                    await loadMessages();
 
-                } finally {
-
-                    button.disabled =
-                        false;
-
-                    button.textContent =
-                        "Envoyer";
                 }
+                catch (error) {
+
+                    showNotice(
+                        error.message,
+                        "error"
+                    );
+
+                }
+
             }
         );
 
-    /* ==================================
-       AUTO-REFRESH CHAT
-    ================================== */
 
-    setInterval(
-        () => {
-            loadMessages(false);
-        },
-        4000
-    );
+        loadGallery();
 
-    /* ==================================
-       DEMARRAGE
-    ================================== */
+        loadMessages();
 
-    loadCreations();
 
-    loadMessages(true);
+        setInterval(
+            loadGallery,
+            15000
+        );
 
-</script>
+
+        setInterval(
+            loadMessages,
+            5000
+        );
+
+    </script>
 
 </body>
+
 </html>

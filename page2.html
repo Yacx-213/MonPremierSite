@@ -1,864 +1,684 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Mon Premier Site</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #f5f2ff;
-      background:
-        radial-gradient(circle at top left, rgba(124, 58, 237, 0.16), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 30%),
-        #08070d;
-      line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    button {
-      font: inherit;
-      cursor: pointer;
-    }
-
-    /* =========================
-       NAVBAR
-    ========================= */
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      padding: 18px 32px;
-
-      background: rgba(8, 7, 13, 0.86);
-      backdrop-filter: blur(16px);
-
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .logo {
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-    }
-
-    .logo span {
-      color: #8b5cf6;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    .nav-links a {
-      color: #bdb7ca;
-      font-size: 14px;
-      transition: 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: white;
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      min-height: 75vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 80px 20px;
-
-      background:
-        radial-gradient(circle at center, rgba(139, 92, 246, 0.16), transparent 40%);
-    }
-
-    .hero-content {
-      max-width: 900px;
-    }
-
-    .hero-tag {
-      display: inline-block;
-      margin-bottom: 20px;
-      padding: 8px 14px;
-
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      border-radius: 999px;
-
-      color: #cbb8ff;
-      background: rgba(139, 92, 246, 0.09);
-
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      margin-bottom: 20px;
-
-      font-size: clamp(42px, 8vw, 78px);
-      line-height: 1;
-      font-weight: 900;
-    }
-
-    .hero h1 span {
-      color: #8b5cf6;
-    }
-
-    .hero p {
-      max-width: 700px;
-      margin: 0 auto 30px;
-
-      color: #aaa4b8;
-      font-size: 18px;
-    }
-
-    .hero-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      padding: 14px 22px;
-
-      border-radius: 14px;
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-
-      color: white;
-      font-weight: 700;
-
-      box-shadow: 0 15px 40px rgba(109, 40, 217, 0.22);
-
-      transition: 0.2s ease;
-    }
-
-    .hero-button:hover {
-      transform: translateY(-2px);
-    }
-
-    /* =========================
-       SECTIONS
-    ========================= */
-
-    .section {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 90px 24px;
-    }
-
-    .section-title {
-      margin-bottom: 12px;
-      text-align: center;
-
-      font-size: clamp(30px, 5vw, 46px);
-      font-weight: 900;
-    }
-
-    .section-subtitle {
-      max-width: 720px;
-      margin: 0 auto 50px;
-
-      text-align: center;
-      color: #9f99aa;
-    }
-
-    /* =========================
-       CARDS
-    ========================= */
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      position: relative;
-
-      display: flex;
-      flex-direction: column;
-      min-height: 270px;
-
-      padding: 28px;
-
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 22px;
-
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.035),
-          rgba(255, 255, 255, 0.015)
-        );
-
-      transition: 0.25s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(139, 92, 246, 0.32);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-    }
-
-    .card-icon {
-      width: 52px;
-      height: 52px;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      margin-bottom: 20px;
-
-      border-radius: 15px;
-
-      background: rgba(139, 92, 246, 0.12);
-      border: 1px solid rgba(139, 92, 246, 0.2);
-
-      font-size: 24px;
-    }
-
-    .card h3 {
-      margin-bottom: 10px;
-      font-size: 22px;
-    }
-
-    .card p {
-      color: #aaa5b5;
-      margin-bottom: 25px;
-    }
-
-    .card-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      width: fit-content;
-      margin-top: auto;
-
-      padding: 11px 15px;
-
-      border-radius: 11px;
-
-      background: rgba(139, 92, 246, 0.12);
-      border: 1px solid rgba(139, 92, 246, 0.2);
-
-      color: #d7c8ff;
-      font-size: 13px;
-      font-weight: 700;
-
-      transition: 0.2s ease;
-    }
-
-    .card-button:hover {
-      background: rgba(139, 92, 246, 0.22);
-      border-color: rgba(139, 92, 246, 0.4);
-    }
-
-    /* =========================
-       SERVICES
-    ========================= */
-
-    .services {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .service {
-      padding: 26px;
-
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-
-      background: #100f17;
-
-      transition: 0.2s ease;
-    }
-
-    .service:hover {
-      transform: translateY(-4px);
-      border-color: rgba(139, 92, 246, 0.3);
-    }
-
-    .service h3 {
-      margin-bottom: 8px;
-      font-size: 20px;
-    }
-
-    .service p {
-      margin-bottom: 18px;
-      color: #a7a1b2;
-      font-size: 14px;
-    }
-
-    .service a {
-      display: inline-block;
-
-      padding: 9px 13px;
-
-      border-radius: 10px;
-
-      background: rgba(139, 92, 246, 0.10);
-      color: #cbb8ff;
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    /* =========================
-       ANNONCES
-    ========================= */
-
-    .annonces-container {
-      max-width: 850px;
-      margin: 0 auto;
-    }
-
-    .annonce {
-      margin-bottom: 14px;
-      padding: 20px;
-
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-
-      background: #100f17;
-    }
-
-    .annonce h3 {
-      margin-bottom: 8px;
-      font-size: 18px;
-    }
-
-    .annonce p {
-      color: #aaa5b5;
-      white-space: pre-wrap;
-    }
-
-    .annonce-meta {
-      margin-top: 10px;
-      color: #797384;
-      font-size: 12px;
-    }
-
-    .empty {
-      padding: 30px;
-      border: 1px dashed rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      text-align: center;
-      color: #777181;
-    }
-
-    /* =========================
-       TICKET CTA
-    ========================= */
-
-    .cta {
-      max-width: 850px;
-      margin: 0 auto;
-
-      padding: 40px;
-
-      border: 1px solid rgba(139, 92, 246, 0.2);
-      border-radius: 24px;
-
-      background:
-        radial-gradient(circle at top right, rgba(139, 92, 246, 0.13), transparent 40%),
-        #100e17;
-
-      text-align: center;
-    }
-
-    .cta h2 {
-      margin-bottom: 12px;
-      font-size: 32px;
-    }
-
-    .cta p {
-      margin-bottom: 25px;
-      color: #a8a2b3;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      padding: 35px 20px;
-
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-
-      text-align: center;
-      color: #6f6a78;
-
-      font-size: 13px;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 850px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .nav-links {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .cards,
-      .services {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        min-height: 65vh;
-      }
-    }
-
-    @media (max-width: 500px) {
-      .navbar {
-        padding: 15px 18px;
-      }
-
-      .nav-links {
-        gap: 13px;
-      }
-
-      .nav-links a {
-        font-size: 12px;
-      }
-
-      .section {
-        padding: 65px 18px;
-      }
-
-      .card,
-      .service {
-        padding: 22px;
-      }
-
-      .cta {
-        padding: 28px 20px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Accueil - Mon Premier Site</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
-  <!-- =========================
-       NAVBAR
-  ========================= -->
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
 
-  <header class="navbar">
-
-    <a href="/page2.html" class="logo">
-      MON <span>PREMIER</span> SITE
-    </a>
-
-    <nav class="nav-links">
-      <a href="#accueil">Accueil</a>
-      <a href="#apropos">À propos</a>
-      <a href="#services">Services</a>
-      <a href="#annonces">Annonces</a>
-      <a href="/ticket.html">Tickets</a>
-      <a href="/staff-login.html">Staff</a>
-    </nav>
-
-  </header>
-
-  <!-- =========================
-       HERO
-  ========================= -->
-
-  <section id="accueil" class="hero">
-
-    <div class="hero-content">
-
-      <div class="hero-tag">
-        Bienvenue
-      </div>
-
-      <h1>
-        BUSINESS <span>IS</span> BUSINESS
-      </h1>
-
-      <p>
-        Bienvenue sur notre espace communautaire.
-        Découvre nos projets, nos services et les différentes
-        initiatives mises en place par la communauté.
-      </p>
-
-      <a href="#apropos" class="hero-button">
-        Découvrir le site →
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- =========================
-       À PROPOS
-  ========================= -->
-
-  <section id="apropos" class="section">
-
-    <h2 class="section-title">
-      À propos
-    </h2>
-
-    <p class="section-subtitle">
-      Trois espaces pour développer les idées, la créativité
-      et les projets de la communauté.
-    </p>
-
-    <div class="cards">
-
-      <!-- INNOVATION -->
-
-      <div class="card">
-
-        <div class="card-icon">
-          💡
-        </div>
-
-        <h3>
-          Innovation
-        </h3>
-
-        <p>
-          Propose tes idées, vote pour celles de la communauté
-          et découvre les projets qui pourraient voir le jour.
-        </p>
+    <header class="navbar">
 
         <a
-          href="/innovation.html"
-          class="card-button"
+            href="page2.html"
+            class="logo"
         >
-          Ouvrir l’espace Innovation →
+            MON <span>PREMIER</span> SITE
         </a>
 
-      </div>
+        <nav class="nav-links">
 
-      <!-- CRÉATIVITÉ -->
+            <a href="#accueil">
+                Accueil
+            </a>
 
-      <div class="card">
+            <a href="#apropos">
+                À propos
+            </a>
 
-        <div class="card-icon">
-          🎨
-        </div>
+            <a href="#services">
+                Services
+            </a>
 
-        <h3>
-          Créativité
-        </h3>
+            <a href="#annonces">
+                Annonces
+            </a>
 
-        <p>
-          Partage tes créations avec la communauté et échange
-          avec les autres membres dans l’espace créatif.
-        </p>
+            <a href="ticket.html">
+                Tickets
+            </a>
 
-        <a
-          href="/creativite.html"
-          class="card-button"
-        >
-          Ouvrir l’espace Créativité →
-        </a>
+            <a href="staff-login.html">
+                Staff
+            </a>
 
-      </div>
+        </nav>
 
-      <!-- AMBITION -->
+    </header>
 
-      <div class="card">
 
-        <div class="card-icon">
-          🚀
-        </div>
+    <!-- =========================
+         ACCUEIL
+    ========================== -->
 
-        <h3>
-          Ambition
-        </h3>
-
-        <p>
-          Découvre les projets, les objectifs et les grandes
-          initiatives portées par la communauté.
-        </p>
-
-        <a
-          href="/ambition.html"
-          class="card-button"
-        >
-          Ouvrir l’espace Ambition →
-        </a>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- =========================
-       SERVICES
-  ========================= -->
-
-  <section id="services" class="section">
-
-    <h2 class="section-title">
-      Services
-    </h2>
-
-    <p class="section-subtitle">
-      Les principaux outils disponibles sur le site.
-    </p>
-
-    <div class="services">
-
-      <div class="service">
-
-        <h3>
-          ❤️ Système de vie
-        </h3>
-
-        <p>
-          Crée ta fiche de vie et présente ton personnage
-          à la communauté.
-        </p>
-
-        <a href="/vie.html">
-          Ouvrir →
-        </a>
-
-      </div>
-
-      <div class="service">
-
-        <h3>
-          🎫 Formulaire de demande
-        </h3>
-
-        <p>
-          Une demande ou un problème ?
-          Envoie directement un ticket au Staff.
-        </p>
-
-        <a href="/ticket.html">
-          Créer un ticket →
-        </a>
-
-      </div>
-
-      <div class="service">
-
-        <h3>
-          🎨 Créativité
-        </h3>
-
-        <p>
-          Publie tes créations et échange avec les autres
-          membres dans la galerie.
-        </p>
-
-        <a href="/creativite.html">
-          Découvrir →
-        </a>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- =========================
-       ANNONCES
-  ========================= -->
-
-  <section id="annonces" class="section">
-
-    <h2 class="section-title">
-      Annonces
-    </h2>
-
-    <p class="section-subtitle">
-      Les dernières informations publiées par le Staff.
-    </p>
-
-    <div
-      id="annoncesContainer"
-      class="annonces-container"
+    <section
+        id="accueil"
+        class="hero"
     >
 
-      <div class="empty">
-        Chargement des annonces...
-      </div>
+        <div class="hero-content">
 
-    </div>
-
-  </section>
-
-  <!-- =========================
-       TICKET CTA
-  ========================= -->
-
-  <section class="section">
-
-    <div class="cta">
-
-      <h2>
-        Une demande ?
-      </h2>
-
-      <p>
-        Contacte le Staff en envoyant directement un ticket.
-      </p>
-
-      <a
-        href="/ticket.html"
-        class="hero-button"
-      >
-        Ouvrir le formulaire →
-      </a>
-
-    </div>
-
-  </section>
-
-  <!-- =========================
-       FOOTER
-  ========================= -->
-
-  <footer>
-    © 2026 Mon Premier Site — Tous droits réservés.
-  </footer>
-
-  <!-- =========================
-       JAVASCRIPT
-  ========================= -->
-
-  <script>
-    async function chargerAnnonces() {
-
-      const container =
-        document.getElementById("annoncesContainer");
-
-      try {
-
-        const response =
-          await fetch("/api/annonces");
-
-        if (!response.ok) {
-          throw new Error("Erreur serveur");
-        }
-
-        const data =
-          await response.json();
-
-        const annonces =
-          data.annonces || [];
-
-        if (!annonces.length) {
-
-          container.innerHTML = `
-            <div class="empty">
-              Aucune annonce pour le moment.
+            <div class="badge">
+                ✦ ESPACE COMMUNAUTAIRE
             </div>
-          `;
 
-          return;
+            <h1>
+                BUSINESS
+                <span>IS</span>
+                BUSINESS
+            </h1>
+
+            <p>
+                Bienvenue sur ton espace communautaire.
+                Découvre nos projets, nos services et les
+                différentes initiatives de la communauté.
+            </p>
+
+            <div class="hero-actions">
+
+                <a
+                    href="#apropos"
+                    class="btn btn-primary"
+                >
+                    Découvrir le site →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         À PROPOS
+    ========================== -->
+
+    <section
+        id="apropos"
+        class="section"
+    >
+
+        <div class="container">
+
+            <h2 class="section-title">
+                À propos
+            </h2>
+
+            <p class="section-subtitle">
+                Trois espaces pour développer les idées,
+                la créativité et les projets.
+            </p>
+
+
+            <div
+                class="card-grid"
+                style="margin-top:30px;"
+            >
+
+                <!-- INNOVATION -->
+
+                <div class="glass card">
+
+                    <div
+                        class="badge"
+                        style="margin-bottom:18px;"
+                    >
+                        💡 INNOVATION
+                    </div>
+
+                    <h3>
+                        Des idées qui avancent
+                    </h3>
+
+                    <p>
+                        Propose tes idées, découvre celles
+                        de la communauté et soutiens-les
+                        avec des votes.
+                    </p>
+
+                    <div
+                        style="margin-top:22px;"
+                    >
+
+                        <a
+                            href="innovation.html"
+                            class="btn btn-primary"
+                        >
+                            Ouvrir Innovation →
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CRÉATIVITÉ -->
+
+                <div class="glass card">
+
+                    <div
+                        class="badge"
+                        style="margin-bottom:18px;"
+                    >
+                        🎨 CRÉATIVITÉ
+                    </div>
+
+                    <h3>
+                        Crée et partage
+                    </h3>
+
+                    <p>
+                        Publie tes créations, découvre
+                        celles des autres et échange avec
+                        la communauté.
+                    </p>
+
+                    <div
+                        style="margin-top:22px;"
+                    >
+
+                        <a
+                            href="creativite.html"
+                            class="btn btn-primary"
+                        >
+                            Ouvrir Créativité →
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AMBITION -->
+
+                <div class="glass card">
+
+                    <div
+                        class="badge"
+                        style="
+                            margin-bottom:18px;
+                            border-color:rgba(34,197,94,.25);
+                            color:#baf2c8;
+                            background:rgba(34,197,94,.08);
+                        "
+                    >
+                        🚀 AMBITION
+                    </div>
+
+                    <h3>
+                        Construisons ensemble
+                    </h3>
+
+                    <p>
+                        Propose des projets, suis leur
+                        progression et découvre les
+                        ambitions de la communauté.
+                    </p>
+
+                    <div
+                        style="margin-top:22px;"
+                    >
+
+                        <a
+                            href="ambition.html"
+                            class="btn btn-green"
+                        >
+                            Ouvrir Ambition →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SERVICES
+    ========================== -->
+
+    <section
+        id="services"
+        class="section"
+    >
+
+        <div class="container">
+
+            <h2 class="section-title">
+                Services
+            </h2>
+
+            <p class="section-subtitle">
+                Les outils disponibles sur le site.
+            </p>
+
+
+            <div
+                class="card-grid"
+                style="margin-top:30px;"
+            >
+
+                <!-- VIE -->
+
+                <div class="glass card">
+
+                    <div
+                        class="badge"
+                        style="margin-bottom:18px;"
+                    >
+                        ❤️ VIE
+                    </div>
+
+                    <h3>
+                        Système de vie
+                    </h3>
+
+                    <p>
+                        Crée ta fiche de vie et présente
+                        ton personnage et son histoire.
+                    </p>
+
+                    <div
+                        style="margin-top:22px;"
+                    >
+
+                        <a
+                            href="vie.html"
+                            class="btn"
+                        >
+                            Ouvrir →
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TICKET -->
+
+                <div class="glass card">
+
+                    <div
+                        class="badge"
+                        style="margin-bottom:18px;"
+                    >
+                        🎫 SUPPORT
+                    </div>
+
+                    <h3>
+                        Formulaire de demande
+                    </h3>
+
+                    <p>
+                        Une question ou un problème ?
+                        Contacte directement le Staff.
+                    </p>
+
+                    <div
+                        style="margin-top:22px;"
+                    >
+
+                        <a
+                            href="ticket.html"
+                            class="btn"
+                        >
+                            Créer un ticket →
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CRÉATIVITÉ -->
+
+                <div class="glass card">
+
+                    <div
+                        class="badge"
+                        style="margin-bottom:18px;"
+                    >
+                        🎨 GALERIE
+                    </div>
+
+                    <h3>
+                        Galerie créative
+                    </h3>
+
+                    <p>
+                        Découvre et partage les créations
+                        de la communauté.
+                    </p>
+
+                    <div
+                        style="margin-top:22px;"
+                    >
+
+                        <a
+                            href="creativite.html"
+                            class="btn"
+                        >
+                            Découvrir →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ANNONCES
+    ========================== -->
+
+    <section
+        id="annonces"
+        class="section"
+    >
+
+        <div class="container">
+
+            <h2 class="section-title">
+                Annonces
+            </h2>
+
+            <p class="section-subtitle">
+                Les dernières informations publiées
+                par le Staff.
+            </p>
+
+
+            <div
+                id="annoncesContainer"
+                style="margin-top:30px;"
+            >
+
+                <div class="empty">
+                    Chargement des annonces...
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA TICKET
+    ========================== -->
+
+    <section class="section">
+
+        <div class="container">
+
+            <div
+                class="glass card"
+                style="text-align:center;"
+            >
+
+                <div class="badge">
+                    🎫 BESOIN D'AIDE ?
+                </div>
+
+                <h2
+                    style="
+                        margin-top:18px;
+                        font-size:32px;
+                    "
+                >
+                    Une demande pour le Staff ?
+                </h2>
+
+                <p
+                    style="
+                        max-width:650px;
+                        margin:14px auto 24px;
+                    "
+                >
+                    Ouvre un ticket et explique-nous
+                    ta demande.
+                </p>
+
+                <a
+                    href="ticket.html"
+                    class="btn btn-primary"
+                >
+                    Ouvrir le formulaire →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        © 2026 Mon Premier Site
+        — Tous droits réservés.
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="background.js"></script>
+
+    <script>
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+
         }
 
-        container.innerHTML =
-          annonces
-            .slice(0, 10)
-            .map(annonce => {
 
-              const date =
-                annonce.date
-                  ? new Date(annonce.date)
-                      .toLocaleString("fr-FR")
-                  : "";
+        async function chargerAnnonces() {
 
-              return `
-                <article class="annonce">
+            const container =
+                document.getElementById(
+                    "annoncesContainer"
+                );
 
-                  <h3>
-                    ${escapeHTML(annonce.titre)}
-                  </h3>
+            try {
 
-                  <p>
-                    ${escapeHTML(annonce.contenu)}
-                  </p>
+                const response =
+                    await fetch(
+                        "/api/annonces"
+                    );
 
-                  <div class="annonce-meta">
-                    ${escapeHTML(annonce.auteur || "Staff")}
-                    ${date ? " · " + escapeHTML(date) : ""}
-                  </div>
+                const data =
+                    await response.json();
 
-                </article>
-              `;
-            })
-            .join("");
+                if (
+                    !response.ok ||
+                    data.success === false
+                ) {
 
-      } catch (error) {
+                    throw new Error(
+                        "Impossible de charger les annonces."
+                    );
 
-        console.error(error);
+                }
 
-        container.innerHTML = `
-          <div class="empty">
-            Impossible de charger les annonces.
-          </div>
-        `;
-      }
-    }
+                const annonces =
+                    data.annonces || [];
 
-    function escapeHTML(value) {
 
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+                if (
+                    annonces.length === 0
+                ) {
 
-    }
+                    container.innerHTML = `
+                        <div class="empty">
+                            Aucune annonce pour le moment.
+                        </div>
+                    `;
 
-    chargerAnnonces();
+                    return;
 
-    setInterval(
-      chargerAnnonces,
-      15000
-    );
-  </script>
+                }
+
+
+                container.innerHTML =
+                    annonces
+                        .slice(0, 10)
+                        .map(
+                            annonce => {
+
+                                const date =
+                                    annonce.date
+                                        ? new Date(
+                                            annonce.date
+                                          )
+                                            .toLocaleString(
+                                                "fr-FR"
+                                            )
+                                        : "";
+
+                                return `
+                                    <article
+                                        class="glass"
+                                        style="
+                                            padding:22px;
+                                            margin-bottom:14px;
+                                        "
+                                    >
+
+                                        <div
+                                            style="
+                                                display:flex;
+                                                justify-content:space-between;
+                                                align-items:flex-start;
+                                                gap:15px;
+                                            "
+                                        >
+
+                                            <div>
+
+                                                <h3>
+                                                    ${escapeHTML(
+                                                        annonce.titre
+                                                    )}
+                                                </h3>
+
+                                                <p
+                                                    style="
+                                                        margin-top:8px;
+                                                        color:var(--muted);
+                                                        white-space:pre-wrap;
+                                                    "
+                                                >
+                                                    ${escapeHTML(
+                                                        annonce.contenu
+                                                    )}
+                                                </p>
+
+                                            </div>
+
+                                            <span class="badge">
+                                                📢
+                                            </span>
+
+                                        </div>
+
+
+                                        <div
+                                            class="small-text"
+                                            style="margin-top:12px;"
+                                        >
+
+                                            ${escapeHTML(
+                                                annonce.auteur ||
+                                                "Staff"
+                                            )}
+
+                                            ${
+                                                date
+                                                    ? " · " +
+                                                      escapeHTML(
+                                                          date
+                                                      )
+                                                    : ""
+                                            }
+
+                                        </div>
+
+                                    </article>
+                                `;
+
+                            }
+                        )
+                        .join("");
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    error
+                );
+
+                container.innerHTML = `
+                    <div class="empty">
+                        Impossible de charger les annonces.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        chargerAnnonces();
+
+
+        setInterval(
+            chargerAnnonces,
+            15000
+        );
+
+    </script>
 
 </body>
+
 </html>
